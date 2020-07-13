@@ -28,4 +28,5 @@ func main() {
 		rows.Scan(&id, &nickname, &email, &password)
 		fmt.Printf("%d: %s %s %s\n", id, nickname, email, password)
 	}
+  //test
 }
