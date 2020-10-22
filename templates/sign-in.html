@@ -1,0 +1,15 @@
+<!-- forms.html -->
+{{if .Success}}
+<h1>Sign in</h1>
+{{else}}
+<h1>Contact</h1>
+<form method="POST">
+    <label>Email:</label><br />
+    <input type="text" name="email"><br />
+    <label>Username:</label><br />
+    <input type="text" name="username"><br />
+    <label>Password:</label><br />
+    <textarea name="password"></textarea><br />
+    <input type="submit">
+</form>
+{{end}}
