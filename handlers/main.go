@@ -69,20 +69,25 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
 }
 
-// PostsHandler gets post by id
-func PostsHandler(w http.ResponseWriter, r *http.Request) {
-	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-	vars := mux.Vars(r)
-	id := vars["id"]
+// // userHandler gets user by id
+// func userHandler(w http.ResponseWriter, r *http.Request) {
+// 	db, _ := sql.Open("sqlite3", "./m.db")
+// 	userID := r.Header.Get("X-HashText-User-ID")
 
-	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
-}
+// 	row := db.QueryRow(`SELECT name, credit FROM "user" WHERE user_id = $1`, userID)
 
-// PostHandler gets post by id
-func PostHandler(w http.ResponseWriter, r *http.Request) {
-	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-	vars := mux.Vars(r)
-	id := vars["id"]
+// 	var name string
+// 	var credit int
+// 	err := row.Scan(&name, &credit)
+// 	switch {
+// 	case err == sql.ErrNoRows:
+// 		w.WriteHeader(http.StatusNotFound)
+// 		return
+// 	case err != nil:
+// 		log.Printf("Query to look up user failed: %v", err)
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		return
+// 	}
 
-	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
-}
+// 	sendJSONResponse(w, userDocument{UserID: userID, Name: name, Credit: credit})
+// }
