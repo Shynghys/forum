@@ -2,26 +2,29 @@ package vars
 
 // User ss
 type User struct {
-	id       int
+	ID       int
 	Username string
 	Email    string
 	Password string
+	Created  string
 	posts    Post
 	comments Comment
 }
 
-// Post ss
 type Post struct {
-	id       int
-	authorID int
+	ID       int
+	AuthorID int
+	Name     string
+	Created  string
 	comments Comment
-	like     int
+	Likes    int
 }
 
-// Comment ss
 type Comment struct {
-	id       int
-	postID   int
-	authorID int
-	like     int
+	ID       int
+	PostID   int
+	AuthorID int
+	Message    string
+	Created  string
+	Likes    int
 }
