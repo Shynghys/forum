@@ -22,7 +22,7 @@ type Users struct {
 type Posts struct {
 	id       int
 	authorID int
-  	name string
+	name     string
 	created  string
 	comments Comments
 	likes    int
@@ -32,7 +32,7 @@ type Comments struct {
 	id       int
 	postID   int
 	authorID int
-  	text string
+	text     string
 	created  string
 	likes    int
 }
@@ -94,3 +94,32 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
+
+// func d0ssans_part() {
+// 	// if there is no such file, it will be created
+// 	db, _ := sql.Open("sqlite3", "./mydb.db")
+
+// 	// if there is no such table, it will be created with the following properties
+// 	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY, nickname TEXT NOT NULL UNIQUE, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL )")
+// 	statement.Exec()
+
+// 	// to insert variables
+// 	statement, _ = db.Prepare("INSERT INTO users (nickname, email, password) VALUES (?, ?, ?)")
+// 	enc, err := bcrypt.GenerateFromPassword([]byte("123123"), bcrypt.MinCost) // def is 4
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	statement.Exec("J", "s@gmai.cm", string(enc)) // exact these values will not work cause nickname "Jane" is already exists
+
+// 	// bcryption, NIL is Right Pswrd
+// 	fmt.Println(bcrypt.CompareHashAndPassword(enc, []byte("123123")))
+
+// 	// to parse variables
+// 	rows, _ := db.Query("SELECT id, nickname, email, password FROM users")
+// 	var id int
+// 	var nickname, email, password string
+// 	for rows.Next() {
+// 		rows.Scan(&id, &nickname, &email, &password)
+// 		fmt.Printf("%d: %s %s %s\n", id, nickname, email, password)
+// 	}
+// }
