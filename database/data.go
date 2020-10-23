@@ -22,6 +22,7 @@ type Users struct {
 type Posts struct {
 	id       int
 	authorID int
+  	name string
 	created  string
 	comments Comments
 	likes    int
@@ -31,6 +32,7 @@ type Comments struct {
 	id       int
 	postID   int
 	authorID int
+  	text string
 	created  string
 	likes    int
 }
