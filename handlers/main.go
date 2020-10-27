@@ -12,12 +12,20 @@ import (
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+
+	w.Header().Set("Content-Type", "text/html")
+	tmpl := template.Must(template.ParseFiles("templates/index.html"))
+	if r.Method != http.MethodPost {
+		tmpl.Execute(w, nil)
+		return
+	}
+
+	tmpl.Execute(w, struct{ Success bool }{true})
 }
 
 // SignInHandler signs in
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("forms.html"))
+	tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
 	if r.Method != http.MethodPost {
 		tmpl.Execute(w, nil)
 		return
@@ -38,7 +46,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("forms.html"))
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 	if r.Method != http.MethodPost {
 		tmpl.Execute(w, nil)
 		return
