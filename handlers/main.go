@@ -6,15 +6,13 @@ import (
 	"net/http"
 
 	"../vars"
-
-	"github.com/gorilla/mux"
 )
 
-func checkErr(err error) string {
+func checkErr(err error) error {
 	if err != nil {
-		return "err"
+		return err
 	}
-	return "nothing"
+	return nil
 
 }
 
@@ -35,16 +33,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
-		// sinfo := Stuff{
-		//   List: some_slice
-		// }
+
 		tmpl.Execute(w, nil)
-		// t, err := template.New("").Parse(tpl_ds)
-		// checkErr(err)
-		// err = r.ParseForm()
-		// checkErr(err)
-		// err = t.Execute(w, sinfo)
-		// checkErr(err)
+
 	}
 
 	if r.Method == "POST" {
@@ -74,16 +65,9 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		// sinfo := Stuff{
-		//   List: some_slice
-		// }
+
 		tmpl.Execute(w, nil)
-		// t, err := template.New("").Parse(tpl_ds)
-		// checkErr(err)
-		// err = r.ParseForm()
-		// checkErr(err)
-		// err = t.Execute(w, sinfo)
-		// checkErr(err)
+
 	}
 
 	if r.Method == "POST" {
@@ -97,6 +81,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
+		// db.AddUser(details)
 		// password := r.FormValue("confirmation-password")
 		// if details.Password != password {
 		// 	fmt.Println("did not match")
@@ -115,35 +100,3 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
-// UserHandler gets user by id
-func UserHandler(w http.ResponseWriter, r *http.Request) {
-	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
-}
-
-// // userHandler gets user by id
-// func userHandler(w http.ResponseWriter, r *http.Request) {
-// 	db, _ := sql.Open("sqlite3", "./m.db")
-// 	userID := r.Header.Get("X-HashText-User-ID")
-
-// 	row := db.QueryRow(`SELECT name, credit FROM "user" WHERE user_id = $1`, userID)
-
-// 	var name string
-// 	var credit int
-// 	err := row.Scan(&name, &credit)
-// 	switch {
-// 	case err == sql.ErrNoRows:
-// 		w.WriteHeader(http.StatusNotFound)
-// 		return
-// 	case err != nil:
-// 		log.Printf("Query to look up user failed: %v", err)
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	sendJSONResponse(w, userDocument{UserID: userID, Name: name, Credit: credit})
-// }

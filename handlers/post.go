@@ -24,6 +24,7 @@ func PostsHandler(w http.ResponseWriter, r *http.Request) {
 // CreatePost gets post by id
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	// db.AddPost()
 
 	fmt.Fprintf(w, "You've requested the user: id = %s \n")
 }
