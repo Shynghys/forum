@@ -1,26 +1,23 @@
 package main
 
 import (
-	"./handlers"
-	"github.com/gorilla/mux"
+	"net/http"
 )
 
-func makeRouter() *mux.Router {
-	r := mux.NewRouter()
-	r.HandleFunc("/", handlers.Handler)
+//MakeRouter handles routing
+func MakeRouter(w http.ResponseWriter, r *http.Request) {
+	// http.HandleFunc("/", h.Handler)
+	// http.HandleFunc("/sign_in", h.SignInHandler)
+	// http.HandleFunc("/sign_up", h.SignUpHandler)
 
-	r.HandleFunc("/sign_in", handlers.SignInHandler)
-	r.HandleFunc("/sign_up", handlers.SignUpHandler)
+	// http.HandleFunc("/user/{id}", h.UserHandler)
 
-	r.HandleFunc("/user/{id}", handlers.UserHandler)
+	// http.HandleFunc("/posts", h.PostsHandler)
+	// http.HandleFunc("/posts/{title}", h.CreatePost)
+	// http.HandleFunc("/posts/{title}", h.ReadPost)
+	// http.HandleFunc("/posts/{title}", h.UpdatePost)
+	// http.HandleFunc("/posts/{title}", h.DeletePost)
 
-	r.HandleFunc("/posts", handlers.PostsHandler)
-	r.HandleFunc("/posts/{title}", handlers.CreatePost).Methods("POST")
-	r.HandleFunc("/posts/{title}", handlers.ReadPost).Methods("GET")
-	r.HandleFunc("/posts/{title}", handlers.UpdatePost).Methods("PUT")
-	r.HandleFunc("/posts/{title}", handlers.DeletePost).Methods("DELETE")
-
-	// r.HandleFunc("/articles/{category}/", ArticlesCategoryHandler)
-	// r.HandleFunc("/articles/{category}/{id:[0-9]+}", ArticleHandler)
-	return r
+	// http.HandleFunc("/articles/{category}/", ArticlesCategoryHandler)
+	// http.HandleFunc("/articles/{category}/{id:[0-9]+}", ArticleHandler)
 }

@@ -1,8 +1,7 @@
-package main
+package database
 
 import (
 	"database/sql"
-	"fmt"
 	"strconv"
 	// "reflect"
 	// "../vars"
@@ -12,21 +11,22 @@ import (
 )
 func main() {
 	// fmt.Println("1")
-	newDB := createDatabase()
-	addUser(newDB, createdUID(), "buterbrot", "bat@mail.ru", encryptPassword("abc"), "123456")
-	fmt.Println(newDB)
+	newDB := CreateDatabase()
+	AddUser(newDB, CreatedUID(), "buterbrot", "bat@mail.ru", EncryptPassword("abc"), "123456")
+	
 
 }
 
-func createDatabase() *sql.DB {
+//CreateDatabase creates db
+func CreateDatabase() *sql.DB {
 	db, err := sql.Open("sqlite3", "./newDB.db")
 	checkErr(err)
-	createUser(db)
-	createPost(db)
-	createComments(db)
+	CreateUser(db)
+	CreatePost(db)
+	CreateComments(db)
 	return db
 }
-func createUser(db *sql.DB) {
+func CreateUser(db *sql.DB) {
 	// db, _ := sql.Open("sqlite3", "./newDB.db")
 	statementForUsers, err := db.Prepare(` 
 	
@@ -43,7 +43,7 @@ func createUser(db *sql.DB) {
 	statementForUsers.Exec()
 	
 }
-func createPost(db *sql.DB) {
+func CreatePost(db *sql.DB) {
 	
 	statementForPosts, err :=db.Prepare(` 
 	
@@ -60,7 +60,7 @@ func createPost(db *sql.DB) {
 	checkErr(err)
 	statementForPosts.Exec()
 }
-func createComments(db *sql.DB)  {
+func CreateComments(db *sql.DB)  {
 	statementForComments, err :=db.Prepare(` 
 	
 	CREATE TABLE IF NOT EXISTS "comments" ( 
@@ -76,7 +76,7 @@ func createComments(db *sql.DB)  {
 	checkErr(err)
 	statementForComments.Exec()
 }
-func addUser(db *sql.DB,id uuid.UUID, username string, email string, password []byte, created string) {
+func AddUser(db *sql.DB,id uuid.UUID, username string, email string, password []byte, created string) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO users (id, username, email, password, created) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
@@ -84,7 +84,7 @@ func addUser(db *sql.DB,id uuid.UUID, username string, email string, password []
 	checkErr(err)
 	tx.Commit()
 }
-func addPost(db *sql.DB, id uuid.UUID, authorID uuid.UUID, title string, created string, category string, likes int) {
+func AddPost(db *sql.DB, id uuid.UUID, authorID uuid.UUID, title string, created string, category string, likes int) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO posts (id, authorID, title, created, category, likes) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
@@ -92,14 +92,16 @@ func addPost(db *sql.DB, id uuid.UUID, authorID uuid.UUID, title string, created
 	checkErr(err)
 	tx.Commit()
 }
-func addComment(db *sql.DB,id uuid.UUID, postID uuid.UUID, authorID uuid.UUID, text string, created string, likes int) {
+func AddComment(db *sql.DB,id uuid.UUID, postID uuid.UUID, authorID uuid.UUID, text string, created string, likes int) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?)")
 	_, err := stmt.Exec(id, postID, authorID, text, created, likes)
 	checkErr(err)
 	tx.Commit()
 }
-func deleteUser(db *sql.DB, id int) {
+
+//DeleteUser deletes
+func DeleteUser(db *sql.DB, id int) {
 	sid := strconv.Itoa(id) // int to string
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("DELETE FROM users WHERE id=?")
@@ -112,15 +114,15 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
-func createdUID() uuid.UUID {
+func CreatedUID() uuid.UUID {
 	u1 := uuid.Must(uuid.NewV4())
 	return u1
 }
-func encryptPassword(pas string) []byte {
+func EncryptPassword(pas string) []byte {
 	enc, err := bcrypt.GenerateFromPassword([]byte(pas), bcrypt.MinCost) // def is 4
 	checkErr(err)
 	return enc
 }
-func checkPassword(enc []byte, pas string) bool {
+func CheckPassword(enc []byte, pas string) bool {
 	return bcrypt.CompareHashAndPassword(enc, []byte(pas)) == nil
 }
