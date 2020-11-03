@@ -27,13 +27,25 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/", Handler)
 	r.HandleFunc("/sign_in", SignInHandler)
 	r.HandleFunc("/sign_up", SignUpHandler)
-	r.HandleFunc("/user/{id}", UserHandler)
+	// r.HandleFunc("/user/{id}", UserHandler)
+
+	r.HandleFunc("/users", UsersHandler)
+	r.HandleFunc("/users/{id}/create", CreateUser)
+	r.HandleFunc("/users/{id}", ReadUser)
+	r.HandleFunc("/users/{id}/update", UpdateUser)
+	r.HandleFunc("/users/{id}/delete", DeleteUser)
 
 	r.HandleFunc("/posts", PostsHandler)
 	r.HandleFunc("/posts/{id}/create", CreatePost)
 	r.HandleFunc("/posts/{id}", ReadPost)
 	r.HandleFunc("/posts/{id}/update", UpdatePost)
 	r.HandleFunc("/posts/{id}/delete", DeletePost)
+
+	r.HandleFunc("/comments", CommentsHandler)
+	r.HandleFunc("/comments/{id}/create", CreateComment)
+	r.HandleFunc("/comments/{id}", ReadComment)
+	r.HandleFunc("/comments/{id}/update", UpdateComment)
+	r.HandleFunc("/comments/{id}/delete", DeleteComment)
 
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))
