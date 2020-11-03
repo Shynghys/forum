@@ -66,6 +66,7 @@ func CreateComments(db *sql.DB) {
 	
 	CREATE TABLE IF NOT EXISTS "comments" ( 
 		"id" UID PRIMARY KEY, 
+		
 		"postID" UID ,
 		"authorID" UID,
 		"text" TEXT, 
