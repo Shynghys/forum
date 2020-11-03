@@ -1,13 +1,22 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
+<<<<<<< HEAD
 
 	"../vars"
 )
 
+=======
+)
+
+// UserHandler gets user by id
+func UserHandler(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
+>>>>>>> refs/remotes/origin/master
 // UsersHandler gets Users
 func UsersHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
