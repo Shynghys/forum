@@ -1,30 +1,37 @@
 package vars
 
+import (
+	uuid "github.com/satori/go.uuid"
+)
+
 // User ss
 type User struct {
-	ID       int
+	ID       uuid.UUID
 	Username string
 	Email    string
 	Password string
 	Created  string
-	posts    Post
-	comments Comment
+	posts    []Post
+	comments []Comment
 }
 
+// Post ss
 type Post struct {
-	ID       int
-	AuthorID int
-	Name     string
+	ID       uuid.UUID
+	AuthorID uuid.UUID
+	Title    string
 	Created  string
-	comments Comment
+	Category string
+	comments []Comment
 	Likes    int
 }
 
+// Comment ss
 type Comment struct {
-	ID       int
-	PostID   int
-	AuthorID int
-	Message    string
+	ID       uuid.UUID
+	PostID   uuid.UUID
+	AuthorID uuid.UUID
+	Text     string
 	Created  string
 	Likes    int
 }
