@@ -3,17 +3,18 @@ package database
 import (
 	"database/sql"
 	"strconv"
+
 	// "reflect"
 	// "../vars"
 	_ "github.com/mattn/go-sqlite3"
 	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
+
 func main() {
 	// fmt.Println("1")
 	newDB := CreateDatabase()
 	AddUser(newDB, CreatedUID(), "buterbrot", "bat@mail.ru", EncryptPassword("abc"), "123456")
-	
 
 }
 
@@ -41,11 +42,11 @@ func CreateUser(db *sql.DB) {
 	`)
 	checkErr(err)
 	statementForUsers.Exec()
-	
+
 }
 func CreatePost(db *sql.DB) {
-	
-	statementForPosts, err :=db.Prepare(` 
+
+	statementForPosts, err := db.Prepare(` 
 	
 	CREATE TABLE IF NOT EXISTS "posts" ( 
 		"id" UID PRIMARY KEY, 
@@ -60,8 +61,8 @@ func CreatePost(db *sql.DB) {
 	checkErr(err)
 	statementForPosts.Exec()
 }
-func CreateComments(db *sql.DB)  {
-	statementForComments, err :=db.Prepare(` 
+func CreateComments(db *sql.DB) {
+	statementForComments, err := db.Prepare(` 
 	
 	CREATE TABLE IF NOT EXISTS "comments" ( 
 		"id" UID PRIMARY KEY, 
@@ -76,11 +77,11 @@ func CreateComments(db *sql.DB)  {
 	checkErr(err)
 	statementForComments.Exec()
 }
-func AddUser(db *sql.DB,id uuid.UUID, username string, email string, password []byte, created string) {
+func AddUser(db *sql.DB, id uuid.UUID, username string, email string, password []byte, created string) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO users (id, username, email, password, created) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
-	_, err := stmt.Exec(id,username, email, password, created)
+	_, err := stmt.Exec(id, username, email, password, created)
 	checkErr(err)
 	tx.Commit()
 }
@@ -92,7 +93,7 @@ func AddPost(db *sql.DB, id uuid.UUID, authorID uuid.UUID, title string, created
 	checkErr(err)
 	tx.Commit()
 }
-func AddComment(db *sql.DB,id uuid.UUID, postID uuid.UUID, authorID uuid.UUID, text string, created string, likes int) {
+func AddComment(db *sql.DB, id uuid.UUID, postID uuid.UUID, authorID uuid.UUID, text string, created string, likes int) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?)")
 	_, err := stmt.Exec(id, postID, authorID, text, created, likes)

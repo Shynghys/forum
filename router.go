@@ -13,10 +13,10 @@ func MakeRouter(w http.ResponseWriter, r *http.Request) {
 	// http.HandleFunc("/user/{id}", h.UserHandler)
 
 	// http.HandleFunc("/posts", h.PostsHandler)
-	// http.HandleFunc("/posts/{title}", h.CreatePost)
-	// http.HandleFunc("/posts/{title}", h.ReadPost)
-	// http.HandleFunc("/posts/{title}", h.UpdatePost)
-	// http.HandleFunc("/posts/{title}", h.DeletePost)
+	http.HandleFunc("/posts/{id}/create", h.CreatePost)
+	http.HandleFunc("/posts/{id}", h.ReadPost)
+	http.HandleFunc("/posts/{id}/update", h.UpdatePost)
+	http.HandleFunc("/posts/{id}/delete", h.DeletePost)
 
 	// http.HandleFunc("/articles/{category}/", ArticlesCategoryHandler)
 	// http.HandleFunc("/articles/{category}/{id:[0-9]+}", ArticleHandler)

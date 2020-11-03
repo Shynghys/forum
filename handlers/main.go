@@ -8,6 +8,7 @@ import (
 	"../vars"
 )
 
+//NewRouter
 func NewRouter() *http.ServeMux {
 	r := http.NewServeMux()
 
@@ -15,8 +16,12 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/sign_in", SignInHandler)
 	r.HandleFunc("/sign_up", SignUpHandler)
 	r.HandleFunc("/user/{id}", UserHandler)
+
 	r.HandleFunc("/posts", PostsHandler)
-	r.HandleFunc("/posts/{title}", CreatePost)
+	r.HandleFunc("/posts/{id}/create", CreatePost)
+	r.HandleFunc("/posts/{id}", ReadPost)
+	r.HandleFunc("/posts/{id}/update", UpdatePost)
+	r.HandleFunc("/posts/{id}/delete", DeletePost)
 
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))
@@ -38,6 +43,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tmpl.Execute(w, struct{ Success bool }{true})
+	// http.Redirect(w, r, "/", 200)
 }
 
 // SignInHandler signs in
