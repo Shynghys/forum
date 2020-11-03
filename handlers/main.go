@@ -8,12 +8,23 @@ import (
 	"../vars"
 )
 
-func checkErr(err error) error {
-	if err != nil {
-		return err
-	}
-	return nil
+func NewRouter() *http.ServeMux {
+	r := http.NewServeMux()
 
+	r.HandleFunc("/", Handler)
+	r.HandleFunc("/sign_in", SignInHandler)
+	r.HandleFunc("/sign_up", SignUpHandler)
+	r.HandleFunc("/user/{id}", UserHandler)
+	r.HandleFunc("/posts", PostsHandler)
+	r.HandleFunc("/posts/{title}", CreatePost)
+
+	fs := http.FileServer(http.Dir("./static/"))
+	http.Handle("/css/", http.StripPrefix("/css/", fs))
+	return r
+}
+
+func checkErr(err error) error {
+	return err
 }
 
 // Handler does smth
@@ -50,6 +61,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			// Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
+
 		fmt.Println(details.Email)
 		// do something with details
 		_ = details

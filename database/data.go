@@ -3,84 +3,99 @@ package database
 import (
 	"database/sql"
 	"strconv"
-
+	// "reflect"
+	// "../vars"
 	_ "github.com/mattn/go-sqlite3"
-	// _ "github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
+	"golang.org/x/crypto/bcrypt"
 )
+func main() {
+	// fmt.Println("1")
+	newDB := CreateDatabase()
+	AddUser(newDB, CreatedUID(), "buterbrot", "bat@mail.ru", EncryptPassword("abc"), "123456")
+	
 
-type Users struct {
-	id       int
-	username string
-	email    string
-	password string
-	created  string
-	posts    Posts
-	comments Comments
 }
-
-type Posts struct {
-	id       int
-	authorID int
-	name     string
-	created  string
-	comments Comments
-	likes    int
-}
-
-type Comments struct {
-	id       int
-	postID   int
-	authorID int
-	text     string
-	created  string
-	likes    int
-}
-
-// func main() {
-// 	fmt.Println("1")
-// 	newDB := createDatabase()
-// 	addUser(newDB, 0, "buter", "bat@mail.ru", "123", "1212")
-// 	rows, _ := newDB.Query("SELECT id,username, email, password, created FROM users")
-// 	var id int
-// 	var username, email, password, created string
-// 	for rows.Next() {
-// 		rows.Scan(&id, &username, &email, &password, &created)
-// 		fmt.Printf("%d: %s %s %s %s\n", id, username, email, password, created)
-// 	}
-// 	// deleteUser(newDB, 0)
-// }
 
 //CreateDatabase creates db
 func CreateDatabase() *sql.DB {
 	db, err := sql.Open("sqlite3", "./newDB.db")
 	checkErr(err)
-
-	// if there is no such table, it will be created with the following properties
-	statementForUsers, _ := db.Prepare("CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, created TEXT )")
-	statementForUsers.Exec()
-	statementForPosts, _ := db.Prepare("CREATE TABLE IF NOT EXISTS posts ( id INTEGER PRIMARY KEY, authorID INTEGER PRIMARY KEY, created TEXT, likes INTEGER )")
-	statementForPosts.Exec()
-	// statementForComments, _ := db.Prepare("CREATE TABLE IF NOT EXISTS comments ( id INTEGER PRIMARY KEY,postID INTEGER, authorID INTEGER, created TEXT, likes INTEGER )")
-	// statementForComments.Exec()
+	CreateUser(db)
+	CreatePost(db)
+	CreateComments(db)
 	return db
 }
-
-//AddUser adds user
-func AddUser(db *sql.DB, id int, username string, email string, password string, created string) {
+func CreateUser(db *sql.DB) {
+	// db, _ := sql.Open("sqlite3", "./newDB.db")
+	statementForUsers, err := db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "users" (
+		"id" UID PRIMARY KEY, 
+		"username" TEXT NOT NULL UNIQUE, 
+		"email" TEXT NOT NULL UNIQUE, 
+		"password" BLOB, 
+		"created" TEXT 
+		); 
+	
+	`)
+	checkErr(err)
+	statementForUsers.Exec()
+	
+}
+func CreatePost(db *sql.DB) {
+	
+	statementForPosts, err :=db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "posts" ( 
+		"id" UID PRIMARY KEY, 
+		"authorID" UID , 
+		"title" TEXT, 
+		"created" TEXT, 
+		"category" TEXT,
+		"likes" INTEGER 
+		);
+		COMMIT;
+	`)
+	checkErr(err)
+	statementForPosts.Exec()
+}
+func CreateComments(db *sql.DB)  {
+	statementForComments, err :=db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "comments" ( 
+		"id" UID PRIMARY KEY, 
+		"postID" UID ,
+		"authorID" UID,
+		"text" TEXT, 
+		"created" TEXT, 
+		"likes" INTEGER 
+		);
+		COMMIT;
+	`)
+	checkErr(err)
+	statementForComments.Exec()
+}
+func AddUser(db *sql.DB,id uuid.UUID, username string, email string, password []byte, created string) {
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("INSERT INTO users (id, username, email, password, created) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
-	_, err := stmt.Exec(id, username, email, password, created)
+	_, err := stmt.Exec(id,username, email, password, created)
 	checkErr(err)
 	tx.Commit()
 }
-
-//AddPost adds user
-func AddPost(db *sql.DB, id int, authorID int, created string, likes int) {
+func AddPost(db *sql.DB, id uuid.UUID, authorID uuid.UUID, title string, created string, category string, likes int) {
 	tx, _ := db.Begin()
-	stmt, _ := tx.Prepare("INSERT INTO posts (id, authorID, created, likes) VALUES (?,?,?,?)")
-
-	_, err := stmt.Exec(id, authorID, created, likes)
+	stmt, _ := tx.Prepare("INSERT INTO posts (id, authorID, title, created, category, likes) VALUES (?,?,?,?,?)")
+	// stmt.Exec(id, username, email, password, created)
+	_, err := stmt.Exec(id, authorID, title, created, category, likes)
+	checkErr(err)
+	tx.Commit()
+}
+func AddComment(db *sql.DB,id uuid.UUID, postID uuid.UUID, authorID uuid.UUID, text string, created string, likes int) {
+	tx, _ := db.Begin()
+	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?)")
+	_, err := stmt.Exec(id, postID, authorID, text, created, likes)
 	checkErr(err)
 	tx.Commit()
 }
@@ -99,32 +114,15 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
-
-// func d0ssans_part() {
-// 	// if there is no such file, it will be created
-// 	db, _ := sql.Open("sqlite3", "./mydb.db")
-
-// 	// if there is no such table, it will be created with the following properties
-// 	statement, _ := db.Prepare("CREATE TABLE IF NOT EXISTS users ( id INTEGER PRIMARY KEY, nickname TEXT NOT NULL UNIQUE, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL )")
-// 	statement.Exec()
-
-// 	// to insert variables
-// 	statement, _ = db.Prepare("INSERT INTO users (nickname, email, password) VALUES (?, ?, ?)")
-// 	enc, err := bcrypt.GenerateFromPassword([]byte("123123"), bcrypt.MinCost) // def is 4
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	statement.Exec("J", "s@gmai.cm", string(enc)) // exact these values will not work cause nickname "Jane" is already exists
-
-// 	// bcryption, NIL is Right Pswrd
-// 	fmt.Println(bcrypt.CompareHashAndPassword(enc, []byte("123123")))
-
-// 	// to parse variables
-// 	rows, _ := db.Query("SELECT id, nickname, email, password FROM users")
-// 	var id int
-// 	var nickname, email, password string
-// 	for rows.Next() {
-// 		rows.Scan(&id, &nickname, &email, &password)
-// 		fmt.Printf("%d: %s %s %s\n", id, nickname, email, password)
-// 	}
-// }
+func CreatedUID() uuid.UUID {
+	u1 := uuid.Must(uuid.NewV4())
+	return u1
+}
+func EncryptPassword(pas string) []byte {
+	enc, err := bcrypt.GenerateFromPassword([]byte(pas), bcrypt.MinCost) // def is 4
+	checkErr(err)
+	return enc
+}
+func CheckPassword(enc []byte, pas string) bool {
+	return bcrypt.CompareHashAndPassword(enc, []byte(pas)) == nil
+}
