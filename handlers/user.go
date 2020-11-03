@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -14,6 +15,52 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 
 	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
+}
+
+// UsersHandler gets Users
+func UsersHandler(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
+	tmpl.Execute(w, nil)
+	// fmt.Fprintf(w, "You've requested the user: id = %s \n")
+}
+
+// CreateUser gets User by id
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	// db.AddUser()
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
+	tmpl.Execute(w, nil)
+
+}
+
+// ReadUser gets User by id
+func ReadUser(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
+	tmpl.Execute(w, nil)
+}
+
+// UpdateUser gets User by id
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
+	tmpl.Execute(w, nil)
+}
+
+// DeleteUser gets User by id
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
+	tmpl.Execute(w, nil)
 }
 
 // // userHandlers gets user by id
