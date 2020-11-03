@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
 	"../vars"
@@ -81,6 +83,13 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
+
+	db, err := sql.Open("sqlite3", "./newDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -99,22 +108,22 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
-		_ = details
+		row, err := db.Query("SELECT uuid FROM student WHERE email LIKE ?", details.Email)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer row.Close()
+		for row.Next() { // Iterate and fetch the records from result cursor
+			var program string
+			row.Scan(&program)
+			log.Println("Program is: ", program)
+		}
+
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		//   saveChoice(r.Form["choices"])
 		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
 	}
-
 }
