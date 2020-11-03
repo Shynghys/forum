@@ -1,19 +1,12 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 // UserHandler gets user by id
 func UserHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	fmt.Fprintf(w, "You've requested the user: id = %s \n", id)
 }
 
 // // userHandlers gets user by id
