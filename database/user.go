@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"fmt"
 
 	"../vars"
 	_ "github.com/mattn/go-sqlite3"
@@ -10,20 +11,26 @@ import (
 )
 
 // create User
-func AddUser(db *sql.DB, username string, email string, password string, created string) {
+func AddUser(db *sql.DB, user vars.User) {
+	var newUser vars.User
 	tx, _ := db.Begin()
-	passwordEnc := EncryptPassword(password)
+	passwordEnc := EncryptPassword(user.Password)
 	id := CreatedUID()
+	newUser.ID = id
+	newUser.Username = user.Username
+	newUser.Email = user.Email
+	newUser.Created = user.Created
+	AllUsers = append(AllUsers, newUser)
 	stmt, _ := tx.Prepare("INSERT INTO users (id, username, email, password, created) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
-	_, err := stmt.Exec(id, username, email, passwordEnc, created)
-	CheckErr(err)
+	_, err := stmt.Exec(id, user.Username, user.Email, passwordEnc, user.Created)
+	if err != nil {
+		fmt.Println("This user already exist")
+	}
 	tx.Commit()
 }
-
-// get User from table. PS. ----> add child table for posts and comments
-func GetUsers(db *sql.DB, id2 uuid.UUID) vars.User {
-	rows, err := db.Query("select * from users")
+func GetUser(db *sql.DB, id2 uuid.UUID) vars.User {
+	rows, err := db.Query("SELECT * FROM users")
 	CheckErr(err)
 	for rows.Next() {
 		var tempUser vars.User
@@ -36,18 +43,14 @@ func GetUsers(db *sql.DB, id2 uuid.UUID) vars.User {
 	}
 	return vars.User{}
 }
+func UpdateUser(db *sql.DB, toChange vars.User) {
 
-// func updateUser(db *sql.DB, id2 int, username string, surname string, age int, university string) {
-// 	sage := strconv.Itoa(age) // int to string
-// 	sid := strconv.Itoa(id2)  // int to string
-// 	tx, _ := db.Begin()
-// 	stmt, _ := tx.Prepare("update testTable set username=?,surname=?,age=?,university=? where id=?")
-// 	_, err := stmt.Exec(username, surname, sage, university, sid)
-// 	checkError(err)
-// 	tx.Commit()
-// }
-
-// delete User ss
+	tx, _ := db.Begin()
+	stmt, _ := tx.Prepare("update users set username=?, email=?, password=? where id=?")
+	_, err := stmt.Exec(toChange.Username, toChange.Email, toChange.Password, toChange.ID)
+	CheckErr(err)
+	tx.Commit()
+}
 func DeleteUser(db *sql.DB, id uuid.UUID) {
 
 	tx, _ := db.Begin()
