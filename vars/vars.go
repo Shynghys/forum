@@ -22,8 +22,8 @@ type Post struct {
 	Title    string
 	Created  string
 	Category string
-	comments []Comment
 	Likes    int
+	comments []Comment
 }
 
 // Comment ss
