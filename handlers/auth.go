@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	data "../database"
 	"../vars"
 )
 
@@ -46,12 +47,6 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 
-	db, err := sql.Open("sqlite3", "./newDB.db")
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -71,15 +66,19 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 		}
 
-		row, err := db.Query("SELECT uuid FROM student WHERE email LIKE ?", details.Email)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer row.Close()
-		for row.Next() { // Iterate and fetch the records from result cursor
-			var program string
-			row.Scan(&program)
-			log.Println("Program is: ", program)
+		isEmailUsed := checkEmail(details.Email)
+		isUsernameUsed := checkUsername(details.Username)
+
+		if isEmailUsed && isUsernameUsed {
+			fmt.Println("these email and username are already in use.")
+		} else if isEmailUsed {
+			fmt.Println("This email is already in use.")
+		} else if isUsernameUsed {
+			fmt.Println("This username is already in use.")
+		} else {
+			db := data.CreateDatabase()
+			data.AddUser(db, details)
+			fmt.Println("You are cool.")
 		}
 
 		tmpl.Execute(w, struct{ Success bool }{true})
@@ -88,4 +87,50 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		//   saveChoice(r.Form["choices"])
 		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
 	}
+}
+
+func checkEmail(email string) bool {
+	db, err := sql.Open("sqlite3", "./newDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	row, err := db.Query("SELECT uuid FROM student WHERE email LIKE ?", email)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+
+	var uuid string
+	for row.Next() { // Iterate and fetch the records from result cursor
+		row.Scan(&uuid)
+		log.Println("Program is: ", uuid)
+	}
+
+	return uuid != ""
+}
+
+func checkUsername(username string) bool {
+	db, err := sql.Open("sqlite3", "./newDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	row, err := db.Query("SELECT uuid FROM student WHERE username LIKE ?", username)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+
+	var uuid string
+	for row.Next() { // Iterate and fetch the records from result cursor
+		row.Scan(&uuid)
+		log.Println("Program is: ", uuid)
+	}
+
+	return uuid != ""
 }
