@@ -16,7 +16,7 @@ var AllPost []vars.Post
 //CreateDatabase creates db
 func CreateDatabase() *sql.DB {
 	var err error
-	db, err = sql.Open("sqlite3", "../mainDB.db")
+	db, err = sql.Open("sqlite3", "./mainDB.db")
 	db.Exec("PRAGMA foreign_keys = ON")
 	CheckErr(err)
 	CreateUser(db)
