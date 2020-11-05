@@ -27,15 +27,17 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		details := vars.User{
-			Email: r.FormValue("email"),
-			// Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
+		data := r.FormValue("email") // can be username or email
+		// Username: r.FormValue("username"),
+		password := r.FormValue("password")
+
+		uuid := checkAll(data, password)
+		if uuid == "" {
+			log.Fatal("Username or password is incorrect.")
 		}
 
-		fmt.Println(details.Email)
+		fmt.Println(uuid)
 		// do something with details
-		_ = details
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -66,8 +68,9 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 		}
 
-		isEmailUsed := checkEmail(details.Email)
-		isUsernameUsed := checkUsername(details.Username)
+		var isEmailUsed, isUsernameUsed bool
+		isEmailUsed = checkEmail(details.Email) != ""
+		isUsernameUsed = checkUsername(details.Username) != ""
 
 		if isEmailUsed && isUsernameUsed {
 			fmt.Println("these email and username are already in use.")
@@ -89,48 +92,85 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func checkEmail(email string) bool {
-	db, err := sql.Open("sqlite3", "./newDB.db")
+func checkEmail(email string) string {
+	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	row, err := db.Query("SELECT uuid FROM student WHERE email LIKE ?", email)
+	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", email)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer row.Close()
 
-	var uuid string
+	var id string
 	for row.Next() { // Iterate and fetch the records from result cursor
-		row.Scan(&uuid)
-		log.Println("Program is: ", uuid)
+		row.Scan(&id)
+		log.Println("UUID is: ", id)
 	}
 
-	return uuid != ""
+	return id
 }
 
-func checkUsername(username string) bool {
-	db, err := sql.Open("sqlite3", "./newDB.db")
+func checkUsername(username string) string {
+	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	row, err := db.Query("SELECT uuid FROM student WHERE username LIKE ?", username)
+	row, err := db.Query("SELECT id FROM users WHERE username LIKE ?", username)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer row.Close()
 
-	var uuid string
+	var id string
 	for row.Next() { // Iterate and fetch the records from result cursor
-		row.Scan(&uuid)
-		log.Println("Program is: ", uuid)
+		row.Scan(&id)
+		log.Println("UUID is: ", id)
 	}
 
-	return uuid != ""
+	return id
+}
+
+func checkPassword(password string) string {
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", password)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+
+	var id string
+	for row.Next() { // Iterate and fetch the records from result cursor
+		row.Scan(&id)
+		log.Println("UUID is: ", id)
+	}
+
+	return id
+}
+
+func checkAll(data, password string) string {
+	idEmail := checkEmail(data)
+	idUsername := checkUsername(data)
+	idPassword := checkPassword(password)
+
+	if (idEmail == idPassword) || (idPassword == idUsername) {
+		if idEmail == "" {
+			return idUsername
+		}
+		return idEmail
+	}
+	return ""
 }
