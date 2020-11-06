@@ -13,25 +13,27 @@ import (
 
 // SignInHandler signs in
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/sign-up") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
-
+		tmpl := template.Must(template.ParseFiles("templates/sign-in/index.html"))
 		tmpl.Execute(w, nil)
-
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-in/index.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		data := r.FormValue("email") // can be username or email
+		login := r.FormValue("login") // can be username or email
 		// Username: r.FormValue("username"),
 		password := r.FormValue("password")
 
-		uuid := checkAll(data, password)
+		uuid := checkAll(login, password)
 		if uuid == "" {
 			log.Fatal("Username or password is incorrect.")
 		}
@@ -48,6 +50,10 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/sign-up") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))

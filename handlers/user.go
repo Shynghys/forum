@@ -3,12 +3,8 @@ package handlers
 import (
 	"html/template"
 	"net/http"
-<<<<<<< HEAD
 
 	"../vars"
-)
-
-=======
 )
 
 // UserHandler gets user by id
@@ -16,7 +12,6 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
->>>>>>> refs/remotes/origin/master
 // UsersHandler gets Users
 func UsersHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
@@ -47,26 +42,18 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 		}
 		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 }
 
 // ReadUser gets User by id
 func ReadUser(w http.ResponseWriter, r *http.Request) {
+
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -85,22 +72,14 @@ func ReadUser(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.GetUser(details)
 
-		// do something with details
 		_ = details
-		fmt.Println(details.Email)
-		// do something with details
-		_ = details
+
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 }
 
@@ -124,22 +103,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.UpdateUser(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 }
 
@@ -163,22 +133,13 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.DeleteUser(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 }
 

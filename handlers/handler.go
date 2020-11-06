@@ -1,24 +1,21 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+
+	"../vars"
 )
 
 var templates *template.Template
 var utilPattern string
 
-// LoadTemplates func
-func LoadTemplates(pattern string) {
-	templates = template.Must(template.ParseGlob(pattern))
-	utilPattern = pattern
-}
+// Temps is for handling error tempaltes
+var Temps *template.Template
 
-// ExecuteTemplate func
-func ExecuteTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
-	LoadTemplates(utilPattern)
-	templates.ExecuteTemplate(w, tmpl, data)
-}
+// Error is for tempaltes
+var Error vars.ErrorStruct
 
 // NewRouter s
 func NewRouter() *http.ServeMux {
@@ -58,7 +55,11 @@ func checkErr(err error) error {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println(w)
+	if !(r.URL.Path == "/") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	w.Header().Set("Content-Type", "text/html")
 	tmpl := template.Must(template.ParseFiles("templates/main.html"))
 	if r.Method != http.MethodPost {
@@ -68,4 +69,36 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.Execute(w, struct{ Success bool }{true})
 	// http.Redirect(w, r, "/", 200)
+}
+
+//ErrorHandler handles error
+func ErrorHandler(w http.ResponseWriter, r *http.Request, status int) {
+	w.WriteHeader(status)
+	Temps := template.Must(template.ParseGlob("templates/error.html"))
+
+	if status == 404 {
+		Error.Status = 404
+		Error.StatusDefinition = "Not found"
+
+	} else if status == 500 {
+		Error.Status = 500
+		Error.StatusDefinition = "Internal server problem"
+	} else if status == 400 {
+		Error.Status = 400
+		Error.StatusDefinition = "Bad request"
+	}
+
+	Temps.ExecuteTemplate(w, "error.html", Error)
+}
+
+// LoadTemplates func
+func LoadTemplates(pattern string) {
+	templates = template.Must(template.ParseGlob(pattern))
+	utilPattern = pattern
+}
+
+// ExecuteTemplate func
+func ExecuteTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+	LoadTemplates(utilPattern)
+	templates.ExecuteTemplate(w, tmpl, data)
 }

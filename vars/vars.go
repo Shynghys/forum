@@ -20,8 +20,9 @@ type Post struct {
 	ID       uuid.UUID
 	AuthorID uuid.UUID
 	Title    string
-	Created  string
 	Category string
+	Text     string
+	Created  string
 	Likes    int
 	comments []Comment
 }
@@ -34,4 +35,10 @@ type Comment struct {
 	Text     string
 	Created  string
 	Likes    int
+}
+
+// ErrorStruct s
+type ErrorStruct struct {
+	Status           int
+	StatusDefinition string
 }

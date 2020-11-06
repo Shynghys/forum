@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 
@@ -29,22 +28,13 @@ func PostsHandler(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.GetPosts(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 
 }
@@ -52,7 +42,10 @@ func PostsHandler(w http.ResponseWriter, r *http.Request) {
 // CreatePost gets post by id
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 
-	// db.AddPost()
+	if !(r.URL.Path == "/posts/{id}/create") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -71,29 +64,23 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.AddPost(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 
 }
 
 // ReadPost gets post by id
 func ReadPost(w http.ResponseWriter, r *http.Request) {
-
+	if !(r.URL.Path == "/posts/{id}") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -107,34 +94,28 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, nil)
 			return
 		}
-		details := vars.User{
-			Email:    r.FormValue("email"),
-			Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
+		details := vars.Post{
+			Title:    r.FormValue("title"),
+			Category: r.FormValue("category"),
+			Text:     r.FormValue("text"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.GetPost(details)
+		_ = details
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
-		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 
 }
 
 // UpdatePost gets post by id
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
-
+	if !(r.URL.Path == "/posts/{id}/update") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -153,29 +134,23 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.UpdatePost(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 
 }
 
 // DeletePost gets post by id
 func DeletePost(w http.ResponseWriter, r *http.Request) {
-
+	if !(r.URL.Path == "/posts/{id}/delete") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
@@ -194,22 +169,13 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
-		// db.AddUser(details)
-		// password := r.FormValue("confirmation-password")
-		// if details.Password != password {
-		// 	fmt.Println("did not match")
-		// }
+		// db.DeletePost(details)
 
-		// do something with details
-		_ = details
-		fmt.Println(details.Email)
-		// do something with details
 		_ = details
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+
 	}
 
 }
