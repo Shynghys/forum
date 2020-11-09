@@ -55,14 +55,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func ReadUser(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -86,14 +86,14 @@ func ReadUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser gets User by id
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -116,14 +116,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 // DeleteUser gets User by id
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return

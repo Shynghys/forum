@@ -13,17 +13,27 @@ import (
 
 // SignInHandler signs in
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/sign-up") {
+	if !(r.URL.Path == "/sign_in") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-in/index.html"))
-		tmpl.Execute(w, nil)
+		tmpl, err := template.New("").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
+		// check your err
+
+		if err != nil {
+			panic(err)
+		}
+		if r.Method != http.MethodPost {
+			tmpl.Execute(w, nil)
+			return
+		}
+
+		tmpl.ExecuteTemplate(w, "base", nil)
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-in/index.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-in.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -50,20 +60,20 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/sign-up") {
+	if !(r.URL.Path == "/sign_up") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -86,7 +96,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("This username is already in use.")
 		} else {
 			db := data.CreateDatabase()
-			data.AddUser(db, details)
+			data.CreateUser(db, details)
 			fmt.Println("You are cool.")
 		}
 

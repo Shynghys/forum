@@ -19,13 +19,15 @@ func CreateDatabase() *sql.DB {
 	db, err = sql.Open("sqlite3", "./mainDB.db")
 	db.Exec("PRAGMA foreign_keys = ON")
 	CheckErr(err)
-	CreateUser(db)
-	CreatePost(db)
+	CreateUsers(db)
+	CreatePosts(db)
 	CreateComments(db)
 
 	return db
 }
-func CreateUser(db *sql.DB) {
+
+// CreateUsers s
+func CreateUsers(db *sql.DB) {
 	// db, _ := sql.Open("sqlite3", "./newDB.db")
 	statementForUsers, err := db.Prepare(` 
 	
@@ -42,7 +44,7 @@ func CreateUser(db *sql.DB) {
 	statementForUsers.Exec()
 
 }
-func CreatePost(db *sql.DB) {
+func CreatePosts(db *sql.DB) {
 
 	statementForPosts, err := db.Prepare(` 
 	

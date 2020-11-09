@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 
@@ -50,18 +49,21 @@ func NewRouter() *http.ServeMux {
 }
 
 func checkErr(err error) error {
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(w)
+
 	if !(r.URL.Path == "/") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 	w.Header().Set("Content-Type", "text/html")
-	tmpl := template.Must(template.ParseFiles("templates/main.html"))
+	tmpl := template.Must(template.ParseFiles("templates/tmpl/base.html"))
 	if r.Method != http.MethodPost {
 		tmpl.Execute(w, nil)
 		return

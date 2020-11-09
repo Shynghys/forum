@@ -7,7 +7,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-func AddPost(db *sql.DB, post vars.Post) {
+func CreatePost(db *sql.DB, post vars.Post) {
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	stmt, _ := tx.Prepare("INSERT INTO posts (id, authorID, title, created, category, likes) VALUES (?,?,?,?,?,?)")
@@ -16,7 +16,7 @@ func AddPost(db *sql.DB, post vars.Post) {
 	CheckErr(err)
 	tx.Commit()
 }
-func GetPost(db *sql.DB, id2 uuid.UUID) vars.Post {
+func ReadPost(db *sql.DB, id2 uuid.UUID) vars.Post {
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
 	for rows.Next() {
