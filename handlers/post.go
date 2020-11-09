@@ -11,14 +11,14 @@ import (
 func PostsHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -47,22 +47,22 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/create-post.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
 		}
-		details := vars.User{
-			Email:    r.FormValue("email"),
-			Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
+		details := vars.Post{
+			Title:    r.FormValue("title"),
+			Text:     r.FormValue("text"),
+			Category: r.FormValue("category"),
 		}
 		// db.AddPost(details)
 
@@ -82,29 +82,9 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		//Post:=GetPost(id)
 		tmpl.Execute(w, nil)
-
-	}
-
-	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
-		details := vars.Post{
-			Title:    r.FormValue("title"),
-			Category: r.FormValue("category"),
-			Text:     r.FormValue("text"),
-		}
-		// db.GetPost(details)
-		_ = details
-
-		tmpl.Execute(w, struct{ Success bool }{true})
-		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}
 
@@ -117,22 +97,22 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
 		}
-		details := vars.User{
-			Email:    r.FormValue("email"),
-			Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
+		details := vars.Post{
+			Title:    r.FormValue("title"),
+			Text:     r.FormValue("text"),
+			Category: r.FormValue("category"),
 		}
 		// db.UpdatePost(details)
 
@@ -152,26 +132,21 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
 		}
-		details := vars.User{
-			Email:    r.FormValue("email"),
-			Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
-		}
-		// db.DeletePost(details)
 
-		_ = details
+		// db.DeletePost(id)
+
 		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)

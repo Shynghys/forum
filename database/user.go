@@ -11,7 +11,7 @@ import (
 )
 
 // create User
-func AddUser(db *sql.DB, user vars.User) {
+func CreateUser(db *sql.DB, user vars.User) {
 	var newUser vars.User
 	tx, _ := db.Begin()
 	passwordEnc := EncryptPassword(user.Password)
@@ -29,7 +29,7 @@ func AddUser(db *sql.DB, user vars.User) {
 	}
 	tx.Commit()
 }
-func GetUser(db *sql.DB, id2 uuid.UUID) vars.User {
+func ReadUser(db *sql.DB, id2 uuid.UUID) vars.User {
 	rows, err := db.Query("SELECT * FROM users")
 	CheckErr(err)
 	for rows.Next() {
