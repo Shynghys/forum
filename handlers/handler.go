@@ -32,7 +32,7 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/users/{id}/delete", DeleteUser)
 
 	r.HandleFunc("/posts", PostsHandler)
-	r.HandleFunc("/posts/{id}/create", CreatePost)
+	r.HandleFunc("/posts/create", CreatePost)
 	r.HandleFunc("/posts/{id}", ReadPost)
 	r.HandleFunc("/posts/{id}/update", UpdatePost)
 	r.HandleFunc("/posts/{id}/delete", DeletePost)

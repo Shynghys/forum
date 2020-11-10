@@ -52,6 +52,7 @@ func CreatePosts(db *sql.DB) {
 		"id" UID NOT NULL PRIMARY KEY, 
 		"authorID" UID,
 		"title" TEXT, 
+		"text" TEXT, 
 		"created" TEXT, 
 		"category" TEXT,
 		"likes" INTEGER,
