@@ -63,7 +63,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html")
-	tmpl := template.Must(template.ParseFiles("templates/tmpl/base.html"))
+	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if r.Method != http.MethodPost {
 		tmpl.Execute(w, nil)
 		return
