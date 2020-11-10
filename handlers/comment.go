@@ -86,14 +86,14 @@ func ReadComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -120,14 +120,14 @@ func UpdateComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -153,14 +153,14 @@ func DeleteComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 
 		tmpl.Execute(w, nil)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/tmpl/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
