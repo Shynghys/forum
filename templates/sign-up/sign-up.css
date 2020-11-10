@@ -18,16 +18,14 @@ h1 {
     text-transform: capitalize;
     padding-bottom: 5px;
     border-bottom: 3px ;
-    left: 140px;
-
+    left: 60px;
 
 }
 form {
     position: relative;
-    margin: auto;
+    margin:0 auto;
     top: 150px;
-
-   
+    /* background :rgba(255,255,255); */
 /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#5c5c5c+49,5c5c5c+49&0+0,0.65+99 */
 background: -moz-linear-gradient(top,  rgba(92,92,92,0) 0%, rgba(92,92,92,0.32) 49%, rgba(92,92,92,0.65) 99%); /* FF3.6-15 */
 background: -webkit-linear-gradient(top,  rgba(92,92,92,0) 0%,rgba(92,92,92,0.32) 49%,rgba(92,92,92,0.65) 99%); /* Chrome10-25,Safari5.1-6 */
@@ -35,10 +33,9 @@ background: linear-gradient(to bottom,  rgba(92,92,92,0) 0%,rgba(92,92,92,0.32) 
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005c5c5c', endColorstr='#a65c5c5c',GradientType=0 ); /* IE6-9 */
 
     width: 450px;
-    height: 400px;
+    height: 500px;
     padding: 20px;
-    box-shadow: 2px 2px 5px 
-    #1b1b1b;
+    box-shadow: 2px 2px 5px #1b1b1b;
 }
 .group {
 
