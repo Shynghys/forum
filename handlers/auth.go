@@ -18,12 +18,11 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "GET" {
-		tmpl, err := template.New("").ParseFiles("templates/sign-in.html", "templates/homepage.html")
-		// check your err
-
+		tmpl, err := template.New("base").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
 		if err != nil {
 			panic(err)
 		}
+
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
