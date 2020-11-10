@@ -13,22 +13,25 @@ import (
 
 // SignInHandler signs in
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/sign_in") {
+	if !(r.URL.Path == "/sign-in") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 	if r.Method == "GET" {
-		tmpl, err := template.New("base").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
-		if err != nil {
-			panic(err)
-		}
+		// tmpl, err := template.New("base").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
+		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
 
+		// check your err
+
+		// if err != nil {
+		// panic(err)
+		// }
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		tmpl.ExecuteTemplate(w, "base", nil)
+		tmpl.Execute(w, nil)
 	}
 
 	if r.Method == "POST" {
@@ -59,7 +62,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 // SignUpHandler signs up
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/sign_up") {
+	if !(r.URL.Path == "/sign-up") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}

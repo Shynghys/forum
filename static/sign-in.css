@@ -134,14 +134,11 @@ input[type="checkbox"]{
   transform:translate(-50%);
   text-align: left;
 }
-input{
+.box input{
   height: 40px;
   width: 200%;
 }
-.box{
-  float: left;
-  display: inline-block;
-}
+
 input{
   float: left;
   display: inline-block;
@@ -178,7 +175,7 @@ h1 {
 
 
 }
-form {
+ form {
     position: relative;
     margin: auto;
     top: 150px;
