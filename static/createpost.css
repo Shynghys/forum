@@ -15,17 +15,40 @@ nav{
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
 }
-.category button {
-  cursor : pointer;
-  padding: 10px 10px;
-  height: 15 px;
+nav .category{
+  color:white;
+  font-size: 30px;
+  line-height: 80px;
+  float: right;
+  margin-right: 50px;
+  cursor: pointer;
 }
-.category:hover {
+nav .category:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
-
+nav #icon {
+  color:white;
+  font-size: 30px;
+  line-height: 80px;
+  float: right;
+  cursor: pointer;
+  display: none;
+  width: 20vw;
+}
+@media(max-width:1048px){
+  label.logo{
+    font-size: 32px;
+    padding-left: 60px;
+  }
+  nav ul{
+    margin-right: 20px;
+  }
+  nav a {
+    font-size: 17px;
+  }
+}
 nav .logo{
   position: relative;
   color: #fff;
@@ -139,6 +162,7 @@ input{
 .box{
   float: left;
   display: inline-block;
+  width: 20vw;
 }
 input{
   float: left;
