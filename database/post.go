@@ -9,6 +9,24 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+func ReadAllPosts() []vars.Post {
+
+	db, er := sql.Open("sqlite3", "./mainDB.db")
+	CheckErr(er)
+	defer db.Close()
+	rows, err := db.Query("SELECT * FROM posts")
+	CheckErr(err)
+
+	posts := []vars.Post{}
+	for rows.Next() {
+		var tempPost vars.Post
+		err =
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes /*, &tempPost.posts, &tempPost.comments*/)
+		CheckErr(err)
+		posts = append(posts, tempPost)
+	}
+	return posts
+}
 func CreatePost(post *vars.Post) {
 
 	db, er := sql.Open("sqlite3", "./mainDB.db")
@@ -16,15 +34,9 @@ func CreatePost(post *vars.Post) {
 	defer db.Close()
 	tx, _ := db.Begin()
 
-	// id := CreatedUID()
-	fmt.Println(post.AuthorID)
-	fmt.Println(post.Title)
-	fmt.Println(post.Text)
-	fmt.Println(post.Created)
-	fmt.Println(post.Likes)
-	fmt.Println("post")
+	id := CreatedUID()
 
-	result, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
+	result, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
@@ -37,7 +49,10 @@ func CreatePost(post *vars.Post) {
 	fmt.Println("Post created!!!!1")
 	tx.Commit()
 }
-func ReadPost(db *sql.DB, id2 uuid.UUID) vars.Post {
+func ReadPost(id2 uuid.UUID) vars.Post {
+	db, er := sql.Open("sqlite3", "./mainDB.db")
+	CheckErr(er)
+	defer db.Close()
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
 	for rows.Next() {
