@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"fmt"
 	// "reflect"
 	"../vars"
 	_ "github.com/mattn/go-sqlite3"
@@ -22,6 +23,7 @@ func CreateDatabase() *sql.DB {
 	CreateUsers(db)
 	CreatePosts(db)
 	CreateComments(db)
+	fmt.Println("DATABASE CREATED")
 
 	return db
 }
