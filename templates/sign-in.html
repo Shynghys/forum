@@ -14,7 +14,7 @@
   <body>
     <nav>
       <div class="category">
-        <button type="button"><i class="fa fa-navicon"></i></button>
+        <i class="fas fa-bars"></i>
       </div>
       <div class="logo">Forum</div>
       <input type="checkbox" id="click" />
@@ -30,11 +30,14 @@
             />
       </div>
       <ul>
-        <li><a class="active" href="">Home</a></li>
+        <li><a class="active" href="/homepage">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="sign-in">Log in</a></li>
         <li><a href="sign-up">Sign up</a></li>
       </ul>
+      <label id="icon">
+        <i class="fas fa-bars"></i>
+      </label>
     </nav>
     <form action="" method="POST">
       <h1 title="Registration form">Log in</h1>
@@ -46,8 +49,8 @@
         <label for="">Password</label>
         <input type="password" name="password" />
       </div>
-      <div class="btn">
-        <center><input type="submit" value="Log in"></center>
+      <div class="group">
+        <center><button type="submit">Log in</center>
       </div>
     </form>
   </body>
