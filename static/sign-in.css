@@ -206,13 +206,13 @@ input {
     height: 40px;
     width: 400px;
 }
-button {
-    cursor : pointer;
-    padding: 10px 30px;
-    height: 30 px;
+
+.btn input{
+  bottom: 50px;
+  width: 150px;
 }
-button:hover {
+.btn input:hover {
     opacity: .80;
     font-weight: bold;
     transform: scale(1);
-}
+} 
