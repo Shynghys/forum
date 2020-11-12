@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
+	db "../database/"
 	"../vars"
 )
 
@@ -26,16 +28,16 @@ func NewRouter() *http.ServeMux {
 	// r.HandleFunc("/user/{id}", UserHandler)
 
 	r.HandleFunc("/users", UsersHandler)
-	r.HandleFunc("/users/{id}/create", CreateUser)
+	r.HandleFunc("/users/create", CreateUser)
 	r.HandleFunc("/users/{id}", ReadUser)
 	r.HandleFunc("/users/{id}/update", UpdateUser)
 	r.HandleFunc("/users/{id}/delete", DeleteUser)
 
-	r.HandleFunc("/posts", PostsHandler)
+	// r.HandleFunc("/posts", PostsHandler)
 	r.HandleFunc("/posts/create", CreatePost)
-	r.HandleFunc("/posts/{id}", ReadPost)
-	r.HandleFunc("/posts/{id}/update", UpdatePost)
-	r.HandleFunc("/posts/{id}/delete", DeletePost)
+	r.HandleFunc("/posts", ReadPost)
+	r.HandleFunc("/posts/edit", UpdatePost)
+	r.HandleFunc("/posts/delete", DeletePost)
 
 	r.HandleFunc("/comments", CommentsHandler)
 	r.HandleFunc("/comments/{id}/create", CreateComment)
@@ -58,18 +60,21 @@ func checkErr(err error) error {
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	if !(r.URL.Path == "/") {
-		ErrorHandler(w, r, http.StatusNotFound)
-		return
-	}
-	w.Header().Set("Content-Type", "text/html")
+	// if !(r.URL.Path == "/") {
+	// 	ErrorHandler(w, r, http.StatusNotFound)
+	// 	return
+	// }
+	// w.Header().Set("Content-Type", "text/html")
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
-	if r.Method != http.MethodPost {
-		tmpl.Execute(w, nil)
-		return
-	}
+	// if r.Method != http.MethodPost {
+	// 	tmpl.Execute(w, nil)
+	// 	return
+	// }
+	AllPosts := db.ReadAllPosts()
+	fmt.Println("AllPosts")
+	fmt.Println(AllPosts)
 
-	tmpl.Execute(w, struct{ Success bool }{true})
+	tmpl.Execute(w, AllPosts)
 	// http.Redirect(w, r, "/", 200)
 }
 

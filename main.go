@@ -5,13 +5,15 @@ import (
 	"log"
 	"net/http"
 
+	db "./database"
+
 	h "./handlers"
 	// _ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
 	//Create db
-	// newDb := db.CreateDatabase()
+	db.CreateDatabase()
 	// fmt.Println(newDb)
 
 	// Starting web server

@@ -1,13 +1,13 @@
 package data
 
 import (
-	"database/sql"
-
 	"../vars"
 	uuid "github.com/satori/go.uuid"
 )
 
-func CreateComment(db *sql.DB, comment vars.Comment) {
+func CreateComment(comment vars.Comment) {
+	db := DbConn()
+	defer db.Close()
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?,?)")
@@ -15,7 +15,9 @@ func CreateComment(db *sql.DB, comment vars.Comment) {
 	CheckErr(err)
 	tx.Commit()
 }
-func ReadComment(db *sql.DB, id2 uuid.UUID) vars.Comment {
+func ReadComment(id2 uuid.UUID) vars.Comment {
+	db := DbConn()
+	defer db.Close()
 	rows, err := db.Query("SELECT * FROM comments")
 	CheckErr(err)
 	for rows.Next() {
@@ -29,7 +31,9 @@ func ReadComment(db *sql.DB, id2 uuid.UUID) vars.Comment {
 	}
 	return vars.Comment{}
 }
-func UpdateComment(db *sql.DB, toChange vars.Comment) {
+func UpdateComment(toChange vars.Comment) {
+	db := DbConn()
+	defer db.Close()
 
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("UPDATE comments SET text=?, created=?, likes=? WHERE id=?")
@@ -37,8 +41,10 @@ func UpdateComment(db *sql.DB, toChange vars.Comment) {
 	CheckErr(err)
 	tx.Commit()
 }
-func DeleteComment(db *sql.DB, id uuid.UUID) {
+func DeleteComment(id uuid.UUID) {
 
+	db := DbConn()
+	defer db.Close()
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("DELETE FROM comments WHERE id=?")
 	_, err := stmt.Exec(id)

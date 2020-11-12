@@ -97,8 +97,8 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		} else if isUsernameUsed {
 			fmt.Println("This username is already in use.")
 		} else {
-			db := data.CreateDatabase()
-			data.CreateUser(db, details)
+			// db := data.CreateDatabase()
+			data.CreateUser(details)
 			fmt.Println("You are cool.")
 		}
 

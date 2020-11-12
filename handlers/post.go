@@ -12,32 +12,13 @@ import (
 // PostsHandler gets posts
 func PostsHandler(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+	// if r.Method == "GET" {
+	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
+	AllPosts := db.ReadAllPosts()
 
-		tmpl.Execute(w, nil)
+	tmpl.Execute(w, AllPosts)
 
-	}
-
-	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
-		details := vars.User{
-			Email:    r.FormValue("email"),
-			Username: r.FormValue("username"),
-			Password: r.FormValue("password"),
-		}
-		// db.GetPosts(details)
-
-		_ = details
-		tmpl.Execute(w, struct{ Success bool }{true})
-		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-
-	}
+	// }
 
 }
 
@@ -49,39 +30,23 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
-
+		tmpl := template.Must(template.ParseFiles("templates/create-post.html"))
 		tmpl.Execute(w, nil)
-
 	}
 
 	if r.Method == "POST" {
-		fmt.Println("wwwwwwwwwoooooo")
-		// tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
-		// if r.Method != http.MethodPost {
-		// 	tmpl.Execute(w, nil)
-		// 	return
-		// }
-		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		fmt.Println("000000000000")
 		details := &vars.Post{
-
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
 			Category: r.FormValue("category"),
-			Created:  "0",
-			Likes:    12,
 		}
-		fmt.Println(details)
-		fmt.Println("111111111111111")
+
 		db.CreatePost(details)
-		fmt.Println("2222222222222")
-		// tmpl.Execute(w, struct{ Success bool }{true})
-		// tmpl.Execute(w, struct{ Success bool }{true})
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}
@@ -90,14 +55,16 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 // ReadPost gets post by id
 func ReadPost(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/posts/{id}") {
-		ErrorHandler(w, r, http.StatusNotFound)
-		return
-	}
+	title := r.URL.Query().Get("title")
+	// if !(r.URL.Path == "/posts/{id}") {
+	// 	ErrorHandler(w, r, http.StatusNotFound)
+	// 	return
+	// }
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		//Post:=GetPost(id)
-		tmpl.Execute(w, nil)
+		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
+		Post := db.ReadPost(title)
+		fmt.Println("readpost done")
+		tmpl.Execute(w, Post)
 
 	}
 
@@ -105,21 +72,23 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePost gets post by id
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
-	if !(r.URL.Path == "/posts/{id}/update") {
-		ErrorHandler(w, r, http.StatusNotFound)
-		return
-	}
+	// r.Body.Read()
+	title := r.URL.Query().Get("title")
+	// if !(r.URL.Path == "/posts/update") {
+	// 	ErrorHandler(w, r, http.StatusNotFound)
+	// 	return
+	// }
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+		tmpl := template.Must(template.ParseFiles("templates/edit-post.html"))
+		Post := db.ReadPost(title)
 
-		tmpl.Execute(w, nil)
+		tmpl.Execute(w, Post)
 
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
 		details := vars.Post{
@@ -127,11 +96,9 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 			Text:     r.FormValue("text"),
 			Category: r.FormValue("category"),
 		}
-		// db.UpdatePost(details)
 
-		_ = details
-		tmpl.Execute(w, struct{ Success bool }{true})
-		// tmpl.Execute(w, struct{ Success bool }{true})
+		db.UpdatePost(title, details)
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}

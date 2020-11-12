@@ -17,6 +17,7 @@ type User struct {
 
 // Post ss
 type Post struct {
+	// id       string
 	ID       uuid.UUID
 	AuthorID uuid.UUID
 	Title    string
