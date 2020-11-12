@@ -3,6 +3,7 @@ package data
 import (
 	"database/sql"
 	"fmt"
+
 	// "reflect"
 	"../vars"
 	_ "github.com/mattn/go-sqlite3"
@@ -94,4 +95,12 @@ func CreatedUID() uuid.UUID {
 }
 func CheckPassword(enc []byte, pas string) bool {
 	return bcrypt.CompareHashAndPassword(enc, []byte(pas)) == nil
+}
+func DbConn() (db *sql.DB) {
+
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
 }

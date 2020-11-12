@@ -1,7 +1,6 @@
 package data
 
 import (
-	"database/sql"
 	"fmt"
 
 	"../vars"
@@ -11,7 +10,9 @@ import (
 )
 
 // create User
-func CreateUser(db *sql.DB, user vars.User) {
+func CreateUser(user vars.User) {
+	db := DbConn()
+	defer db.Close()
 	var newUser vars.User
 	tx, _ := db.Begin()
 	passwordEnc := EncryptPassword(user.Password)
@@ -29,7 +30,9 @@ func CreateUser(db *sql.DB, user vars.User) {
 	}
 	tx.Commit()
 }
-func ReadUser(db *sql.DB, id2 uuid.UUID) vars.User {
+func ReadUser(id2 uuid.UUID) vars.User {
+	db := DbConn()
+	defer db.Close()
 	rows, err := db.Query("SELECT * FROM users")
 	CheckErr(err)
 	for rows.Next() {
@@ -43,16 +46,18 @@ func ReadUser(db *sql.DB, id2 uuid.UUID) vars.User {
 	}
 	return vars.User{}
 }
-func UpdateUser(db *sql.DB, toChange vars.User) {
-
+func UpdateUser(toChange vars.User) {
+	db := DbConn()
+	defer db.Close()
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("update users set username=?, email=?, password=? where id=?")
 	_, err := stmt.Exec(toChange.Username, toChange.Email, toChange.Password, toChange.ID)
 	CheckErr(err)
 	tx.Commit()
 }
-func DeleteUser(db *sql.DB, id uuid.UUID) {
-
+func DeleteUser(id uuid.UUID) {
+	db := DbConn()
+	defer db.Close()
 	tx, _ := db.Begin()
 	stmt, _ := tx.Prepare("DELETE FROM users WHERE id=?")
 	_, err := stmt.Exec(id)
