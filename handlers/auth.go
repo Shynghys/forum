@@ -9,6 +9,7 @@ import (
 
 	data "../database"
 	"../vars"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // SignInHandler signs in
@@ -17,6 +18,13 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
+
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
 	if r.Method == "GET" {
 		// tmpl, err := template.New("base").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
 		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
@@ -41,20 +49,26 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		login := r.FormValue("login") // can be username or email
 		// Username: r.FormValue("username"),
-		password := r.FormValue("password")
-
-		uuid := checkAll(login, password)
-		if uuid == "" {
-			log.Fatal("Username or password is incorrect.")
+		type details struct {
+			Login    string // can be username or email
+			Password string
 		}
 
-		fmt.Println(uuid)
+		data := details{
+			Login:    r.FormValue("login"),
+			Password: r.FormValue("password"),
+		}
+
+		uuid := checkAll(db, data.Login, data.Password)
+		if uuid == "" {
+			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
+		} else {
+			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
+		}
 		// do something with details
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 		//   saveChoice(r.Form["choices"])
 		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
 	}
@@ -66,6 +80,12 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
+
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
@@ -80,6 +100,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, nil)
 			return
 		}
+
 		details := vars.User{
 			Email:    r.FormValue("email"),
 			Username: r.FormValue("username"),
@@ -87,8 +108,8 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var isEmailUsed, isUsernameUsed bool
-		isEmailUsed = checkEmail(details.Email) != ""
-		isUsernameUsed = checkUsername(details.Username) != ""
+		isEmailUsed = checkEmail(db, details.Email) != ""
+		isUsernameUsed = checkUsername(db, details.Username) != ""
 
 		if isEmailUsed && isUsernameUsed {
 			fmt.Println("these email and username are already in use.")
@@ -110,12 +131,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func checkEmail(email string) string {
-	db, err := sql.Open("sqlite3", "./mainDB.db")
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+func checkEmail(db *sql.DB, email string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", email)
 	if err != nil {
@@ -133,12 +149,7 @@ func checkEmail(email string) string {
 	return id
 }
 
-func checkUsername(username string) string {
-	db, err := sql.Open("sqlite3", "./mainDB.db")
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+func checkUsername(db *sql.DB, username string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE username LIKE ?", username)
 	if err != nil {
@@ -156,39 +167,39 @@ func checkUsername(username string) string {
 	return id
 }
 
-func checkPassword(password string) string {
-	db, err := sql.Open("sqlite3", "./mainDB.db")
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+func checkAll(db *sql.DB, data, password string) string {
+	idEmail := checkEmail(db, data)
+	idUsername := checkUsername(db, data)
 
-	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", password)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer row.Close()
-
-	var id string
-	for row.Next() { // Iterate and fetch the records from result cursor
-		row.Scan(&id)
-		log.Println("UUID is: ", id)
+	// to figure out was it printed an e-mail or a username
+	var uuid string
+	if idEmail != "" {
+		uuid = idEmail
+	} else {
+		uuid = idUsername
 	}
 
-	return id
-}
-
-func checkAll(data, password string) string {
-	idEmail := checkEmail(data)
-	idUsername := checkUsername(data)
-	idPassword := checkPassword(password)
-
-	if (idEmail == idPassword) || (idPassword == idUsername) {
-		if idEmail == "" {
-			return idUsername
+	//nested func is to compare a printed code with a enc code in db
+	isPasswordRight := func(uuid, pas string) bool {
+		row, err := db.Query("SELECT id FROM users WHERE id LIKE ?", uuid)
+		if err != nil {
+			log.Fatal(err)
 		}
-		return idEmail
+
+		defer row.Close()
+
+		var password string
+		for row.Next() { // Iterate and fetch the records from result cursor
+			row.Scan(&password)
+			log.Println("UUID is: ", password)
+		}
+
+		return bcrypt.CompareHashAndPassword([]byte(password), []byte(pas)) == nil
 	}
-	return ""
+
+	if !isPasswordRight(uuid, password) {
+		return ""
+	}
+
+	return uuid
 }

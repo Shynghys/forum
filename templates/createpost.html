@@ -1,4 +1,3 @@
-{{define "base"}}
 <!DOCTYPE html>
 <!-- Created By CodingNepal -->
 <html lang="en" dir="ltr">
@@ -8,7 +7,7 @@
   <!-- Somehow I got an error, so I comment the title, just uncomment to show -->
   <!-- <title>Responsive Navigation Menu</title> -->
   <title>Forum page</title>
-  <link rel="stylesheet" href="css/homepage.css"/>
+  <link rel="stylesheet" href="/css/createpost.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +16,7 @@
 <body>
   <nav>
     <div class="category">
-      <button type="button"><i class="fa fa-navicon"></i></button>
+      <i class="fas fa-bars"></i>
     </div>
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
@@ -30,20 +29,36 @@
       </form>
     </div>
     <ul>
-      <li><a class="active" href="/homepage">Home</a></li>
+      <li><a class="homepage" href="#">Home</a></li>
       <li><a href="#">About</a></li>
-      <li><a href="/sign-in">Sign in</a></li>
-      <li><a href="/sign-up">Sign up</a></li>
+      <li><a href="homepage">Log out</a></li>
     </ul>
+    <label id="icon">
+      <i class="fas fa-bars"></i>
+    </label>
   </nav>
-  <div class="ask">
-    <button>Ask question</button>
-  </div>
-  <div class="content">
-    {{template "content" .}}
-    <div>Be in touch with the whole world</div>
-  </div>
+  <form action="/posts/create" method="POST">
+    <div class="field">
+      <div class="content">
+        <div>Ask a public question</div>
+        <div class="title">
+          <label for="">Title</label>
+          <input type="text" name="title" />
+        </div>
+        <div class="body">
+          <label for="">Body</label>
+          <input type="text" name="text" />
+        </div>
+        <div class="tag">
+          <label for="">Category</label>
+          <input type="text" name="category" />
+        </div>
+        <div class="post">
+          <button type="submit">Post your question</button>
+        </div>
+      </div>
+    </div>
+  </form>
 </body>
 
 </html>
-{{end}}
