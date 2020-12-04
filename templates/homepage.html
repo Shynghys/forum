@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<!-- Created By CodingNepal -->
 <html lang="en" dir="ltr">
-
 <head>
   <meta charset="utf-8" />
-  <!-- Somehow I got an error, so I comment the title, just uncomment to show -->
-  <!-- <title>Responsive Navigation Menu</title> -->
   <title>Forum page</title>
   <link rel="stylesheet" href="/css/homepage.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -16,7 +12,7 @@
 <body>
   <nav>
     <div class="category">
-      <button type="button"><i class="fa fa-navicon"></i></button>
+      <i class="fas fa-bars"></i>
     </div>
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
@@ -25,7 +21,10 @@
     </label>
     <div class="box">
       <form>
-        <input type="search" class="search-data" placeholder="Search" required />
+        <input class="search-txt" type="text" name="" placeholder="Search">
+        <a class ="search-btn" href="#">
+          <i class="fas fa-search"></i>
+        </a>
       </form>
     </div>
     <ul>
@@ -37,7 +36,7 @@
   </nav>
 
   <div class="content">
-    <div>
+    <!-- <div>
       <table border="1">
         <thead>
           <tr>
@@ -66,10 +65,8 @@
       </table>
 
 
-    </div>
+    </div> -->
     <div>Be in touch with the whole world</div>
-
-
   </div>
 
 </html>
