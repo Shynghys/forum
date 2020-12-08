@@ -41,6 +41,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			Username: r.FormValue("username"),
 			Password: r.FormValue("password"),
 		}
+		// Check email and username
 		// db.AddUser(details)
 
 		_ = details

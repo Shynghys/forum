@@ -19,6 +19,7 @@ func main() {
 	// Starting web server
 
 	// http.HandleFunc("/", MakeRouter)
+
 	h.LoadTemplates("templates/tmpl/*.html")
 	r := h.NewRouter()
 	http.Handle("/", r)
