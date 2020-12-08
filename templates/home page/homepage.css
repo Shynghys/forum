@@ -16,23 +16,47 @@ nav{
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
 }
-.category button {
-  cursor : pointer;
-  padding: 10px 10px;
-  height: 15 px;
+nav .category{
+  color:white;
+  font-size: 30px;
+  line-height: 80px;
+  float: right;
+  margin-right: 50px;
+  cursor: pointer;
 }
-.category:hover {
+nav .category:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
-
-nav .logo{
+nav #icon {
+  color:white;
+  font-size: 30px;
+  line-height: 80px;
+  float: right;
+  cursor: pointer;
+  display: none;
+  width: 20vw;
+}
+@media(max-width:1048px){
+  label.logo{
+    font-size: 32px;
+    padding-left: 60px;
+  }
+  nav ul{
+    margin-right: 20px;
+  }
+  nav a {
+    font-size: 17px;
+  }
+}
+.logo{
   position: relative;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
   right: 20%;
+  width: 20vw;
 }
 nav ul{
   display: flex;
@@ -127,12 +151,14 @@ input[type="checkbox"]{
   font-size: 40px;
   font-weight: 700;
 }
-.box{
+/* .box{
   position:absolute;
   right:50%;
   transform:translate(-50%);
   text-align: left;
+  width: 20vw;
 }
+
 input{
   height: 40px;
   width: 200%;
@@ -146,7 +172,7 @@ input{
   display: inline-block;
 }
 
-.ask button {
+.ask button a{ */
   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
@@ -154,9 +180,8 @@ input{
   color: #fff;
   font-family: 'Poppins', sans-serif;
 }
-.ask button:hover {
+.ask button a:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
-
