@@ -6,19 +6,26 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
 	data "../database"
+	s "../session"
 	"../vars"
 	"golang.org/x/crypto/bcrypt"
 )
 
-// SignInHandler signs in
+var inMemorySession *s.Session
+
+const (
+	COOKIE_NAME = "sessionID"
+)
+
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-in") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
-
+	inMemorySession = s.NewSession()
 	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)
@@ -41,7 +48,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 		tmpl.Execute(w, nil)
 	}
-
+	cookie := &http.Cookie{}
 	if r.Method == "POST" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
 		if r.Method != http.MethodPost {
@@ -59,13 +66,22 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-
+		sessionId := inMemorySession.Init(data.Login)
+		cookie = &http.Cookie{
+			Name:    COOKIE_NAME,
+			Value:   sessionId,
+			Expires: time.Now().Add(5 * time.Minute),
+		}
+		http.SetCookie(w, cookie)
 		uuid := checkAll(db, data.Login, data.Password)
 		if uuid == "" {
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
+
 		} else {
+
 			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
 		}
+
 		// do something with details
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
