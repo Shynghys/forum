@@ -51,11 +51,11 @@ nav #icon {
   }
 }
 .logo{
-  position: relative;
+  position: absolute;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  right: 15%;
+  left: 10%;
   width: 20vw;
 }
 nav ul{
@@ -138,9 +138,8 @@ input[type="checkbox"]{
 }
 .content{
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 15%;
+  
   text-align: center;
   z-index: -1;
   width: 100%;
@@ -148,8 +147,12 @@ input[type="checkbox"]{
   color: #1b1b1b;
 }
 .content div{
+  display: inline-block;
+  flex-wrap: wrap;
+  list-style: none;
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 500;
+
 }
 
 .box{
@@ -176,18 +179,26 @@ input{
   font-size: 25px;
   color: #fff;
 }
-
-.ask button a{
+.ask button{
+  position: absolute;
   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
-  background-color:black;
-  color: #fff;
+
+  color: black;
   font-family: 'Poppins', sans-serif;
+  top: -30%;
 }
-.ask button a:hover {
+.ask button:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
+  color: #111;
 }
+.content h3 a{
+  padding-left: 20px;
+  line-height: 50px;
+  color: black;
+}
+
 
