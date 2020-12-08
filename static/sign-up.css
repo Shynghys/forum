@@ -157,15 +157,23 @@ input[type="checkbox"]{
   transform:translate(-50%);
   text-align: left;
   width: 20vw;
+  top:15px;
 }
 .box input{
-  height: 40px;
+  height: 30px;
   width: 200%;
 }
-
 input{
   float: left;
   display: inline-block;
+}
+.search-btn{
+  position: relative;
+  float: right;
+  left: 110%;
+  bottom: 35px;
+  font-size: 25px;
+  color: #fff;
 }
 
 .ask button {
@@ -197,7 +205,7 @@ h1 {
     border-bottom: 3px ;
     left: 80px;
 }
- form {
+.reg form {
     position: relative;
     margin: auto;
     top: 150px;
