@@ -48,7 +48,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 		tmpl.Execute(w, nil)
 	}
-	cookie := &http.Cookie{}
+	// cookie := &http.Cookie{}
 	if r.Method == "POST" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
 		if r.Method != http.MethodPost {
@@ -66,13 +66,13 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-		sessionId := inMemorySession.Init(data.Login)
-		cookie = &http.Cookie{
-			Name:    COOKIE_NAME,
-			Value:   sessionId,
-			Expires: time.Now().Add(5 * time.Minute),
-		}
-		http.SetCookie(w, cookie)
+		// sessionId := inMemorySession.Init(data.Login)
+		// cookie = &http.Cookie{
+		// 	Name:    COOKIE_NAME,
+		// 	Value:   sessionId,
+		// 	Expires: time.Now().Add(5 * time.Minute),
+		// }
+		// http.SetCookie(w, cookie)
 		uuid := checkAll(db, data.Login, data.Password)
 		if uuid == "" {
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
@@ -116,20 +116,18 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, nil)
 			return
 		}
-
+		t := time.Now()
 		details := vars.User{
-			Email:    r.FormValue("email"),
 			Username: r.FormValue("username"),
+			Email:    r.FormValue("email"),
 			Password: r.FormValue("password"),
+			Created:  t.Format(time.RFC1123),
 		}
 
 		var isEmailUsed, isUsernameUsed bool
 		isEmailUsed = checkEmail(db, details.Email) != ""
 		isUsernameUsed = checkUsername(db, details.Username) != ""
-
-		if isEmailUsed && isUsernameUsed {
-			fmt.Println("these email and username are already in use.")
-		} else if isEmailUsed {
+		if isEmailUsed {
 			fmt.Println("This email is already in use.")
 		} else if isUsernameUsed {
 			fmt.Println("This username is already in use.")
@@ -139,11 +137,9 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("You are cool.")
 		}
 
-		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+		http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
+
 	}
 }
 
