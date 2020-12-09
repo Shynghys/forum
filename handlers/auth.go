@@ -8,24 +8,23 @@ import (
 	"net/http"
 	"time"
 
-	data "../database"
-	s "../session"
+	database "../database"
 	"../vars"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var inMemorySession *s.Session
-
-const (
-	COOKIE_NAME = "sessionID"
-)
+type details struct {
+	Login    string // can be username or email
+	Password string
+}
 
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-in") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
-	inMemorySession = s.NewSession()
+
 	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)
@@ -57,10 +56,6 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Username: r.FormValue("username"),
-		type details struct {
-			Login    string // can be username or email
-			Password string
-		}
 
 		data := details{
 			Login:    r.FormValue("login"),
@@ -73,12 +68,27 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		// 	Expires: time.Now().Add(5 * time.Minute),
 		// }
 		// http.SetCookie(w, cookie)
-		uuid := checkAll(db, data.Login, data.Password)
-		if uuid == "" {
+		getUUID := checkAll(db, data.Login, data.Password)
+		fmt.Println("------------")
+		fmt.Println(getUUID)
+		if getUUID == "" {
+			fmt.Println("hey")
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
 
 		} else {
-
+			userid, _ := uuid.FromString(getUUID)
+			sessionid := database.CreatedUID()
+			newSession := vars.Session{
+				UserID:    userid,
+				SessionID: sessionid,
+			}
+			database.CreateSession(newSession)
+			cookie := &http.Cookie{
+				Name:    userid.String(),
+				Value:   sessionid.String(),
+				Expires: time.Now().Add(5 * time.Minute),
+			}
+			http.SetCookie(w, cookie)
 			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
 		}
 
@@ -91,6 +101,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // SignUpHandler signs up
+//done
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-up") {
 		ErrorHandler(w, r, http.StatusNotFound)
@@ -133,7 +144,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("This username is already in use.")
 		} else {
 			// db := data.CreateDatabase()
-			data.CreateUser(details)
+			database.CreateUser(details)
 			fmt.Println("You are cool.")
 		}
 
@@ -143,6 +154,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//done
 func checkEmail(db *sql.DB, email string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", email)
@@ -161,6 +173,7 @@ func checkEmail(db *sql.DB, email string) string {
 	return id
 }
 
+//done
 func checkUsername(db *sql.DB, username string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE username LIKE ?", username)
