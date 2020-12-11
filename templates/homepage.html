@@ -25,18 +25,19 @@
         </a>
       </form>
     </div>
-    <div class="menu">
-      <ul id="menu">
-        <li><a class="active" href="">Home</a></li>
-        <li><a href="#">About</a></li>
-       
-        <li><a href="homepage">Log out</a></li>
-       
-        <li><a href="sign-in">Log in</a></li>
-        <li><a href="sign-up">Sign up</a></li>
-       
-      </ul>
-    </div>
+    
+    <ul id="menu">
+      <li><a class="active" href="">Home</a></li>
+      <li><a href="#">About</a></li>
+      {{ if .UserIn}}
+      <li class="username">Hi, {{ .UserName }}</li>
+      <li><a href="logout">Log out</a></li>
+      {{ else }}
+      <li><a href="sign-in">Log in</a></li>
+      <li><a href="sign-up">Sign up</a></li>
+      {{ end }}
+    </ul>
+  
   </nav>
   <div class="content">
     <table>
@@ -50,6 +51,7 @@
           <h5><a >{{.Category}}</a></h5>
           
       {{ end }}
+
     </table>  
   
       <a href="posts/create" class="button">Create post</a>
@@ -63,6 +65,14 @@
         <li>Games</li>
       </ul>
   </div>
+
+    </table>
+
+  
+
+  {{ if .UserIn}}
+  <a href="posts/create" class="button">Create post</a>
+  {{ end }}
 
   
   
