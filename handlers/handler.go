@@ -76,13 +76,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if c != nil {
 		isUserin.UserIn = true
-		needCookie, _ := uuid.FromString(GetUserByCookie(w, r))
+		needCookie, _ := uuid.FromString(GetUserByCookie(r))
 		findUser := db.ReadUser(needCookie)
 		isUserin.UserName = findUser.Username
 
 	}
-	isUserin.AllPosts = db.ReadAllPosts()
 	fmt.Println(isUserin)
+	isUserin.AllPosts = db.ReadAllPosts()
+
 	tmpl.Execute(w, isUserin)
 
 	// http.Redirect(w, r, "/", 200)
