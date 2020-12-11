@@ -125,12 +125,12 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, nil)
 			return
 		}
-		t := time.Now()
+		// t := time.Now()
 		details := vars.User{
 			Username: r.FormValue("username"),
 			Email:    r.FormValue("email"),
 			Password: r.FormValue("password"),
-			Created:  t.Format(time.RFC1123),
+			// Created:  t.Format(time.RFC1123),
 		}
 		fmt.Println(details.Password)
 		var isEmailUsed, isUsernameUsed bool
@@ -142,7 +142,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("This username is already in use.")
 		} else {
 			// db := data.CreateDatabase()
-			database.CreateUser(details)
+			database.CreateUser(&details)
 			fmt.Println("You are cool.")
 		}
 

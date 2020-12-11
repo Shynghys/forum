@@ -7,6 +7,7 @@ import (
 
 	db "../database/"
 	"../vars"
+	uuid "github.com/satori/go.uuid"
 )
 
 // PostsHandler gets posts
@@ -29,6 +30,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// 	ErrorHandler(w, r, http.StatusNotFound)
 	// 	return
 	// }
+
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
 		tmpl.Execute(w, nil)
@@ -44,6 +46,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			Text:     r.FormValue("text"),
 			Category: r.FormValue("category"),
 		}
+		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 
 		db.CreatePost(details)
 
