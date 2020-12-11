@@ -189,9 +189,10 @@ input{
 .field input{
   width: 60%;
 }
-.body input{
+.body textarea{
   display: inline-block;
   height: 120px;
+  width: 60%;
 }
 .field label{
   margin-left: 20%;
