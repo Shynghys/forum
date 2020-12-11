@@ -179,15 +179,17 @@ input{
   font-size: 25px;
   color: #fff;
 }
+.ask{
+  right: 100px;
+}
 .ask button{
   position: absolute;
   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
-
   color: black;
   font-family: 'Poppins', sans-serif;
-  top: -30%;
+  top: -25%;
 }
 .ask button:hover {
   opacity: .80;
@@ -195,10 +197,51 @@ input{
   transform: scale(1);
   color: #111;
 }
+
 .content h3 a{
-  padding-left: 20px;
-  line-height: 50px;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  line-height: 75px;
   color: black;
+  margin-right: 500px;
+}
+.content h5{
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  color:#696969;
+  font-size: 12px;
+  
+}
+.content h3 a:hover{
+  color: #111;
+  background: #fff;
+  opacity: 0.6;
+
+}
+.counts a {
+  font-size: 15px;
+  
+}
+.counts {
+ float: left;
+  display: inline-block;
+  /* padding-left: 500px; */
+  margin-left: 500px;
+}
+/* .content h3 h5 a{
+  position: absolute;
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  padding-left: 50px;
+  line-height: 0.9em;
+} */
+.content h3 i:hover{
+  color: #111;
+  background: #fff;
+  opacity: 0.6;
 }
 
 
