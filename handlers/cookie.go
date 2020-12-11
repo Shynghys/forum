@@ -30,7 +30,7 @@ func GetUserByCookie(w http.ResponseWriter, r *http.Request) string {
 	if err != nil {
 		return ""
 	}
-	row, err := db.Query("SELECT userID FROM sessions WHERE sessionID LIKE ?", c)
+	row, err := db.Query("SELECT userID FROM session WHERE cookieID LIKE ?", c.Value)
 	if err != nil {
 		log.Fatal(err)
 	}
