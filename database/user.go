@@ -1,7 +1,7 @@
 package data
 
 import (
-	"fmt"
+	"time"
 
 	"../vars"
 	_ "github.com/mattn/go-sqlite3"
@@ -10,24 +10,27 @@ import (
 )
 
 // create User
-func CreateUser(user vars.User) {
+func CreateUser(user *vars.User) {
 	db := DbConn()
 	defer db.Close()
-	var newUser vars.User
+
+	// var newUser vars.User
 	tx, _ := db.Begin()
 	passwordEnc := string(EncryptPassword(user.Password))
-	id := CreatedUID()
-	newUser.ID = id
-	newUser.Username = user.Username
-	newUser.Email = user.Email
-	newUser.Created = user.Created
-	AllUsers = append(AllUsers, newUser)
+	// id := CreatedUID()
+	user.ID = CreatedUID()
+	// newUser.ID = id
+	// newUser.Username = user.Username
+	// newUser.Email = user.Email
+	// newUser.Created = user.Created
+	user.Created = time.Now().Format(time.RFC1123)
+	// AllUsers = append(AllUsers, newUser)
 	stmt, _ := tx.Prepare("INSERT INTO users (id, username, email, password, created) VALUES (?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
-	_, err := stmt.Exec(id, user.Username, user.Email, passwordEnc, user.Created)
-	if err != nil {
-		fmt.Println("This user already exist")
-	}
+	stmt.Exec(user.ID, user.Username, user.Email, passwordEnc, user.Created)
+	// if err != nil {
+	// 	fmt.Println("This user already exist")
+	// }
 	tx.Commit()
 }
 func ReadUser(id2 uuid.UUID) vars.User {

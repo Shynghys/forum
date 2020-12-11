@@ -193,14 +193,6 @@ input{
   font-size: 25px;
   color: #fff;
 }
-.ask{
-<<<<<<< HEAD
-  right: 100pxs;
-}
-.ask button{
-=======
-  right: 100px;
-}
 
 a.button:hover {
   opacity: .80;
@@ -210,7 +202,6 @@ a.button:hover {
 }
 
 a.button {
->>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
   position: absolute;
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -248,24 +239,6 @@ a.button {
   opacity: 0.6;
 
 }
-<<<<<<< HEAD
-
-.content h3 a{
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  line-height: 75px;
-  color: black;
-  margin-right: 500px;
-}
-.content h5{
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  color:#696969;
-  font-size: 12px;
-  
-=======
 .counts a {
   font-size: 15px;
   
@@ -288,7 +261,6 @@ a.button {
   color: #111;
   background: #fff;
   opacity: 0.6;
->>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
 }
 .content h3 a:hover{
   color: #111;
