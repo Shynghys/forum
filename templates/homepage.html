@@ -53,27 +53,21 @@
       {{ end }}
 
     </table>  
-  
+    {{if .UserIn}}
       <a href="posts/create" class="button">Create post</a>
- 
+      {{end}}
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>
-      <ul id="category">
-        <li>Movies</li>
-        <li>Books</li>
-        <li>Games</li>
+      <ul>
+        <a href="#">Movies </a>
+        <a href="#">Books </a>
+        <a href="#">Games </a>
       </ul>
   </div>
 
     </table>
 
-  
 
-  {{ if .UserIn}}
-  <a href="posts/create" class="button">Create post</a>
-  {{ end }}
-
-  
   
 </html>
