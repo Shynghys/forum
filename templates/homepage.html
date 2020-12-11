@@ -13,6 +13,11 @@
   <nav>
     <div class="category">
       <i class="fas fa-bars"></i>
+        <ul id="cat">
+          <li>Movies</li>
+          <li>Books</li>
+          <li>Games</li>
+        </ul>
     </div>
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
@@ -27,27 +32,36 @@
         </a>
       </form>
     </div>
-   
-    <ul>
-      <li><a class="active" href="">Home</a></li>
-      <li><a href="#">About</a></li>
-      
-      <li><a href="homepage">Log out</a></li>
-   
-      <li><a href="sign-in">Log in</a></li>
-      <li><a href="sign-up">Sign up</a></li>
-    </ul>
+    <div class="menu">
+      <ul id="menu">
+        <li><a class="active" href="">Home</a></li>
+        <li><a href="#">About</a></li>
+       
+        <li><a href="homepage">Log out</a></li>
+       
+        <li><a href="sign-in">Log in</a></li>
+        <li><a href="sign-up">Sign up</a></li>
+       
+      </ul>
+    </div>
+ 
   
   </nav>
   <div class="content">
-     
-   
-        {{ range . }}
-            <h3><a href="/posts?title={{ .Title }}">{{.Title}}</a></h3>
-        {{ end }}
-  
+    <table>
+      {{ range . }}
+      <div class="counts">
+        <a><i class="fas fa-heart"></i></a>
+        <a>{{.Likes}}</a>
+      </div>
+          <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
+          <h3><a href="/posts?title={{ .Title }}">{{.Title}}</a></h3>
+          <h5><a >{{.Category}}</a></h5>
+          
+      {{ end }}
+    </table>
     <div class="ask">
-      <button href="createpost">Ask your question</button>
+      <a><button href="createpost">Ask your question</button></a>
     </div>
   </div>
 
