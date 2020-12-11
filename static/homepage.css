@@ -25,17 +25,17 @@ nav{
   cursor: pointer;
 }
 
-.category:hover>#category{
+.category:hover>ul{
   display: block;
   color: #111;
 }
-.category #category{
+.category ul{
   display: none;
   text-decoration: none;
   list-style: none;
   font-size: 30px;
+  color: black;
 }
-
 .category :hover {
   opacity: .80;
   font-weight: bold;
