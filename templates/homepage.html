@@ -11,14 +11,7 @@
 
 <body>
   <nav>
-    <div class="category">
-      <i class="fas fa-bars"></i>
-        <ul id="cat">
-          <li>Movies</li>
-          <li>Books</li>
-          <li>Games</li>
-        </ul>
-    </div>
+  
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
     <label for="click" class="menu-btn">
@@ -32,7 +25,6 @@
         </a>
       </form>
     </div>
-<<<<<<< HEAD
     <div class="menu">
       <ul id="menu">
         <li><a class="active" href="">Home</a></li>
@@ -45,26 +37,10 @@
        
       </ul>
     </div>
- 
-=======
-    
-    <ul>
-      <li><a class="active" href="">Home</a></li>
-      <li><a href="#">About</a></li>
-      {{ if .UserIn}}
-      {{ .UserName }}
-      <li><a href="logout">Log out</a></li>
-      {{ else }}
-      <li><a href="sign-in">Log in</a></li>
-      <li><a href="sign-up">Sign up</a></li>
-      {{ end }}
-    </ul>
->>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
-  
   </nav>
   <div class="content">
     <table>
-      {{ range . }}
+      {{ range .AllPosts }}
       <div class="counts">
         <a><i class="fas fa-heart"></i></a>
         <a>{{.Likes}}</a>
@@ -74,17 +50,20 @@
           <h5><a >{{.Category}}</a></h5>
           
       {{ end }}
-    </table>
-<<<<<<< HEAD
-    <div class="ask">
-      <a><button href="createpost">Ask your question</button></a>
-    </div>
-  </div>
-=======
-    
+    </table>  
   
-  <a href="posts/create" class="button">Create post</a>
+      <a href="posts/create" class="button">Create post</a>
+ 
+  </div>
+  <div class="category">
+    <i class="fas fa-bars"></i>
+      <ul id="category">
+        <li>Movies</li>
+        <li>Books</li>
+        <li>Games</li>
+      </ul>
+  </div>
 
->>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
-
+  
+  
 </html>
