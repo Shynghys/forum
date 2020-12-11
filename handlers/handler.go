@@ -7,6 +7,7 @@ import (
 
 	db "../database/"
 	"../vars"
+	uuid "github.com/satori/go.uuid"
 )
 
 var templates *template.Template
@@ -17,6 +18,12 @@ var Temps *template.Template
 
 // Error is for tempaltes
 var Error vars.ErrorStruct
+
+type PageDetails struct {
+	UserIn   bool
+	UserName string
+	AllPosts []vars.Post
+}
 
 // NewRouter s
 func NewRouter() *http.ServeMux {
@@ -60,22 +67,27 @@ func checkErr(err error) error {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
+	var isUserin PageDetails
+	isUserin.UserIn = false
+	c, _ := r.Cookie(COOKIE_NAME)
+	if c != nil {
+		isUserin.UserIn = true
+		needCookie, _ := uuid.FromString(GetUserByCookie(w, r))
+		findUser := db.ReadUser(needCookie)
+		isUserin.UserName = findUser.Username
 
-	// if !(r.URL.Path == "/") {
-	// 	ErrorHandler(w, r, http.StatusNotFound)
-	// 	return
-	// }
-	// w.Header().Set("Content-Type", "text/html")
-	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
-	// if r.Method != http.MethodPost {
-	// 	tmpl.Execute(w, nil)
-	// 	return
-	// }
-	AllPosts := db.ReadAllPosts()
-	fmt.Println("AllPosts")
-	fmt.Println(AllPosts)
+	} else {
+		tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
+		// if r.Method != http.MethodPost {
+		// 	tmpl.Execute(w, nil)
+		// 	return
+		// }
+		AllPosts := db.ReadAllPosts()
+		fmt.Println("AllPosts")
+		fmt.Println(AllPosts)
 
-	tmpl.Execute(w, AllPosts)
+		tmpl.Execute(w, AllPosts)
+	}
 	// http.Redirect(w, r, "/", 200)
 }
 
