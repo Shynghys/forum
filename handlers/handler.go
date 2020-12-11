@@ -25,6 +25,7 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/", Handler)
 	r.HandleFunc("/sign-in", SignInHandler)
 	r.HandleFunc("/sign-up", SignUpHandler)
+	r.HandleFunc("/logout", LogoutHandler)
 	// r.HandleFunc("/user/{id}", UserHandler)
 
 	r.HandleFunc("/users", UsersHandler)
