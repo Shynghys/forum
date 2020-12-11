@@ -19,6 +19,8 @@ type details struct {
 	Password string
 }
 
+const COOKIE_NAME = "my_cookie"
+
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-in") {
 		ErrorHandler(w, r, http.StatusNotFound)
@@ -85,7 +87,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			database.CreateSession(newSession)
 			cookie := &http.Cookie{
-				Name:    userid.String(),
+				Name:    COOKIE_NAME,
 				Value:   sessionid.String(),
 				Expires: time.Now().Add(5 * time.Minute),
 			}
@@ -93,11 +95,6 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
 		}
 
-		// do something with details
-
-		// tmpl.Execute(w, struct{ Success bool }{true})
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
 	}
 }
 
@@ -230,4 +227,27 @@ func checkAll(db *sql.DB, data, password string) string {
 	}
 
 	return uuid
+}
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/logout") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	cookieID, err := uuid.FromString(GetCookie(r, COOKIE_NAME))
+	if err != nil {
+		fmt.Printf("Something went wrong: %s", err)
+		return
+	}
+	database.DeleteSession(cookieID)
+	DeleteCookie(w, r)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// fmt.Println(cookieID)
+
 }
