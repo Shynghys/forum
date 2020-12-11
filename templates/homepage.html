@@ -31,11 +31,13 @@
     <ul>
       <li><a class="active" href="">Home</a></li>
       <li><a href="#">About</a></li>
-      
+      {{ if .UserIn}}
+      {{ .UserName }}
       <li><a href="logout">Log out</a></li>
-   
+      {{ else }}
       <li><a href="sign-in">Log in</a></li>
       <li><a href="sign-up">Sign up</a></li>
+      {{ end }}
     </ul>
   
   </nav>
