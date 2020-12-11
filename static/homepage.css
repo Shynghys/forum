@@ -213,7 +213,7 @@ a.button {
   padding: 10px 30px;
   height: 30 px;
   font-family: 'Poppins', sans-serif;
-  top: -30%;
+  top: -20%;
 }
 .ask button:hover {
   opacity: .80;
@@ -221,13 +221,14 @@ a.button {
   transform: scale(1);
   color: #111;
 }
-.content h3 a{
+.content h3 {
   position: relative;
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   line-height: 75px;
   color: black;
-  margin-right: 500px;
+  left: 100px;
+
 }
 .content h5{
   position: relative;
@@ -250,7 +251,7 @@ a.button {
   text-align: center;
   line-height: 75px;
   color: black;
-  margin-right: 500px;
+  margin-right: 1000px;
 }
 .content h5{
   position: relative;
@@ -258,6 +259,7 @@ a.button {
   text-align: center;
   color:#696969;
   font-size: 12px;
+  float: center;
   
 }
 .content h3 a:hover{
@@ -274,7 +276,7 @@ a.button {
  float: left;
   display: inline-block;
   /* padding-left: 500px; */
-  margin-left: 500px;
+  margin-left: 700px;
 }
 
 .content h3 i:hover{
@@ -283,3 +285,6 @@ a.button {
   opacity: 0.6;
 }
 
+.username {
+  color: white;
+}
