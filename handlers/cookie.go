@@ -13,14 +13,15 @@ func GetCookie(r *http.Request, name string) string {
 	}
 	return c.Value
 }
+
 func DeleteCookie(w http.ResponseWriter, r *http.Request) {
 	c := http.Cookie{
 		Name:   COOKIE_NAME,
 		MaxAge: -1}
 	http.SetCookie(w, &c)
-
 }
-func GetUserByCookie(w http.ResponseWriter, r *http.Request) string {
+
+func GetUserByCookie(r *http.Request) string {
 	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)

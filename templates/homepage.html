@@ -11,14 +11,7 @@
 
 <body>
   <nav>
-    <div class="category">
-      <i class="fas fa-bars"></i>
-        <ul id="cat">
-          <li>Movies</li>
-          <li>Books</li>
-          <li>Games</li>
-        </ul>
-    </div>
+  
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
     <label for="click" class="menu-btn">
@@ -32,7 +25,11 @@
         </a>
       </form>
     </div>
+<<<<<<< HEAD
     <div class="menu">
+=======
+    
+>>>>>>> 0bf8653d3c723ae76848146dab338426dd1aa56d
     <ul id="menu">
       <li><a class="active" href="">Home</a></li>
       <li><a href="#">About</a></li>
@@ -58,6 +55,7 @@
           <h5><a >{{.Category}}</a></h5>
           
       {{ end }}
+<<<<<<< HEAD
     </table>
 
     
@@ -71,5 +69,25 @@
 
 
 
+=======
 
+    </table>  
+    {{if .UserIn}}
+      <a href="posts/create" class="button">Create post</a>
+      {{end}}
+  </div>
+  <div class="category">
+    <i class="fas fa-bars"></i>
+      <ul>
+        <a href="#">Movies </a>
+        <a href="#">Books </a>
+        <a href="#">Games </a>
+      </ul>
+  </div>
+
+    </table>
+>>>>>>> 0bf8653d3c723ae76848146dab338426dd1aa56d
+
+
+  
 </html>
