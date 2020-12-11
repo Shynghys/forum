@@ -40,14 +40,22 @@
   
   </nav>
   <div class="content">
-     
-   
-        {{ range . }}
-            <h3><a href="/posts?title={{ .Title }}">{{.Title}}</a></h3>
-        {{ end }}
+    <table>
+      {{ range . }}
+      <div class="counts">
+        <a><i class="fas fa-heart"></i></a>
+        <a>{{.Likes}}</a>
+      </div>
+          <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
+          <h3><a href="/posts?title={{ .Title }}">{{.Title}}</a></h3>
+          <h5><a >{{.Category}}</a></h5>
+          
+      {{ end }}
+    </table>
+    
   
     <div class="ask">
-      <button href="createpost">Ask your question</button>
+      <a><button href="create-post">Ask your question</button></a>
     </div>
   </div>
 
