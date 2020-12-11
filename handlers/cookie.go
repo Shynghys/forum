@@ -1,6 +1,10 @@
 package handlers
 
-import "net/http"
+import (
+	"database/sql"
+	"log"
+	"net/http"
+)
 
 func GetCookie(r *http.Request, name string) string {
 	c, err := r.Cookie(name)
@@ -15,4 +19,27 @@ func DeleteCookie(w http.ResponseWriter, r *http.Request) {
 		MaxAge: -1}
 	http.SetCookie(w, &c)
 
+}
+func GetUserByCookie(w http.ResponseWriter, r *http.Request) string {
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	c, err := r.Cookie(COOKIE_NAME)
+	if err != nil {
+		return ""
+	}
+	row, err := db.Query("SELECT userID FROM session WHERE cookieID LIKE ?", c.Value)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+
+	var id string
+	for row.Next() { // Iterate and fetch the records from result cursor
+		row.Scan(&id)
+		log.Println("UUID is: ", id)
+	}
+	return id
 }
