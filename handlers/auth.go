@@ -68,6 +68,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		// 	Expires: time.Now().Add(5 * time.Minute),
 		// }
 		// http.SetCookie(w, cookie)
+		fmt.Println(data)
 		getUUID := checkAll(db, data.Login, data.Password)
 		fmt.Println("------------")
 		fmt.Println(getUUID)
@@ -134,7 +135,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 			Created:  t.Format(time.RFC1123),
 		}
-
+		fmt.Println(details.Password)
 		var isEmailUsed, isUsernameUsed bool
 		isEmailUsed = checkEmail(db, details.Email) != ""
 		isUsernameUsed = checkUsername(db, details.Username) != ""
@@ -203,14 +204,16 @@ func checkAll(db *sql.DB, data, password string) string {
 	} else {
 		uuid = idUsername
 	}
-
+	fmt.Println("----Checkall UUID---------------")
+	fmt.Println(uuid)
 	//nested func is to compare a printed code with a enc code in db
 	isPasswordRight := func(uuid, pas string) bool {
-		row, err := db.Query("SELECT id FROM users WHERE id LIKE ?", uuid)
+		row, err := db.Query("SELECT password FROM users WHERE id LIKE ?", uuid)
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		fmt.Println("--------ID password--------")
+		fmt.Println(row)
 		defer row.Close()
 
 		var password string
