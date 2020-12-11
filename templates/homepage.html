@@ -32,19 +32,19 @@
         </a>
       </form>
     </div>
-    
-    <ul>
+    <div class="menu">
+    <ul id="menu">
       <li><a class="active" href="">Home</a></li>
       <li><a href="#">About</a></li>
       {{ if .UserIn}}
-      <li class="username">Hi, {{ .UserName }}</li>
+      <li id="user">Hi, {{ .UserName }}</li>
       <li><a href="logout">Log out</a></li>
       {{ else }}
       <li><a href="sign-in">Log in</a></li>
       <li><a href="sign-up">Sign up</a></li>
       {{ end }}
     </ul>
-  
+    </div>
   </nav>
   <div class="content">
     <table>
@@ -59,20 +59,17 @@
           
       {{ end }}
     </table>
-<<<<<<< HEAD
-    <div class="ask">
-      <a><button href="createpost">Ask your question</button></a>
-    </div>
-  </div>
-=======
-    
-  {{ if .UserIn}}
-  <a href="posts/create" class="button">Create post</a>
-<<<<<<< HEAD
-  {{ end }}
-=======
 
->>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
->>>>>>> bf781211bfc5c0a1b6377fc79544496fce99459e
+    
+  </div>
+
+    
+  {{ if .UserIn }}
+  <a href="posts/create" class="button">Create post</a>
+
+  {{ end }}
+
+
+
 
 </html>
