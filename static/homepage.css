@@ -16,27 +16,27 @@ nav{
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
 }
-nav .category{
-  color:white;
-  font-size: 30px;
+.category{
+  color:black;
+  font-size: 45px;
   line-height: 80px;
-  float: right;
-  margin-right: 50px;
+  float: left;
+  margin-left: 50px;
   cursor: pointer;
 }
 
-.category:hover>#cat{
+.category:hover>#category{
   display: block;
   color: #111;
 }
-.category #cat{
+.category #category{
   display: none;
   text-decoration: none;
   list-style: none;
-  font-size: 15px;
+  font-size: 30px;
 }
 
-nav .category :hover {
+.category :hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
@@ -67,7 +67,7 @@ nav #icon {
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  left: 10%;
+  left:  50px;
   width: 20vw;
 }
 nav #menu{
@@ -194,7 +194,8 @@ input{
   color: #fff;
 }
 
-a.button:hover {
+
+  a.button:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
@@ -206,24 +207,28 @@ a.button {
   -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
-
   text-decoration: none;
   color: initial;
   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
-  color: black;
   font-family: 'Poppins', sans-serif;
-  top: -25%;
+  top: -20%;
 }
-
-.content h3 a{
+.ask button:hover {
+  opacity: .80;
+  font-weight: bold;
+  transform: scale(1);
+  color: #111;
+}
+.content h3 {
   position: relative;
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   line-height: 75px;
   color: black;
-  margin-right: 500px;
+  left: 100px;
+
 }
 .content h5{
   position: relative;
@@ -239,28 +244,23 @@ a.button {
   opacity: 0.6;
 
 }
-.counts a {
-  font-size: 15px;
-  
-}
-.counts {
- float: left;
-  display: inline-block;
-  /* padding-left: 500px; */
-  margin-left: 500px;
-}
-/* .content h3 h5 a{
-  position: absolute;
-  display: inline-block;
+
+.content h3 a{
+  position: relative;
   text-decoration: none;
+  text-align: center;
+  line-height: 75px;
   color: black;
-  padding-left: 50px;
-  line-height: 0.9em;
-} */
-.content h3 i:hover{
-  color: #111;
-  background: #fff;
-  opacity: 0.6;
+  margin-right: 1000px;
+}
+.content h5{
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  color:#696969;
+  font-size: 12px;
+  float: center;
+  
 }
 .content h3 a:hover{
   color: #111;
@@ -276,16 +276,9 @@ a.button {
  float: left;
   display: inline-block;
   /* padding-left: 500px; */
-  margin-left: 500px;
+  margin-left: 700px;
 }
-/* .content h3 h5 a{
-  position: absolute;
-  display: inline-block;
-  text-decoration: none;
-  color: black;
-  padding-left: 50px;
-  line-height: 0.9em;
-} */
+
 .content h3 i:hover{
   color: #111;
   background: #fff;
