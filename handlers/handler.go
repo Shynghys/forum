@@ -70,24 +70,21 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var isUserin PageDetails
 	isUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if c != nil {
 		isUserin.UserIn = true
 		needCookie, _ := uuid.FromString(GetUserByCookie(w, r))
 		findUser := db.ReadUser(needCookie)
 		isUserin.UserName = findUser.Username
 
-	} else {
-		tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
-		// if r.Method != http.MethodPost {
-		// 	tmpl.Execute(w, nil)
-		// 	return
-		// }
-		AllPosts := db.ReadAllPosts()
-		fmt.Println("AllPosts")
-		fmt.Println(AllPosts)
-
-		tmpl.Execute(w, AllPosts)
 	}
+	isUserin.AllPosts = db.ReadAllPosts()
+	fmt.Println(isUserin)
+	tmpl.Execute(w, isUserin)
+
 	// http.Redirect(w, r, "/", 200)
 }
 
