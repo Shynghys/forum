@@ -24,6 +24,7 @@ func CreateDatabase() *sql.DB {
 	CreateUsers(db)
 	CreatePosts(db)
 	CreateComments(db)
+	CreateSessions(db)
 	fmt.Println("DATABASE CREATED")
 
 	return db
@@ -83,6 +84,20 @@ func CreateComments(db *sql.DB) {
 	`)
 	CheckErr(err)
 	statementForComments.Exec()
+}
+func CreateSessions(db *sql.DB) {
+
+	statementForPosts, err := db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "session" ( 
+		"id" UID NOT NULL PRIMARY KEY, 
+		"userID" UID,
+		"cookieID" UID
+		);
+		
+	`)
+	CheckErr(err)
+	statementForPosts.Exec()
 }
 func CheckErr(err error) {
 	if err != nil {

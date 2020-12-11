@@ -7,6 +7,7 @@ import (
 
 	db "../database/"
 	"../vars"
+	uuid "github.com/satori/go.uuid"
 )
 
 var templates *template.Template
@@ -18,6 +19,12 @@ var Temps *template.Template
 // Error is for tempaltes
 var Error vars.ErrorStruct
 
+type PageDetails struct {
+	UserIn   bool
+	UserName string
+	AllPosts []vars.Post
+}
+
 // NewRouter s
 func NewRouter() *http.ServeMux {
 	r := http.NewServeMux()
@@ -25,6 +32,7 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/", Handler)
 	r.HandleFunc("/sign-in", SignInHandler)
 	r.HandleFunc("/sign-up", SignUpHandler)
+	r.HandleFunc("/logout", LogoutHandler)
 	// r.HandleFunc("/user/{id}", UserHandler)
 
 	r.HandleFunc("/users", UsersHandler)
@@ -59,22 +67,24 @@ func checkErr(err error) error {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
-
-	// if !(r.URL.Path == "/") {
-	// 	ErrorHandler(w, r, http.StatusNotFound)
-	// 	return
+	var isUserin PageDetails
+	isUserin.UserIn = false
+	c, _ := r.Cookie(COOKIE_NAME)
+	// if err != nil {
+	// 	panic(err)
 	// }
-	// w.Header().Set("Content-Type", "text/html")
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
-	// if r.Method != http.MethodPost {
-	// 	tmpl.Execute(w, nil)
-	// 	return
-	// }
-	AllPosts := db.ReadAllPosts()
-	fmt.Println("AllPosts")
-	fmt.Println(AllPosts)
+	if c != nil {
+		isUserin.UserIn = true
+		needCookie, _ := uuid.FromString(GetUserByCookie(w, r))
+		findUser := db.ReadUser(needCookie)
+		isUserin.UserName = findUser.Username
 
-	tmpl.Execute(w, AllPosts)
+	}
+	isUserin.AllPosts = db.ReadAllPosts()
+	fmt.Println(isUserin)
+	tmpl.Execute(w, isUserin)
+
 	// http.Redirect(w, r, "/", 200)
 }
 
