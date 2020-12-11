@@ -43,3 +43,8 @@ type ErrorStruct struct {
 	Status           int
 	StatusDefinition string
 }
+
+type Session struct {
+	UserID    uuid.UUID
+	SessionID uuid.UUID
+}

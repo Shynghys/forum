@@ -15,7 +15,7 @@ func CreateUser(user vars.User) {
 	defer db.Close()
 	var newUser vars.User
 	tx, _ := db.Begin()
-	passwordEnc := EncryptPassword(user.Password)
+	passwordEnc := string(EncryptPassword(user.Password))
 	id := CreatedUID()
 	newUser.ID = id
 	newUser.Username = user.Username

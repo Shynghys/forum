@@ -8,24 +8,25 @@ import (
 	"net/http"
 	"time"
 
-	data "../database"
-	s "../session"
+	database "../database"
 	"../vars"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var inMemorySession *s.Session
+type details struct {
+	Login    string // can be username or email
+	Password string
+}
 
-const (
-	COOKIE_NAME = "sessionID"
-)
+const COOKIE_NAME = "my_cookie"
 
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-in") {
 		ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
-	inMemorySession = s.NewSession()
+
 	db, err := sql.Open("sqlite3", "./mainDB.db")
 	if err != nil {
 		panic(err)
@@ -48,7 +49,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 
 		tmpl.Execute(w, nil)
 	}
-	cookie := &http.Cookie{}
+	// cookie := &http.Cookie{}
 	if r.Method == "POST" {
 		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
 		if r.Method != http.MethodPost {
@@ -57,40 +58,48 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Username: r.FormValue("username"),
-		type details struct {
-			Login    string // can be username or email
-			Password string
-		}
 
 		data := details{
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-		sessionId := inMemorySession.Init(data.Login)
-		cookie = &http.Cookie{
-			Name:    COOKIE_NAME,
-			Value:   sessionId,
-			Expires: time.Now().Add(5 * time.Minute),
-		}
-		http.SetCookie(w, cookie)
-		uuid := checkAll(db, data.Login, data.Password)
-		if uuid == "" {
+		// sessionId := inMemorySession.Init(data.Login)
+		// cookie = &http.Cookie{
+		// 	Name:    COOKIE_NAME,
+		// 	Value:   sessionId,
+		// 	Expires: time.Now().Add(5 * time.Minute),
+		// }
+		// http.SetCookie(w, cookie)
+		fmt.Println(data)
+		getUUID := checkAll(db, data.Login, data.Password)
+		fmt.Println("------------")
+		fmt.Println(getUUID)
+		if getUUID == "" {
+			fmt.Println("hey")
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
 
 		} else {
-
+			userid, _ := uuid.FromString(getUUID)
+			sessionid := database.CreatedUID()
+			newSession := vars.Session{
+				UserID:    userid,
+				SessionID: sessionid,
+			}
+			database.CreateSession(newSession)
+			cookie := &http.Cookie{
+				Name:    COOKIE_NAME,
+				Value:   sessionid.String(),
+				Expires: time.Now().Add(5 * time.Minute),
+			}
+			http.SetCookie(w, cookie)
 			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
 		}
 
-		// do something with details
-
-		// tmpl.Execute(w, struct{ Success bool }{true})
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
 	}
 }
 
 // SignUpHandler signs up
+//done
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	if !(r.URL.Path == "/sign-up") {
 		ErrorHandler(w, r, http.StatusNotFound)
@@ -116,37 +125,34 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			tmpl.Execute(w, nil)
 			return
 		}
-
+		t := time.Now()
 		details := vars.User{
-			Email:    r.FormValue("email"),
 			Username: r.FormValue("username"),
+			Email:    r.FormValue("email"),
 			Password: r.FormValue("password"),
+			Created:  t.Format(time.RFC1123),
 		}
-
+		fmt.Println(details.Password)
 		var isEmailUsed, isUsernameUsed bool
 		isEmailUsed = checkEmail(db, details.Email) != ""
 		isUsernameUsed = checkUsername(db, details.Username) != ""
-
-		if isEmailUsed && isUsernameUsed {
-			fmt.Println("these email and username are already in use.")
-		} else if isEmailUsed {
+		if isEmailUsed {
 			fmt.Println("This email is already in use.")
 		} else if isUsernameUsed {
 			fmt.Println("This username is already in use.")
 		} else {
 			// db := data.CreateDatabase()
-			data.CreateUser(details)
+			database.CreateUser(details)
 			fmt.Println("You are cool.")
 		}
 
-		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		//   saveChoice(r.Form["choices"])
-		//   http.Redirect(w, r, newUrl, http.StatusSeeOther)
+		http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
+
 	}
 }
 
+//done
 func checkEmail(db *sql.DB, email string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE email LIKE ?", email)
@@ -165,6 +171,7 @@ func checkEmail(db *sql.DB, email string) string {
 	return id
 }
 
+//done
 func checkUsername(db *sql.DB, username string) string {
 
 	row, err := db.Query("SELECT id FROM users WHERE username LIKE ?", username)
@@ -194,14 +201,16 @@ func checkAll(db *sql.DB, data, password string) string {
 	} else {
 		uuid = idUsername
 	}
-
+	fmt.Println("----Checkall UUID---------------")
+	fmt.Println(uuid)
 	//nested func is to compare a printed code with a enc code in db
 	isPasswordRight := func(uuid, pas string) bool {
-		row, err := db.Query("SELECT id FROM users WHERE id LIKE ?", uuid)
+		row, err := db.Query("SELECT password FROM users WHERE id LIKE ?", uuid)
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		fmt.Println("--------ID password--------")
+		fmt.Println(row)
 		defer row.Close()
 
 		var password string
@@ -218,4 +227,27 @@ func checkAll(db *sql.DB, data, password string) string {
 	}
 
 	return uuid
+}
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/logout") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	db, err := sql.Open("sqlite3", "./mainDB.db")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	cookieID, err := uuid.FromString(GetCookie(r, COOKIE_NAME))
+	if err != nil {
+		fmt.Printf("Something went wrong: %s", err)
+		return
+	}
+	database.DeleteSession(cookieID)
+	DeleteCookie(w, r)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// fmt.Println(cookieID)
+
 }

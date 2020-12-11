@@ -151,7 +151,7 @@ input[type="checkbox"]{
   font-size: 40px;
   font-weight: 700;
 }
-/* .box{
+.box{
   position:absolute;
   right:50%;
   transform:translate(-50%);
@@ -172,14 +172,14 @@ input{
   display: inline-block;
 }
 
-.ask button a{ */
-  cursor : pointer;
+.ask button a{
+   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
   background-color:black;
   color: #fff;
   font-family: 'Poppins', sans-serif;
-}
+} 
 .ask button a:hover {
   opacity: .80;
   font-weight: bold;

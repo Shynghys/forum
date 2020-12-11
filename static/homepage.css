@@ -194,22 +194,36 @@ input{
   color: #fff;
 }
 .ask{
+<<<<<<< HEAD
   right: 100pxs;
 }
 .ask button{
+=======
+  right: 100px;
+}
+
+a.button:hover {
+  opacity: .80;
+  font-weight: bold;
+  transform: scale(1);
+  color: #111;
+}
+
+a.button {
+>>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
   position: absolute;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color: initial;
   cursor : pointer;
   padding: 10px 30px;
   height: 30 px;
   color: black;
   font-family: 'Poppins', sans-serif;
   top: -25%;
-}
-.ask button:hover {
-  opacity: .80;
-  font-weight: bold;
-  transform: scale(1);
-  color: #111;
 }
 
 .content h3 a{
@@ -227,6 +241,54 @@ input{
   color:#696969;
   font-size: 12px;
   
+}
+.content h3 a:hover{
+  color: #111;
+  background: #fff;
+  opacity: 0.6;
+
+}
+<<<<<<< HEAD
+
+.content h3 a{
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  line-height: 75px;
+  color: black;
+  margin-right: 500px;
+}
+.content h5{
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  color:#696969;
+  font-size: 12px;
+  
+=======
+.counts a {
+  font-size: 15px;
+  
+}
+.counts {
+ float: left;
+  display: inline-block;
+  /* padding-left: 500px; */
+  margin-left: 500px;
+}
+/* .content h3 h5 a{
+  position: absolute;
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  padding-left: 50px;
+  line-height: 0.9em;
+} */
+.content h3 i:hover{
+  color: #111;
+  background: #fff;
+  opacity: 0.6;
+>>>>>>> 8cb008b18c28ab676a91f535084ae7241b9cc6fb
 }
 .content h3 a:hover{
   color: #111;
