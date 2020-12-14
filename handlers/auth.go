@@ -85,6 +85,8 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 				UserID:    userid,
 				SessionID: sessionid,
 			}
+			fmt.Println("------Im here--------")
+			fmt.Println(newSession)
 			database.CreateSession(newSession)
 			cookie := &http.Cookie{
 				Name:    COOKIE_NAME,
