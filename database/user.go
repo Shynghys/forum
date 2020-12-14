@@ -1,6 +1,7 @@
 package data
 
 import (
+	"log"
 	"time"
 
 	"../vars"
@@ -15,7 +16,10 @@ func CreateUser(user *vars.User) {
 	defer db.Close()
 
 	// var newUser vars.User
-	tx, _ := db.Begin()
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
 	passwordEnc := string(EncryptPassword(user.Password))
 	// id := CreatedUID()
 	user.ID = CreatedUID()
@@ -38,6 +42,7 @@ func ReadUser(id2 uuid.UUID) vars.User {
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM users")
 	CheckErr(err)
+	defer rows.Close()
 	for rows.Next() {
 		var tempUser vars.User
 		err =

@@ -22,16 +22,16 @@ func UsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // CreateUser gets User by id
+/*
 func CreateUser(w http.ResponseWriter, r *http.Request) {
+
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-
 		tmpl.Execute(w, nil)
-
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
 		if r.Method != http.MethodPost {
 			tmpl.Execute(w, nil)
 			return
@@ -42,15 +42,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 		}
 		// Check email and username
-		// db.AddUser(details)
+		db.CreateUser(&details)
 
-		_ = details
-		tmpl.Execute(w, struct{ Success bool }{true})
+		// tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}
-}
+} */
 
 // ReadUser gets User by id
 func ReadUser(w http.ResponseWriter, r *http.Request) {

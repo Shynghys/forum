@@ -20,6 +20,7 @@ func ReadComment(id2 uuid.UUID) vars.Comment {
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM comments")
 	CheckErr(err)
+	defer rows.Close()
 	for rows.Next() {
 		var tempComment vars.Comment
 		err =
