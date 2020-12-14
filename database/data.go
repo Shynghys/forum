@@ -90,9 +90,8 @@ func CreateSessions(db *sql.DB) {
 	statementForPosts, err := db.Prepare(` 
 	
 	CREATE TABLE IF NOT EXISTS "session" ( 
-		"id" UID NOT NULL PRIMARY KEY, 
-		"userID" UID,
-		"cookieID" UID
+		"sessionID" UID NOT NULL PRIMARY KEY, 
+		"userID" UID
 		);
 		
 	`)
