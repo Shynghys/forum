@@ -63,7 +63,8 @@ func ReadPost(title string) vars.Post {
 		err =
 			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
-		if tempPost.Title == title {
+		needID, _ := uuid.FromString(title)
+		if tempPost.ID == needID {
 			return tempPost
 		}
 	}

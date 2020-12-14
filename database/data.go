@@ -25,6 +25,8 @@ func CreateDatabase() *sql.DB {
 	CreatePosts(db)
 	CreateComments(db)
 	CreateSessions(db)
+	PostsLikeCheck(db)
+	CommentsLikeCheck(db)
 	fmt.Println("DATABASE CREATED")
 
 	return db
@@ -92,6 +94,32 @@ func CreateSessions(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS "session" ( 
 		"sessionID" UID NOT NULL PRIMARY KEY, 
 		"userID" UID
+		);
+		
+	`)
+	CheckErr(err)
+	statementForPosts.Exec()
+}
+func PostsLikeCheck(db *sql.DB) {
+
+	statementForPosts, err := db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "likeCheckPost" ( 
+		"likeID" UID NOT NULL PRIMARY KEY, 
+		"userLiked" TEXT
+		);
+		
+	`)
+	CheckErr(err)
+	statementForPosts.Exec()
+}
+func CommentsLikeCheck(db *sql.DB) {
+
+	statementForPosts, err := db.Prepare(` 
+	
+	CREATE TABLE IF NOT EXISTS "likeCheckComment" ( 
+		"likeID" UID NOT NULL PRIMARY KEY, 
+		"userLiked" TEXT
 		);
 		
 	`)
