@@ -3,87 +3,84 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
-	"os"
-
-	_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
+	"net/http"
+	"strings"
+	"text/template"
 )
 
+type student struct {
+	id       string
+	fullname string
+	code     string
+	program  program
+}
+
+type program struct {
+	bachelor string
+	master   string
+	phd      string
+}
+
 func main() {
-	os.Remove("sqlite-database.db") // I delete the file to avoid duplicated records.
-	// SQLite is a file based database.
-
-	log.Println("Creating sqlite-database.db...")
-	file, err := os.Create("sqlite-database.db") // Create SQLite file
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	file.Close()
-	log.Println("sqlite-database.db created")
-
 	sqliteDatabase, _ := sql.Open("sqlite3", "./sqlite-database.db") // Open the created SQLite File
 	defer sqliteDatabase.Close()                                     // Defer Closing the database
-	createTable(sqliteDatabase)                                      // Create Database Tables
 
-	// INSERT RECORDS
-	insertStudent(sqliteDatabase, "0001", "Liana Kim", "Bachelor")
-	insertStudent(sqliteDatabase, "0002", "Glen Rangel", "Bachelor")
-	insertStudent(sqliteDatabase, "0003", "Martin Martins", "Master")
-	insertStudent(sqliteDatabase, "0004", "Alayna Armitage", "PHD")
-	insertStudent(sqliteDatabase, "0005", "Marni Benson", "Bachelor")
-	insertStudent(sqliteDatabase, "0006", "Derrick Griffiths", "Master")
-	insertStudent(sqliteDatabase, "0007", "Leigh Daly", "Bachelor")
-	insertStudent(sqliteDatabase, "0008", "Marni Benson", "PHD")
-	insertStudent(sqliteDatabase, "0009", "Klay Correa", "Bachelor")
-
+	// freshman := student{fullname: "Tom Holland", code: "007", program: "PHD"}
+	// insertStudent(sqliteDatabase, freshman.code, freshman.fullname, freshman.program)
 	// DISPLAY INSERTED RECORDS
-	displayStudents(sqliteDatabase)
+	// displayStudents(sqliteDatabase)
+
+	http.HandleFunc("/", indexhandle)
+
+	// filesystem := http.FileServer(http.Dir("static"))
+	// http.Handle("/", filesystem)
+
+	http.ListenAndServe(":8080", nil)
+	str := " hello "
+	fmt.Println(len(strings.Split(str, " ")))
 }
 
-func createTable(db *sql.DB) {
-	createStudentTableSQL := `CREATE TABLE student (
-		"idStudent" integer NOT NULL PRIMARY KEY AUTOINCREMENT,		
-		"code" TEXT,
-		"name" TEXT,
-		"program" TEXT		
-	  );` // SQL Statement for Create Table
+//indexhandle is function to implement  a web server
+func indexhandle(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+	t, err := template.ParseFiles("index.html")
+	if err != nil {
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	var freshmeat student
+	switch r.Method {
+	case "GET": // no any client/server communication
+		t.ExecuteTemplate(w, "index.html", freshmeat)
+	case "POST": // send
+		//handle inputs
+		freshmeat.code = r.FormValue("code")
+		freshmeat.fullname = r.FormValue("fullName")
+		var a []string
 
-	log.Println("Create student table...")
-	statement, err := db.Prepare(createStudentTableSQL) // Prepare SQL Statement
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	statement.Exec() // Execute SQL Statements
-	log.Println("student table created")
-}
+		if r.FormValue("bachelor") != "" {
+			a = append(a, r.FormValue("bachelor"))
+		}
+		if r.FormValue("master") != "" {
+			a = append(a, r.FormValue("master"))
+		}
+		if r.FormValue("PHD") != "" {
+			a = append(a, r.FormValue("PHD"))
+		}
+		if a == nil {
+			fmt.Println("EPMTY")
+			break
+		}
+		shit := strings.Join(a, ",")
 
-// We are passing db reference connection from main to our method with other parameters
-func insertStudent(db *sql.DB, code string, name string, program string) {
-	log.Println("Inserting student record ...")
-	insertStudentSQL := `INSERT INTO student(code, name, program) VALUES (?, ?, ?)`
-	statement, err := db.Prepare(insertStudentSQL) // Prepare statement.
-	// This is good to avoid SQL injections
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	_, err = statement.Exec(code, name, program)
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-}
+		fmt.Println(shit)
 
-func displayStudents(db *sql.DB) {
-	name := "Liana Kim"
-	// name := "Alayna Armiage"
-	row, err := db.Query("SELECT program FROM student WHERE name LIKE ?", name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(row)
-	defer row.Close()
-	for row.Next() { // Iterate and fetch the records from result cursor
-		var program string
-		row.Scan(&program)
-		log.Println("Program is: ", program)
+		fmt.Println(len(strings.Split(shit, ",")))
+		t.Execute(w, freshmeat) // execute with data above
+	default:
+		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
 }

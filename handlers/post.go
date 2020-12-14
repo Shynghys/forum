@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strings"
 
 	db "../database/"
 	"../vars"
@@ -41,10 +42,22 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
+		var a []string
+
+		if r.FormValue("movies/serials") != "" {
+			a = append(a, r.FormValue("movies/serials"))
+		}
+		if r.FormValue("books") != "" {
+			a = append(a, r.FormValue("books"))
+		}
+		if r.FormValue("games") != "" {
+			a = append(a, r.FormValue("games"))
+		}
+		categories := strings.Join(a, ",")
 		details := vars.Post{
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
-			Category: r.FormValue("category"),
+			Category: categories,
 		}
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 		db.CreatePost(&details)
