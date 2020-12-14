@@ -57,7 +57,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 // ReadPost gets post by id
 func ReadPost(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Query().Get("title")
+	title := r.URL.Query().Get("id")
 	// if !(r.URL.Path == "/posts/{id}") {
 	// 	ErrorHandler(w, r, http.StatusNotFound)
 	// 	return
