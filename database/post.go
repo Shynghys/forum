@@ -16,6 +16,7 @@ func ReadAllPosts() []vars.Post {
 
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
+	defer rows.Close()
 
 	posts := []vars.Post{}
 
@@ -33,18 +34,18 @@ func CreatePost(post *vars.Post) {
 
 	db := DbConn()
 	defer db.Close()
-	tx, _ := db.Begin()
 
+	tx, _ := db.Begin()
 	id := CreatedUID()
 	post.Created = time.Now().Format(time.RFC1123)
 	result, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
-	fmt.Println(result)
 	if err != nil {
-		log.Println(err)
+		log.Fatalln(err)
 	}
+	fmt.Println(result)
 
 	// CheckErr(err)
 	fmt.Println("Post created!!!!1")
@@ -55,6 +56,8 @@ func ReadPost(title string) vars.Post {
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
+	defer rows.Close()
+
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
@@ -71,6 +74,8 @@ func UpdatePost(title string, toChange vars.Post) vars.Post {
 	defer db.Close()
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
+	defer rows.Close()
+
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
