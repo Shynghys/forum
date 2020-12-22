@@ -67,24 +67,24 @@ func checkErr(err error) error {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
-	var isUserin PageDetails
-	isUserin.UserIn = false
+	var IsUserin PageDetails
+	IsUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)
 	// if err != nil {
 	// 	panic(err)
 	// }
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if c != nil {
-		isUserin.UserIn = true
+		IsUserin.UserIn = true
 		needCookie, _ := uuid.FromString(GetUserByCookie(r))
 		findUser := db.ReadUser(needCookie)
-		isUserin.UserName = findUser.Username
+		IsUserin.UserName = findUser.Username
 
 	}
-	fmt.Println(isUserin)
-	isUserin.AllPosts = db.ReadAllPosts()
+	fmt.Println(IsUserin)
+	IsUserin.AllPosts = db.ReadAllPosts()
 
-	tmpl.Execute(w, isUserin)
+	tmpl.Execute(w, IsUserin)
 
 	// http.Redirect(w, r, "/", 200)
 }
