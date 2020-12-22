@@ -27,10 +27,10 @@ func PostsHandler(w http.ResponseWriter, r *http.Request) {
 // CreatePost gets post by id
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 
-	// if !(r.URL.Path == "/posts/create") {
-	// 	ErrorHandler(w, r, http.StatusNotFound)
-	// 	return
-	// }
+	if !(r.URL.Path == "/posts/create") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
