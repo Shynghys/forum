@@ -27,7 +27,7 @@
     </div>
     
     <ul id="menu">
-      <li><a class="active" href="">Home</a></li>
+      <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
       {{ if .UserIn}}
       <li id="user">Hi, {{ .UserName }}</li>
@@ -62,10 +62,11 @@
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>
-      <ul>
-        <a href="#">Movies </a>
-        <a href="#">Books </a>
-        <a href="#">Games </a>
+      <ul id="ul">
+        <p><a class="URL" href="#">Movies </a></p>
+        <p><a class="URL"href="#">Games </a></p>
+        <p><a class="URL"href="#">Books </a></p>
+        
       </ul>
   </div>
 
