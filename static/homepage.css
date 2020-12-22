@@ -25,16 +25,19 @@ nav{
   cursor: pointer;
 }
 
-.category:hover>ul{
+.category:hover>#ul{
   display: block;
   color: #111;
 }
-.category ul{
+.URL {
+  text-decoration: none;
+  color: #111;
+}
+.category #ul{
   display: none;
   text-decoration: none;
-  list-style: none;
   font-size: 30px;
-  color: black;
+  
 }
 .category :hover {
   opacity: .80;
@@ -193,12 +196,9 @@ input{
   font-size: 25px;
   color: #fff;
 }
-<<<<<<< HEAD
 .ask{
   right: 100px;
 }
-=======
->>>>>>> 0bf8653d3c723ae76848146dab338426dd1aa56d
 
 
   a.button:hover {
@@ -250,30 +250,6 @@ a.button {
   opacity: 0.6;
 
 }
-<<<<<<< HEAD
-.counts a {
-  font-size: 15px;
-  
-}
-.counts {
- float: left;
-  display: inline-block;
-  /* padding-left: 500px; */
-  margin-left: 500px;
-}
-/* .content h3 h5 a{
-  position: absolute;
-  display: inline-block;
-  text-decoration: none;
-  color: black;
-  padding-left: 50px;
-  line-height: 0.9em;
-} */
-.content h3 i:hover{
-  color: #111;
-  background: #fff;
-  opacity: 0.6;
-=======
 
 .content h3 a{
   position: relative;
@@ -291,7 +267,6 @@ a.button {
   font-size: 12px;
   float: center;
   
->>>>>>> 0bf8653d3c723ae76848146dab338426dd1aa56d
 }
 .content h3 a:hover{
   color: #111;
@@ -316,6 +291,6 @@ a.button {
   opacity: 0.6;
 }
 
-.menu #user {
+ #user {
   color: #fff;
 }
