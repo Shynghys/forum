@@ -16,9 +16,6 @@ var utilPattern string
 // Temps is for handling error tempaltes
 var Temps *template.Template
 
-// Error is for tempaltes
-var Error vars.ErrorStruct
-
 type PageDetails struct {
 	UserIn   bool
 	UserName string
@@ -67,6 +64,10 @@ func checkErr(err error) error {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 	var isUserin PageDetails
 	isUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)
@@ -79,7 +80,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		needCookie, _ := uuid.FromString(GetUserByCookie(r))
 		findUser := db.ReadUser(needCookie)
 		isUserin.UserName = findUser.Username
-
 	}
 	fmt.Println(isUserin)
 	isUserin.AllPosts = db.ReadAllPosts()
@@ -91,22 +91,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 //ErrorHandler handles error
 func ErrorHandler(w http.ResponseWriter, r *http.Request, status int) {
-	w.WriteHeader(status)
-	Temps := template.Must(template.ParseGlob("templates/error.html"))
 
 	if status == 404 {
-		Error.Status = 404
-		Error.StatusDefinition = "Not found"
-
+		tmpl := template.Must(template.ParseFiles("templates/404.html"))
+		tmpl.Execute(w, nil)
 	} else if status == 500 {
-		Error.Status = 500
-		Error.StatusDefinition = "Internal server problem"
+		tmpl := template.Must(template.ParseFiles("templates/500.html"))
+		tmpl.Execute(w, nil)
 	} else if status == 400 {
-		Error.Status = 400
-		Error.StatusDefinition = "Bad request"
+		tmpl := template.Must(template.ParseFiles("templates/400.html"))
+		tmpl.Execute(w, nil)
 	}
-
-	Temps.ExecuteTemplate(w, "error.html", Error)
 }
 
 // LoadTemplates func
