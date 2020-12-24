@@ -34,7 +34,7 @@ func LikeBtn(object, user uuid.UUID, count int) int {
 		count++
 	}
 	likeUserSli = append(likeUserSli, user.String())
-	likeUserStr := strings.Join(likeUserSli, ", ")
+	likeUserStr := strings.Join(likeUserSli, ",")
 	updateLike(object.String(), likeUserStr)
 
 	return count + 1
@@ -61,13 +61,13 @@ func DislikeBtn(object, user uuid.UUID, count int) int {
 
 		likeUserStr := strings.Join(newLikeUserSli, ",")
 		updateLike(object.String(), likeUserStr)
-		count++
+		count--
 	}
 	disUserSli = append(disUserSli, user.String())
-	dislikeUserStr := strings.Join(disUserSli, ", ")
+	dislikeUserStr := strings.Join(disUserSli, ",")
 	updateDislike(object.String(), dislikeUserStr)
 
-	return count + 1
+	return count - 1
 }
 
 func isIn(str string, sli []string) bool {
