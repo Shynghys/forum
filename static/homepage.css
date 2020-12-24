@@ -196,9 +196,6 @@ input{
   font-size: 25px;
   color: #fff;
 }
-.ask{
-  right: 100px;
-}
 
 
   a.button:hover {
@@ -209,6 +206,7 @@ input{
 }
 
 a.button {
+  top: -50px;
   position: absolute;
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -216,10 +214,10 @@ a.button {
   text-decoration: none;
   color: initial;
   cursor : pointer;
-  padding: 10px 30px;
+  padding: 5px 20px;
   height: 30 px;
   font-family: 'Poppins', sans-serif;
-  top: -20%;
+  
 }
 .ask button:hover {
   opacity: .80;

@@ -40,10 +40,11 @@
     </div>
   </nav>
   <div class="content">
-    <table>
+   
       {{ range .AllPosts }}
       <div class="counts">
-        <a><i class="fas fa-heart"></i></a>
+        <a><i class="far fa-thumbs-up"></i></a>
+        <a><i class="far fa-thumbs-down"></i></a>
         <a>{{.Likes}}</a>
       </div>
           <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
@@ -51,9 +52,7 @@
           <h5><a >{{.Category}}</a></h5>
           
       {{ end }}
-
-    </table>  
-  
+ 
   </div>
   <div class="content">
     {{if .UserIn}}
@@ -69,6 +68,7 @@
         
       </ul>
   </div>
+  
 
     </table>
 
