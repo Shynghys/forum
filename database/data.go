@@ -25,8 +25,8 @@ func CreateDatabase() *sql.DB {
 	CreatePosts(db)
 	CreateComments(db)
 	CreateSessions(db)
-	PostsLikeCheck(db)
-	CommentsLikeCheck(db)
+	CreateLikes(db)
+	CreateDislikes(db)
 	fmt.Println("DATABASE CREATED")
 
 	return db
@@ -50,6 +50,7 @@ func CreateUsers(db *sql.DB) {
 	statementForUsers.Exec()
 
 }
+
 func CreatePosts(db *sql.DB) {
 
 	statementForPosts, err := db.Prepare(` 
@@ -69,6 +70,7 @@ func CreatePosts(db *sql.DB) {
 	CheckErr(err)
 	statementForPosts.Exec()
 }
+
 func CreateComments(db *sql.DB) {
 	statementForComments, err := db.Prepare(` 
 	
@@ -87,6 +89,29 @@ func CreateComments(db *sql.DB) {
 	CheckErr(err)
 	statementForComments.Exec()
 }
+
+func CreateLikes(db *sql.DB) {
+	statementForLikes, err := db.Prepare(`
+	CREATE TABLE IF NOT EXISTS "likes" (
+		"id" UID,
+		"authorsID" TEXT
+		);
+	`)
+	CheckErr(err)
+	statementForLikes.Exec()
+}
+
+func CreateDislikes(db *sql.DB) {
+	statementForDislikes, err := db.Prepare(`
+	CREATE TABLE IF NOT EXISTS "dislikes" (
+		"id" UID,
+		"authorsID" TEXT
+		);
+	`)
+	CheckErr(err)
+	statementForDislikes.Exec()
+}
+
 func CreateSessions(db *sql.DB) {
 
 	statementForPosts, err := db.Prepare(` 
@@ -100,44 +125,22 @@ func CreateSessions(db *sql.DB) {
 	CheckErr(err)
 	statementForPosts.Exec()
 }
-func PostsLikeCheck(db *sql.DB) {
 
-	statementForPosts, err := db.Prepare(` 
-	
-	CREATE TABLE IF NOT EXISTS "likeCheckPost" ( 
-		"likeID" UID NOT NULL PRIMARY KEY, 
-		"userLiked" TEXT
-		);
-		
-	`)
-	CheckErr(err)
-	statementForPosts.Exec()
-}
-func CommentsLikeCheck(db *sql.DB) {
-
-	statementForPosts, err := db.Prepare(` 
-	
-	CREATE TABLE IF NOT EXISTS "likeCheckComment" ( 
-		"likeID" UID NOT NULL PRIMARY KEY, 
-		"userLiked" TEXT
-		);
-		
-	`)
-	CheckErr(err)
-	statementForPosts.Exec()
-}
 func CheckErr(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
+
 func CreatedUID() uuid.UUID {
 	u1 := uuid.Must(uuid.NewV4())
 	return u1
 }
+
 func CheckPassword(enc []byte, pas string) bool {
 	return bcrypt.CompareHashAndPassword(enc, []byte(pas)) == nil
 }
+
 func DbConn() (db *sql.DB) {
 
 	db, err := sql.Open("sqlite3", "./mainDB.db")
