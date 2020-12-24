@@ -32,11 +32,11 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/logout", LogoutHandler)
 	// r.HandleFunc("/user/{id}", UserHandler)
 
-	r.HandleFunc("/users", UsersHandler)
+	// r.HandleFunc("/users", UsersHandler)
 	// r.HandleFunc("/users/create", CreateUser)
-	r.HandleFunc("/users/{id}", ReadUser)
-	r.HandleFunc("/users/{id}/update", UpdateUser)
-	r.HandleFunc("/users/{id}/delete", DeleteUser)
+	// r.HandleFunc("/users/{id}", ReadUser)
+	// r.HandleFunc("/users/{id}/update", UpdateUser)
+	// r.HandleFunc("/users/{id}/delete", DeleteUser)
 
 	// r.HandleFunc("/posts", PostsHandler)
 	r.HandleFunc("/posts/create", CreatePost)
@@ -53,13 +53,6 @@ func NewRouter() *http.ServeMux {
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))
 	return r
-}
-
-func checkErr(err error) error {
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 // Handler does smth

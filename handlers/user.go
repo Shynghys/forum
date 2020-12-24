@@ -1,5 +1,6 @@
 package handlers
 
+/*
 import (
 	"html/template"
 	"net/http"
@@ -22,7 +23,6 @@ func UsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // CreateUser gets User by id
-/*
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
@@ -49,7 +49,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}
-} */
+}
 
 // ReadUser gets User by id
 func ReadUser(w http.ResponseWriter, r *http.Request) {
@@ -165,3 +165,4 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // 	sendJSONResponse(w, userDocument{UserID: userID, Name: name, Credit: credit})
 // }
+*/
