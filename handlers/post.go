@@ -54,11 +54,13 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			a = append(a, r.FormValue("games"))
 		}
 		categories := strings.Join(a, ",")
+
 		details := vars.Post{
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
 			Category: categories,
 		}
+		fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 		db.CreatePost(&details)
 
@@ -70,16 +72,39 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 // ReadPost gets post by id
 func ReadPost(w http.ResponseWriter, r *http.Request) {
+	type page struct {
+		UserDetails PageDetails
+		Posts       vars.Post
+	}
+	var b page
+	var IsUserin PageDetails
+	IsUserin.UserIn = false
+	c, _ := r.Cookie(COOKIE_NAME)
+	if c != nil {
+		IsUserin.UserIn = true
+		needCookie, _ := uuid.FromString(GetUserByCookie(r))
+		findUser := db.ReadUser(needCookie)
+		IsUserin.UserName = findUser.Username
+
+	}
+	b.UserDetails = IsUserin
+
 	title := r.URL.Query().Get("id")
-	// if !(r.URL.Path == "/posts/{id}") {
-	// 	ErrorHandler(w, r, http.StatusNotFound)
-	// 	return
-	// }
+	fmt.Println("===================")
 	if r.Method == "GET" {
+		fmt.Println("dasdad")
+		// if !(r.URL.Path == "/posts/{id}") {
+		// 	ErrorHandler(w, r, http.StatusNotFound)
+		// 	return
+		// }
+
+		fmt.Println(title)
 		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
 		Post := db.ReadPost(title)
+		b.Posts = Post
+		fmt.Println(b)
 		fmt.Println("readpost done")
-		tmpl.Execute(w, Post)
+		tmpl.Execute(w, b)
 
 	}
 
