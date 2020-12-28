@@ -39,18 +39,25 @@
     </ul>
     </div>
   </nav>
-  <div class="content">
-    
-    <div>Title:</div>
-    <div>{{ .Posts.Title}}</div>
-    <div>{{ .Posts.Text}}</div>
+  <div class="title">
+    <a>{{ .Posts.Title}}</a>
+    <!-- <div>{{ .Posts.Title}}</div> -->
+    <p>{{ .Posts.Text}}</p><br>
+  </div>
+  <div class= "comment">
+    <p>Your answer</p>
+    <form action="#" method="POST">
+      <p><textarea rows="10" cols="45" name="text"></textarea></p>
+      <p><input type="submit" value="Send"></p>
+    </form>
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>
-      <ul>
-        <a href="#">Movies </a>
-        <a href="#">Books </a>
-        <a href="#">Games </a>
+      <ul id="ul">
+        <p><a class="URL" href="#">Movies </a></p>
+        <p><a class="URL"href="#">Games </a></p>
+        <p><a class="URL"href="#">Books </a></p>
+        
       </ul>
   </div>
 
