@@ -60,7 +60,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			Text:     r.FormValue("text"),
 			Category: categories,
 		}
-		fmt.Println(details)
+		// fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 		db.CreatePost(&details)
 
@@ -107,7 +107,30 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, b)
 
 	}
+	if r.Method == "POST" {
+		fmt.Println("CREATING COMMENT")
+		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
+		if r.Method != http.MethodPost {
+			tmpl.Execute(w, nil)
+			return
+		}
+		postID, _ := uuid.FromString(r.URL.Query().Get("id"))
+		details := vars.Comment{
+			PostID: postID,
+			Text:   r.FormValue("text"),
+		}
+		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
+		fmt.Println(details)
+		db.CreateComment(details)
 
+		// do something with details
+		_ = details
+
+		tmpl.Execute(w, struct{ Success bool }{true})
+		// tmpl.Execute(w, struct{ Success bool }{true})
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+	}
 }
 
 // UpdatePost gets post by id

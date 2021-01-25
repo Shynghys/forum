@@ -1,6 +1,8 @@
 package data
 
 import (
+	"fmt"
+
 	"../vars"
 	uuid "github.com/satori/go.uuid"
 )
@@ -10,6 +12,7 @@ func CreateComment(comment vars.Comment) {
 	defer db.Close()
 	tx, _ := db.Begin()
 	id := CreatedUID()
+	fmt.Println("comment creating")
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?,?)")
 	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Text, comment.Created, comment.Likes)
 	CheckErr(err)

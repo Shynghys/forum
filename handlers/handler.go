@@ -45,7 +45,7 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/posts/delete", DeletePost)
 
 	r.HandleFunc("/comments", CommentsHandler)
-	r.HandleFunc("/comments/{id}/create", CreateComment)
+	r.HandleFunc("/comments/create/", CreateComment)
 	r.HandleFunc("/comments/{id}", ReadComment)
 	r.HandleFunc("/comments/{id}/update", UpdateComment)
 	r.HandleFunc("/comments/{id}/delete", DeleteComment)

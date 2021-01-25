@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="utf-8" />
   <title>Forum page</title>
@@ -11,7 +12,7 @@
 
 <body>
   <nav>
-  
+
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
     <label for="click" class="menu-btn">
@@ -20,12 +21,12 @@
     <div class="box">
       <form>
         <input class="search-txt" type="text" name="" placeholder="Search">
-        <a class ="search-btn" href="#">
+        <a class="search-btn" href="#">
           <i class="fas fa-search"></i>
         </a>
       </form>
     </div>
-    
+
     <ul id="menu">
       <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
@@ -44,25 +45,26 @@
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
   </div>
-  <div class= "comment">
+  <div class="comment">
     <p>Your answer</p>
-    <form action="#" method="POST">
+    <!-- <p><input value="id"> {{.Posts.ID}}</p> -->
+    <form action="/posts?id={{ .Posts.ID}}" method="POST">
       <p><textarea rows="10" cols="45" name="text"></textarea></p>
       <p><input type="submit" value="Send"></p>
     </form>
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>
-      <ul id="ul">
-        <p><a class="URL" href="#">Movies </a></p>
-        <p><a class="URL"href="#">Games </a></p>
-        <p><a class="URL"href="#">Books </a></p>
-        
-      </ul>
+    <ul id="ul">
+      <p><a class="URL" href="#">Movies </a></p>
+      <p><a class="URL" href="#">Games </a></p>
+      <p><a class="URL" href="#">Books </a></p>
+
+    </ul>
   </div>
 
-    </table>
+  </table>
 
 
-  
+
 </html>

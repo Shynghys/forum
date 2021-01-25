@@ -38,14 +38,14 @@ func CreatePost(post *vars.Post) {
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	post.Created = time.Now().Format(time.RFC1123)
-	result, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
+	_, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(result)
+	// fmt.Println(result)
 
 	// CheckErr(err)
 	fmt.Println("Post created!!!!1")

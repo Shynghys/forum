@@ -27,6 +27,8 @@ type Post struct {
 	Likes    int
 	comments []Comment
 }
+type Like struct {
+}
 
 // Comment ss
 type Comment struct {
@@ -35,6 +37,7 @@ type Comment struct {
 	AuthorID uuid.UUID
 	Text     string
 	Created  string
+	Like     []Like
 	Likes    int
 }
 
