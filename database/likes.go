@@ -11,63 +11,58 @@ type Data struct {
 	user   uuid.UUID
 }
 
-func LikeBtn(object, user uuid.UUID, count int) int {
+func LikeBtn(object, user uuid.UUID) int {
 
 	// object is either a post or a comment
 	data := Data{object: object, user: user}
 	likeUserSli, ok := data.checkLike()
 	if ok {
-		return count
+		return len(likeUserSli)
 	}
 
-	disUserSli, ok := data.checkDislike()
-	if ok {
-		var newDisUserSli []string
-		for _, val := range disUserSli {
-			if val != user.String() {
-				newDisUserSli = append(newDisUserSli, val)
-			}
-		}
+	// disUserSli, ok := data.checkDislike()
+	// if ok {
+	// 	var newDisUserSli []string
+	// 	for _, val := range disUserSli {
+	// 		if val != user.String() {
+	// 			newDisUserSli = append(newDisUserSli, val)
+	// 		}
+	// 	}
 
-		dislikeUserStr := strings.Join(newDisUserSli, ",")
-		updateDislike(object.String(), dislikeUserStr)
-		count++
+	// 	dislikeUserStr := strings.Join(newDisUserSli, ",")
+	// 	updateDislike(object.String(), dislikeUserStr)
+	// }
+
+	if _, ok = data.checkDislike(); ok {
+		return len(likeUserSli)
 	}
+
 	likeUserSli = append(likeUserSli, user.String())
 	likeUserStr := strings.Join(likeUserSli, ",")
 	updateLike(object.String(), likeUserStr)
 
-	return count + 1
+	return len(likeUserSli)
 }
 
-func DislikeBtn(object, user uuid.UUID, count int) int {
+func DislikeBtn(object, user uuid.UUID) int {
 
 	// object is either a post or a comment
 	data := Data{object: object, user: user}
 
 	disUserSli, ok := data.checkDislike()
 	if ok {
-		return count
+		return len(disUserSli)
 	}
 
-	likeUserSli, ok := data.checkLike()
-	if ok {
-		var newLikeUserSli []string
-		for _, val := range likeUserSli {
-			if val != user.String() {
-				newLikeUserSli = append(newLikeUserSli, val)
-			}
-		}
-
-		likeUserStr := strings.Join(newLikeUserSli, ",")
-		updateLike(object.String(), likeUserStr)
-		count--
+	if _, ok = data.checkLike(); ok {
+		return len(disUserSli)
 	}
+
 	disUserSli = append(disUserSli, user.String())
 	dislikeUserStr := strings.Join(disUserSli, ",")
 	updateDislike(object.String(), dislikeUserStr)
 
-	return count - 1
+	return len(disUserSli)
 }
 
 func isIn(str string, sli []string) bool {
