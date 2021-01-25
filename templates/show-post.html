@@ -52,6 +52,17 @@
       <p><textarea rows="10" cols="45" name="text"></textarea></p>
       <p><input type="submit" value="Send"></p>
     </form>
+    <div class="content">
+      {{ range .Posts.Comments }}
+      <div class="counts">
+        <a><i class="far fa-thumbs-up"></i></a>
+        <a><i class="far fa-thumbs-down"></i></a>
+        <a>{{.Text}}</a>
+      </div>
+
+      {{end}}
+    </div>
+
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>

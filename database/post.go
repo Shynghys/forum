@@ -54,6 +54,24 @@ func CreatePost(post *vars.Post) {
 func ReadPost(title string) vars.Post {
 	db := DbConn()
 	defer db.Close()
+
+	rows1, err := db.Query("SELECT * FROM comments")
+	CheckErr(err)
+	var Comms []vars.Comment
+	for rows1.Next() {
+		var Comm vars.Comment
+		// var Created sql.NullInt64
+
+		err =
+			rows1.Scan(&Comm.ID, &Comm.PostID, &Comm.AuthorID, &Comm.Text, &Comm.Created, &Comm.Likes /*, &Comm.Like , &tempPost.posts, &tempPost.comments*/)
+		CheckErr(err)
+		needID, _ := uuid.FromString(title)
+		if Comm.PostID == needID {
+			// &tempPost.Comments = comments
+			Comms = append(Comms, Comm)
+
+		}
+	}
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
 	defer rows.Close()
@@ -65,6 +83,7 @@ func ReadPost(title string) vars.Post {
 		CheckErr(err)
 		needID, _ := uuid.FromString(title)
 		if tempPost.ID == needID {
+			tempPost.Comments = Comms
 			return tempPost
 		}
 	}

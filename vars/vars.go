@@ -25,7 +25,7 @@ type Post struct {
 	Text     string
 	Created  string
 	Likes    int
-	comments []Comment
+	Comments []Comment
 }
 type Like struct {
 }
