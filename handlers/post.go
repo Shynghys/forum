@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"strings"
 
 	db "../database/"
 	"../vars"
@@ -42,19 +41,40 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		var a []string
+		// var a []string
 
-		if r.FormValue("movies/serials") != "" {
-			a = append(a, r.FormValue("movies/serials"))
-		}
-		if r.FormValue("books") != "" {
-			a = append(a, r.FormValue("books"))
-		}
-		if r.FormValue("games") != "" {
-			a = append(a, r.FormValue("games"))
-		}
-		categories := strings.Join(a, ",")
+		// if r.FormValue("movies/serials") != "" {
+		// 	a = append(a, r.FormValue("movies/serials"))
+		// }
+		// if r.FormValue("books") != "" {
+		// 	a = append(a, r.FormValue("books"))
+		// }
+		// if r.FormValue("games") != "" {
+		// 	a = append(a, r.FormValue("games"))
+		// }
 
+		// a = append(a, r.FormValue("select"))
+		// fmt.Println(len(a))
+		// fmt.Println(r.FormValue("select"))
+		// categories := r.Form["select"][0]
+
+		// if r.Form["select"][0] != "" {
+		// 	a = append(a, "Movies")
+		// }
+		// if r.Form["select"][1] != "" {
+		// 	a = append(a, "Games")
+		// }
+		// if r.Form["select"][2] != "" {
+		// 	a = append(a, "Books")
+		// }
+		// if r.Form["movies"] != nil {
+		// 	fmt.Println("fgfgfgfgfg")
+		// }
+		// fmt.Println(a)
+		// categories := strings.Join(a, ",")
+		categories := r.FormValue("select")
+		fmt.Println("---------------Category---------------")
+		fmt.Println(categories)
 		details := vars.Post{
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
@@ -68,6 +88,14 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+}
+func contains(slice []string, item string) bool {
+	set := make(map[string]struct{}, len(slice))
+	for _, s := range slice {
+		set[s] = struct{}{}
+	}
+	_, ok := set[item]
+	return ok
 }
 
 // ReadPost gets post by id
