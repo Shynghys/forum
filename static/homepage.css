@@ -233,7 +233,9 @@ input{
 }
 
 a.button {
-  top: -50px;
+  
+  top: -75px;
+  left: 50%;
   position: absolute;
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -251,6 +253,13 @@ a.button {
   font-weight: bold;
   transform: scale(1);
   color: #111;
+}
+
+.filterbtn input{
+  position: relative;
+right: 400px;
+bottom: 70px;
+ 
 }
 .content h3 {
   position: relative;
