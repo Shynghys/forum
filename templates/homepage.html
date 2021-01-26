@@ -36,13 +36,14 @@
   <div class="content">
       {{ range .AllPosts }}
       <div class="counts">
+        <a> {{.Likes}}</a>
         <a><i class="far fa-thumbs-up"></i></a>
         <a><i class="far fa-thumbs-down"></i></a>
-        <a>{{.Likes}}</a>
+        <a>{{.Dislikes}}</a>
       </div>
           <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
-          <h5><a >{{.Category}}</a></h5>
+          <h5><a >{{.Category}} {{.Created}} </a></h5>
           
       {{ end }}
  
