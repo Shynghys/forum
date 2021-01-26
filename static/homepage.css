@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-} 
+}
 
-nav{
+nav {
   display: flex;
   height: 80px;
   width: 100%;
@@ -16,8 +17,11 @@ nav{
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
 }
-.category{
-  color:black;
+
+
+.category {
+  position: absolute;
+  color: black;
   font-size: 45px;
   line-height: 80px;
   float: left;
@@ -25,27 +29,31 @@ nav{
   cursor: pointer;
 }
 
-.category:hover>#ul{
+.category:hover>#ul {
   display: block;
   color: #111;
 }
+
 .URL {
   text-decoration: none;
   color: #111;
 }
-.category #ul{
+
+.category #ul {
   display: none;
   text-decoration: none;
   font-size: 30px;
-  
+
 }
+
 .category :hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
+
 nav #icon {
-  color:white;
+  color: white;
   font-size: 30px;
   line-height: 80px;
   float: right;
@@ -53,37 +61,43 @@ nav #icon {
   display: none;
   width: 20vw;
 }
-@media(max-width:1048px){
-  label.logo{
+
+@media(max-width:1048px) {
+  label.logo {
     font-size: 32px;
     padding-left: 60px;
   }
-  nav #menu{
+
+  nav #menu {
     margin-right: 20px;
   }
+
   nav a {
     font-size: 17px;
   }
 }
-.logo{
+
+.logo {
   position: absolute;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  left:  50px;
+  left: 50px;
   width: 20vw;
 }
-nav #menu{
+
+nav #menu {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
 }
-nav #menu li{
+
+nav #menu li {
   margin: 0 5px;
 }
 
 
-nav #menu li a{
+nav #menu li a {
   color: #f2f2f2;
   text-decoration: none;
   font-size: 18px;
@@ -93,33 +107,38 @@ nav #menu li a{
   letter-spacing: 1px;
   transition: all 0.3s ease;
 }
+
 nav #menu li a.active,
-nav #menu li a:hover{
+nav #menu li a:hover {
   color: #111;
   background: #fff;
 }
-nav .menu-btn i{
+
+nav .menu-btn i {
   color: #fff;
   font-size: 22px;
   cursor: pointer;
   display: none;
 }
-input[type="checkbox"]{
+
+input[type="checkbox"] {
   display: none;
 }
-@media (max-width: 1000px){
-  nav{
+
+@media (max-width: 1000px) {
+  nav {
     padding: 0 40px 0 50px;
   }
 }
+
 @media (max-width: 920px) {
-  nav .menu-btn i{
-  
-  }
-  #click:checked ~ .menu-btn i:before{
+  nav .menu-btn i {}
+
+  #click:checked~.menu-btn i:before {
     content: "\f00d";
   }
-  nav #menu{
+
+  nav #menu {
     position: fixed;
     top: 80px;
     left: -100%;
@@ -127,42 +146,60 @@ input[type="checkbox"]{
     height: 100vh;
     width: 100%;
     text-align: center;
-    
+
     transition: all 0.3s ease;
   }
-  #click:checked ~ #menu{
+
+  #click:checked~#menu {
     left: 0;
   }
-  nav #menu li{
+
+  nav #menu li {
     width: 100%;
     margin: 40px 0;
   }
-  nav #menu li a{
+
+  nav #menu li a {
     width: 100%;
     margin-left: -100%;
-   
+
     font-size: 20px;
     transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
-  #click:checked ~ #menu li a{
+
+  #click:checked~#menu li a {
     margin-left: 0px;
   }
+
   nav #menu li a.active,
-  nav #menu li a:hover{
+  nav #menu li a:hover {
     background: none;
     color: cyan;
   }
 }
-.content{
+
+.main {
+  display: flex;
+  /* width: 40%; */
+  justify-content: center;
+}
+
+.contents {
   position: absolute;
   top: 15%;
   text-align: center;
   z-index: -1;
-  width: 100%;
+  width: 50%;
   padding: 0 30px;
   color: #1b1b1b;
 }
-.content div{
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content div {
   display: inline-block;
   flex-wrap: wrap;
   list-style: none;
@@ -170,11 +207,13 @@ input[type="checkbox"]{
   font-weight: 500;
 
 }
+
 .title a {
   font-size: 35px;
 }
+
 .title {
-  
+
   display: inline-block;
   position: absolute;
   left: 30%;
@@ -182,16 +221,19 @@ input[type="checkbox"]{
   font-size: 25px;
   line-height: 100px;
 }
-.title li{
 
- white-space: normal;
+.title li {
+
+  white-space: normal;
 }
-.title textarea{
+
+.title textarea {
   border: none;
   background-color: transparent;
   resize: none;
   outline: none;
 }
+
 .comment {
   position: absolute;
   padding-top: 500px;
@@ -199,23 +241,27 @@ input[type="checkbox"]{
   left: 30%;
 }
 
-.box{
-  position:absolute;
-  right:50%;
-  transform:translate(-50%);
+.box {
+  position: absolute;
+  right: 50%;
+  transform: translate(-50%);
   text-align: left;
   width: 20vw;
-  top:25px;
+  top: 25px;
 }
-.box input{
+
+.box input {
   height: 30px;
   width: 200%;
 }
-input{
-  float: left;
+
+input {
+
   display: inline-block;
+  /* float: left; */
 }
-.search-btn{
+
+.search-btn {
   position: relative;
   float: right;
   left: 110%;
@@ -225,7 +271,7 @@ input{
 }
 
 
-  a.button:hover {
+a.button:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
@@ -233,7 +279,7 @@ input{
 }
 
 a.button {
-  
+
   top: -75px;
   left: 50%;
   position: absolute;
@@ -242,12 +288,13 @@ a.button {
   appearance: button;
   text-decoration: none;
   color: initial;
-  cursor : pointer;
+  cursor: pointer;
   padding: 5px 20px;
-  height: 30 px;
+  /* height: 30 px; */
   font-family: 'Poppins', sans-serif;
-  
+
 }
+
 .ask button:hover {
   opacity: .80;
   font-weight: bold;
@@ -255,77 +302,84 @@ a.button {
   color: #111;
 }
 
-.filterbtn input{
+.filterbtn input {
   position: relative;
-right: 400px;
-bottom: 70px;
- 
+  /* right: 400px;
+  bottom: 70px; */
+
 }
+
 .content h3 {
   position: relative;
   text-decoration: none;
-  text-align: left;
+  /* text-align: left; */
   line-height: 75px;
   color: black;
-  left: 100px;
+  /* left: 100px; */
 
 }
-.content h5{
+
+.content h5 {
   position: relative;
   text-decoration: none;
-  color:#696969;
+  color: #696969;
   font-size: 12px;
-  right:100px;
-  bottom: 40px;
-  
+  /* right: 100px;
+  bottom: 40px; */
+
 }
-.content h3 a:hover{
+
+.content h3 a:hover {
   color: #111;
   background: #fff;
   opacity: 0.6;
 
 }
 
-.content h3 a{
+.content h3 a {
   position: relative;
   text-decoration: none;
   text-align: center;
   line-height: 75px;
   color: black;
-  margin-right: 1000px;
+  /* margin-right: 1000px; */
 }
-.content h5{
+
+.content h5 {
   position: relative;
   text-decoration: none;
-  text-align: center;
-  color:#696969;
+  /* text-align: center; */
+  color: #696969;
   font-size: 12px;
-  float: center;
-  
+  /* float: center; */
+
 }
-.content h3 a:hover{
+
+.content h3 a:hover {
   color: #111;
   background: #fff;
   opacity: 0.6;
 
 }
+
 .counts a {
   font-size: 15px;
-  
-}
-.counts {
- float: left;
-  display: inline-block;
-  /* padding-left: 500px; */
-  margin-left: 700px;
+
 }
 
-.content h3 i:hover{
+.counts {
+  /* float: left; */
+  display: inline-block;
+  /* padding-left: 500px; */
+  /* margin-left: 700px; */
+}
+
+.content h3 i:hover {
   color: #111;
   background: #fff;
   opacity: 0.6;
 }
 
- #user {
+#user {
   color: #fff;
 }

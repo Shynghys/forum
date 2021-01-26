@@ -153,10 +153,10 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 		// do something with details
 		_ = details
+		path := r.URL.Path + "?id=" + title
 
-		tmpl.Execute(w, struct{ Success bool }{true})
 		// tmpl.Execute(w, struct{ Success bool }{true})
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, path, http.StatusSeeOther)
 
 	}
 }

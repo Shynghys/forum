@@ -105,11 +105,8 @@ func (val *Data) checkLike() ([]string, bool) {
 	}
 
 	sli := strings.Split(authors, ",")
-
 	userStr := val.user.String()
-
 	return sli, isIn(userStr, sli)
-
 }
 
 func (val *Data) checkDislike() ([]string, bool) {

@@ -18,8 +18,8 @@
     <label for="click" class="menu-btn">
       <i class="fa fa-bars"></i>
     </label>
-   
-    
+
+
     <ul id="menu">
       <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
@@ -49,8 +49,10 @@
     <div>
       {{ range .Posts.Comments }}
       <div>
+        <a>{{.Likes}}</a>
         <a><i class="far fa-thumbs-up"></i></a>
         <a><i class="far fa-thumbs-down"></i></a>
+        <a>{{.Dislikes}}</a>
         <a>{{.Text}}</a>
       </div>
 

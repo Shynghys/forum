@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="utf-8" />
   <title>Forum page</title>
@@ -11,13 +12,13 @@
 
 <body>
   <nav>
-  
+
     <div class="logo">Forum</div>
     <input type="checkbox" id="click" />
     <label for="click" class="menu-btn">
       <i class="fa fa-bars"></i>
     </label>
-  
+
     <ul id="menu">
       <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
@@ -31,49 +32,59 @@
     </ul>
     </div>
   </nav>
-
-  <div class="content">
+  <div class="main">
+    <div class="contents">
       {{ range .AllPosts }}
-      <div class="counts">
-        <a> {{.Likes}}</a>
-        <a><i class="far fa-thumbs-up"></i></a>
-        <a><i class="far fa-thumbs-down"></i></a>
-        <a>{{.Dislikes}}</a>
-      </div>
-          <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
+      <div class="content">
+        <div class="counts">
+          <a> {{.Likes}}</a>
+          <a><i class="far fa-thumbs-up"></i></a>
+          <a><i class="far fa-thumbs-down"></i></a>
+          <a>{{.Dislikes}}</a>
+        </div>
+        <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
+        <div>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
-          <h5><a >{{.Category}} {{.Created}} </a></h5>
-          
+        </div>
+        <div>
+          <h5><a>{{.Category}} {{.Created}} </a></h5>
+        </div>
+
+
+      </div>
+
       {{ end }}
- 
+
+    </div>
+
   </div>
 
-  <div class="content">
+  <div class="">
     <div class="filterbtn">
-      <input type ="button" value="Newest to oldest">
-      <input type ="button" value="Oldest to newest">
-      <input type ="button" value="Most popular">
-      <input type ="button" value="Most commented">
-  </div> 
+      <input type="button" value="Newest to oldest">
+      <input type="button" value="Oldest to newest">
+      <input type="button" value="Most popular">
+      <input type="button" value="Most commented">
+    </div>
     {{if .UserIn}}
     <a href="posts/create" class="button">Create post</a>
     {{end}}
   </div>
   <div class="category">
     <i class="fas fa-bars"></i>
-      <ul id="ul">
-        <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
-        <script>
-          function ShowMovies(){
-            var mov = document.getElementsByClassName("movies")
-            // var ans = []
-            // ans.push(mov)
-            document.getElementsByClassName("movies").innerHTML=mov
-          }
-          
-        </script>
-        <p><a class="URL"href="#">Games </a></p>
-        <p><a class="URL"href="#">Books </a></p>
-      </ul>
+    <ul id="ul">
+      <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
+      <script>
+        function ShowMovies() {
+          var mov = document.getElementsByClassName("movies")
+          // var ans = []
+          // ans.push(mov)
+          document.getElementsByClassName("movies").innerHTML = mov
+        }
+      </script>
+      <p><a class="URL" href="#">Games </a></p>
+      <p><a class="URL" href="#">Books </a></p>
+    </ul>
   </div>
+
 </html>
