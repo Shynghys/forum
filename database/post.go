@@ -23,7 +23,7 @@ func ReadAllPosts() []vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		posts = append(posts, tempPost)
 	}
@@ -38,14 +38,14 @@ func CreatePost(post *vars.Post) {
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	post.Created = time.Now().Format(time.RFC1123)
-	result, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
+	_, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes, dislikes) VALUES (?,?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes, post.Dislikes)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(result)
+	// fmt.Println(result)
 
 	// CheckErr(err)
 	fmt.Println("Post created!!!!1")
@@ -54,6 +54,24 @@ func CreatePost(post *vars.Post) {
 func ReadPost(title string) vars.Post {
 	db := DbConn()
 	defer db.Close()
+
+	rows1, err := db.Query("SELECT * FROM comments")
+	CheckErr(err)
+	var Comms []vars.Comment
+	for rows1.Next() {
+		var Comm vars.Comment
+		// var Created sql.NullInt64
+
+		err =
+			rows1.Scan(&Comm.ID, &Comm.PostID, &Comm.AuthorID, &Comm.Text, &Comm.Created, &Comm.Likes, &Comm.Dislikes /*, &Comm.Like , &tempPost.posts, &tempPost.comments*/)
+		CheckErr(err)
+		needID, _ := uuid.FromString(title)
+		if Comm.PostID == needID {
+			// &tempPost.Comments = comments
+			Comms = append(Comms, Comm)
+
+		}
+	}
 	rows, err := db.Query("SELECT * FROM posts")
 	CheckErr(err)
 	defer rows.Close()
@@ -61,10 +79,11 @@ func ReadPost(title string) vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		needID, _ := uuid.FromString(title)
 		if tempPost.ID == needID {
+			tempPost.Comments = Comms
 			return tempPost
 		}
 	}
@@ -80,7 +99,7 @@ func UpdatePost(title string, toChange vars.Post) vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		if tempPost.Title == title {
 			return toChange

@@ -136,7 +136,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 			Password: r.FormValue("password"),
 			// Created:  t.Format(time.RFC1123),
 		}
-		fmt.Println(details.Password)
+		// fmt.Println(details.Password)
 		var isEmailUsed, isUsernameUsed bool
 		isEmailUsed = checkEmail(db, details.Email) != ""
 		isUsernameUsed = checkUsername(db, details.Username) != ""
@@ -212,8 +212,8 @@ func checkAll(db *sql.DB, data, password string) string {
 	} else {
 		uuid = idUsername
 	}
-	fmt.Println("----Checkall UUID---------------")
-	fmt.Println(uuid)
+	// fmt.Println("----Checkall UUID---------------")
+	// fmt.Println(uuid)
 
 	//nested func is to compare a printed code with a enc code in db
 	isPasswordRight := func(uuid, pas string) bool {

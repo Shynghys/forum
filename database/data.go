@@ -63,9 +63,9 @@ func CreatePosts(db *sql.DB) {
 		"created" TEXT, 
 		"category" TEXT,
 		"likes" INTEGER,
+		"dislikes" INTEGER,
 		FOREIGN KEY(authorID)REFERENCES users(id)
 		);
-		
 	`)
 	CheckErr(err)
 	statementForPosts.Exec()
@@ -81,10 +81,10 @@ func CreateComments(db *sql.DB) {
 		"text" TEXT, 
 		"created" TEXT, 
 		"likes" INTEGER,
+		"dislikes" INTEGER,
 		FOREIGN KEY(postID)REFERENCES posts(id),
 		FOREIGN KEY(authorID)REFERENCES users(id)
 		);
-		
 	`)
 	CheckErr(err)
 	statementForComments.Exec()

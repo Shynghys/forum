@@ -14,11 +14,11 @@ func CreateSession(session vars.Session) {
 	defer db.Close()
 	tx, _ := db.Begin()
 
-	result, err := db.Exec("INSERT INTO session (sessionID, userID) VALUES (?,?)", session.SessionID, session.UserID)
+	_, err := db.Exec("INSERT INTO session (sessionID, userID) VALUES (?,?)", session.SessionID, session.UserID)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
-	fmt.Println(result)
+	// fmt.Println(result)
 	if err != nil {
 		log.Println(err)
 	}

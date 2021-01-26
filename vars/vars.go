@@ -25,7 +25,11 @@ type Post struct {
 	Text     string
 	Created  string
 	Likes    int
-	comments []Comment
+	Dislikes int
+	Comments []Comment
+}
+
+type Like struct {
 }
 
 // Comment ss
@@ -35,7 +39,9 @@ type Comment struct {
 	AuthorID uuid.UUID
 	Text     string
 	Created  string
+	Like     []Like
 	Likes    int
+	Dislikes int
 }
 
 // ErrorStruct s
