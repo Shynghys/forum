@@ -34,7 +34,6 @@
 
   <div class="content">
       {{ range .AllPosts }}
-<<<<<<< HEAD
       <div class="counts">
         <a> {{.Likes}}</a>
         <a><i class="far fa-thumbs-up"></i></a>
@@ -44,16 +43,6 @@
           <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a >{{.Category}} {{.Created}} </a></h5>
-=======
-      <div class="counts {{.Category}}">
-        <a><i class="far fa-thumbs-up"></i></a>
-        <a><i class="far fa-thumbs-down"></i></a>
-        <a>{{.Likes}}</a>
-        <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
-        <h5><a >{{.Category}}</a></h5>
-      </div>
-       
->>>>>>> 01bf65d6ee449b576c174b68dfdddf447b4ece7f
           
       {{ end }}
  
