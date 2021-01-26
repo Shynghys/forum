@@ -16,13 +16,10 @@
 <body>
   <nav>
     <div class="category">
-      <i class="fas fa-bars"></i>
+        
     </div>
     <div class="logo">Forum</div>
-    <input type="checkbox" id="click" />
-    <label for="click" class="menu-btn">
-      <i class="fa fa-bars"></i>
-    </label>
+
  
     <ul>
       <li><a class="active" href="/">Home</a></li>
@@ -39,16 +36,16 @@
         <div>Ask a public question</div>
         <div class="title">
           <label for="">Title</label>
-          <input type="text" name="title" id = "title"/>
+          <input type="text" name="title" id = "title" required/>
         </div>
         <div class="body">
           <label for="">Body</label>
-          <textarea name="text" id = "text"></textarea>
+          <textarea name="text" id = "text" required></textarea>
           <label for="">Category</label>
         </div>
         <div class="choosing">
           <form action="#">
-            <p><select id="select" name="select" multiple size="3">
+            <p><select id="select" name="select" multiple size="3"required>
             <option name="movies" value="movies">Movies</option>
             <option name="games" value="games">Games</option>
             <option name="books" value="books">Books</option>
@@ -56,14 +53,14 @@
           </form>
           
         </div>
-        *you can choose several categories by holding ctrl
+        
         <div class="post">
           <button type="submit">Post your question</button>
         </div>
       </div>
     </div>
   </form>
-  <label><input type="checkbox" checked>Ex1</label>
+
 </body>
  
 </html>

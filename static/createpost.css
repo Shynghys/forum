@@ -49,12 +49,13 @@ nav #icon {
     font-size: 17px;
   }
 }
-nav .logo{
-  position: relative;
+.logo{
+  position: absolute;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  right: 20%;
+  left:  50px;
+  width: 20vw;
 }
 nav ul{
   display: flex;
@@ -191,6 +192,9 @@ input{
   font-weight: bold;
   transform: scale(1);
 }
+.content{
+  bottom: 10px;
+}
 .field label {
   padding-right: 100%;
   font-size:20px;
@@ -200,7 +204,7 @@ input{
 }
 .body textarea{
   display: inline-block;
-  height: 120px;
+  height: 150px;
   width: 60%;
 }
 .field label{
