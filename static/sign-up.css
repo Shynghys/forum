@@ -51,12 +51,13 @@ nav #icon {
     font-size: 17px;
   }
 }
-nav .logo{
-  position: relative;
+.logo{
+  position: absolute;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  right: 20%;
+  left:  50px;
+  width: 20vw;
 }
 nav ul{
   display: flex;

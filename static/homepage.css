@@ -273,9 +273,10 @@ bottom: 70px;
 .content h5{
   position: relative;
   text-decoration: none;
-  text-align: center;
   color:#696969;
   font-size: 12px;
+  right:100px;
+  bottom: 40px;
   
 }
 .content h3 a:hover{

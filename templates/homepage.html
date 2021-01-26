@@ -18,7 +18,6 @@
       <i class="fa fa-bars"></i>
     </label>
   
-    
     <ul id="menu">
       <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
@@ -35,6 +34,7 @@
 
   <div class="content">
       {{ range .AllPosts }}
+<<<<<<< HEAD
       <div class="counts">
         <a> {{.Likes}}</a>
         <a><i class="far fa-thumbs-up"></i></a>
@@ -44,6 +44,16 @@
           <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a >{{.Category}} {{.Created}} </a></h5>
+=======
+      <div class="counts {{.Category}}">
+        <a><i class="far fa-thumbs-up"></i></a>
+        <a><i class="far fa-thumbs-down"></i></a>
+        <a>{{.Likes}}</a>
+        <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
+        <h5><a >{{.Category}}</a></h5>
+      </div>
+       
+>>>>>>> 01bf65d6ee449b576c174b68dfdddf447b4ece7f
           
       {{ end }}
  
@@ -63,7 +73,16 @@
   <div class="category">
     <i class="fas fa-bars"></i>
       <ul id="ul">
-        <p><a class="URL" href="#">Movies </a></p>
+        <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
+        <script>
+          function ShowMovies(){
+            var mov = document.getElementsByClassName("movies")
+            // var ans = []
+            // ans.push(mov)
+            document.getElementsByClassName("movies").innerHTML=mov
+          }
+          
+        </script>
         <p><a class="URL"href="#">Games </a></p>
         <p><a class="URL"href="#">Books </a></p>
       </ul>
