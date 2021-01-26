@@ -13,11 +13,12 @@ func CreateComment(comment vars.Comment) {
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	fmt.Println("comment creating")
-	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes) VALUES (?,?,?,?,?,?)")
-	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Text, comment.Created, comment.Likes)
+	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes, dislikes) VALUES (?,?,?,?,?,?,?)")
+	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Text, comment.Created, comment.Likes, comment.Dislikes)
 	CheckErr(err)
 	tx.Commit()
 }
+
 func ReadComment(id2 uuid.UUID) vars.Comment {
 	db := DbConn()
 	defer db.Close()
@@ -27,7 +28,7 @@ func ReadComment(id2 uuid.UUID) vars.Comment {
 	for rows.Next() {
 		var tempComment vars.Comment
 		err =
-			rows.Scan(&tempComment.ID, &tempComment.PostID, &tempComment.AuthorID, &tempComment.Text, &tempComment.Created, &tempComment.Likes)
+			rows.Scan(&tempComment.ID, &tempComment.PostID, &tempComment.AuthorID, &tempComment.Text, &tempComment.Created, &tempComment.Likes, tempComment.Dislikes)
 		CheckErr(err)
 		if tempComment.ID == id2 {
 			return tempComment
@@ -35,6 +36,7 @@ func ReadComment(id2 uuid.UUID) vars.Comment {
 	}
 	return vars.Comment{}
 }
+
 func UpdateComment(toChange vars.Comment) {
 	db := DbConn()
 	defer db.Close()

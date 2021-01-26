@@ -25,8 +25,10 @@ type Post struct {
 	Text     string
 	Created  string
 	Likes    int
+	Dislikes int
 	Comments []Comment
 }
+
 type Like struct {
 }
 
@@ -39,6 +41,7 @@ type Comment struct {
 	Created  string
 	Like     []Like
 	Likes    int
+	Dislikes int
 }
 
 // ErrorStruct s
