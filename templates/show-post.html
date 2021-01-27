@@ -33,33 +33,60 @@
     </ul>
     </div>
   </nav>
+
+
   <div class="title">
     <a>{{ .Posts.Title}}</a>
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
+    <div>
+      <!-- BUTTONS DO NOTW WORK -->
+      <form action="/posts?id={{ .Posts.ID}}" method="POST">
+        <a  style="font-size:20px">{{.Posts.Likes}}</a> 
+        <button style="font-size:18px" name = "like" value="{{ .Posts.ID}}">
+          <i class="fas fa-thumbs-up"></i> 
+        </button>
+      
+        <button  style="font-size:18px"  name = "dislike" value="{{ .Posts.ID}}">
+          <i class="far fa-thumbs-down"></i>
+        </button>
+        <a style="font-size:20px">{{.Posts.Dislikes}}</a>
+      </form>
+    </div>
   </div>
+
+  <br>
   <div class="comment">
-    <p>Your answer</p>
+    <p>Comments</p>
     <!-- <p><input value="id"> {{.Posts.ID}}</p> -->
     <form action="/posts?id={{ .Posts.ID}}" method="POST">
       <p><textarea rows="10" cols="45" name="text"></textarea></p>
       <p><input type="submit" value="Send"></p>
     </form>
-    <br>
-    <div>
-      {{ range .Posts.Comments }}
-      <div>
-        <a>{{.Likes}}</a>
-        <a><i class="far fa-thumbs-up"></i></a>
-        <a><i class="far fa-thumbs-down"></i></a>
-        <a>{{.Dislikes}}</a>
-        <a>{{.Text}}</a>
-      </div>
 
+    <br>
+
+    <div>
+      <form action="/posts?id={{ .Posts.ID}}" method="POST">
+      {{ range .Posts.Comments }}
+        <a>{{.Text}}</a>
+        <br>
+            <a style="font-size:20px">{{.Likes}}</a>
+            <button style="font-size:18px"  name = "like" value="{{.ID}}">
+              <i class="fas fa-thumbs-up"></i>
+            </button>
+            <!-- <a><i class="far fa-thumbs-up"></i></a> -->
+            <button style="font-size:18px"  name = "dislike" value="{{.ID}}">
+              <i class="far fa-thumbs-down"></i>
+            </button>
+            <a style="font-size:20px">{{.Dislikes}}</a>
+            <br><br>
       {{end}}
+      </form>
     </div>
 
   </div>
+
   <div class="category">
     <i class="fas fa-bars"></i>
     <ul id="ul">
@@ -71,7 +98,4 @@
   </div>
 
   </table>
-
-
-
 </html>
