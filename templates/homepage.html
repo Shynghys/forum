@@ -37,26 +37,24 @@
       {{ range .AllPosts }}
       <div class="content">
         <div class="counts">
+          <div class="postlike">
           <a> {{.Likes}}</a>
           <a><i class="far fa-thumbs-up"></i></a>
           <a><i class="far fa-thumbs-down"></i></a>
           <a>{{.Dislikes}}</a>
-        </div>
-        <!-- <h3><a href="/posts?title={{ .Title }}">{{.ID}}</a></h3> -->
-        <div>
+          </div>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
+          <h5><a>{{.Category}}  </a></h5>
+          <h6><a>Asked on  {{.Created}}</a></h6>
         </div>
+      
         <div>
-          <h5><a>{{.Category}} {{.Created}} </a></h5>
+      
         </div>
-
-
       </div>
-
       {{ end }}
-
+    
     </div>
-
   </div>
 
   <div class="">
@@ -79,6 +77,7 @@
           var mov = document.getElementsByClassName("movies")
           // var ans = []
           // ans.push(mov)
+          console.log(mov)
           document.getElementsByClassName("movies").innerHTML = mov
         }
       </script>
