@@ -30,7 +30,7 @@ func ReadAllPosts() []vars.Post {
 	fmt.Println(posts)
 	return posts
 }
-func CreatePost(post *vars.Post) {
+func CreatePost(post *vars.Post) uuid.UUID {
 
 	db := DbConn()
 	defer db.Close()
@@ -50,6 +50,7 @@ func CreatePost(post *vars.Post) {
 	// CheckErr(err)
 	fmt.Println("Post created!!!!1")
 	tx.Commit()
+	return id
 }
 func ReadPost(title string) vars.Post {
 	db := DbConn()

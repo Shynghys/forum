@@ -7,7 +7,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-func CreateComment(comment vars.Comment) {
+func CreateComment(comment vars.Comment) uuid.UUID {
 	db := DbConn()
 	defer db.Close()
 	tx, _ := db.Begin()
@@ -15,8 +15,10 @@ func CreateComment(comment vars.Comment) {
 	fmt.Println("comment creating")
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes, dislikes) VALUES (?,?,?,?,?,?,?)")
 	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Text, comment.Created, comment.Likes, comment.Dislikes)
+
 	CheckErr(err)
 	tx.Commit()
+	return id
 }
 
 func ReadComment(id2 uuid.UUID) vars.Comment {
