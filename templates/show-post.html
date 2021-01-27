@@ -54,11 +54,10 @@
       </form>
     </div>
   </div>
-
   <br>
-  <div class="comment">
+  <!-- <div class="comment">
     <p>Comments</p>
-    <!-- <p><input value="id"> {{.Posts.ID}}</p> -->
+   
     <form action="/posts?id={{ .Posts.ID}}" method="POST">
       <p><textarea rows="10" cols="45" name="text"></textarea></p>
       <p><input type="submit" value="Send"></p>
@@ -75,16 +74,40 @@
             <button style="font-size:18px"  name = "like" value="{{.ID}}">
               <i class="fas fa-thumbs-up"></i>
             </button>
-            <!-- <a><i class="far fa-thumbs-up"></i></a> -->
+         
             <button style="font-size:18px"  name = "dislike" value="{{.ID}}">
               <i class="far fa-thumbs-down"></i>
             </button>
             <a style="font-size:20px">{{.Dislikes}}</a>
             <br><br>
       {{end}}
+      </form> -->
+ 
+  
+    
+  
+  <div class="comments" class="v_line">
+    <h2>Answers</h2>
+    <p>{{ range .Posts.Comments }}</p>
+    
+    <p>{{.Text}}</p>
+    <div class="likes">
+      <a>{{.Likes}}</a>
+      <a><i class="far fa-thumbs-up"></i></a>
+      <a><i class="far fa-thumbs-down"></i></a>
+      <a>{{.Dislikes}}</a>
+      <a>{{.Created}}</a>
+    </div> 
+    <hr>
+    {{end}}
+    <div class="comment">
+      <p>Your answer</p>
+      <form action="/posts?id={{ .Posts.ID}}" method="POST">
+        <p><textarea rows="10" cols="45" name="text"></textarea></p>
+        <p><input type="submit" value="Send"></p>
       </form>
+      <br>
     </div>
-
   </div>
 
   <div class="category">
@@ -96,6 +119,9 @@
 
     </ul>
   </div>
+
+  
+ 
 
   </table>
 </html>
