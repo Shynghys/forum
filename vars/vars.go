@@ -37,6 +37,7 @@ type Comment struct {
 	ID       uuid.UUID
 	PostID   uuid.UUID
 	AuthorID uuid.UUID
+	Author   string
 	Text     string
 	Created  string
 	Like     []Like

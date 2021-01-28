@@ -1,35 +1,40 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-} 
-nav{
+}
+
+nav {
   display: flex;
   height: 80px;
   width: 100%;
-  background:  	#1b1b1b;
+  background: #1b1b1b;
   align-items: center;
   justify-content: space-between;
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
 }
-nav .category{
-  color:white;
+
+nav .category {
+  color: white;
   font-size: 30px;
   line-height: 80px;
   float: right;
   margin-right: 50px;
   cursor: pointer;
 }
+
 nav .category:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
+
 nav #icon {
-  color:white;
+  color: white;
   font-size: 30px;
   line-height: 80px;
   float: right;
@@ -37,35 +42,42 @@ nav #icon {
   display: none;
   width: 20vw;
 }
-@media(max-width:1048px){
-  label.logo{
+
+@media(max-width:1048px) {
+  label.logo {
     font-size: 32px;
     padding-left: 60px;
   }
-  nav ul{
+
+  nav ul {
     margin-right: 20px;
   }
+
   nav a {
     font-size: 17px;
   }
 }
-.logo{
+
+.logo {
   position: absolute;
   color: #fff;
   font-size: 40px;
   font-weight: 600;
-  left:  50px;
+  left: 50px;
   width: 20vw;
 }
-nav ul{
+
+nav ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
 }
-nav ul li{
+
+nav ul li {
   margin: 0 5px;
 }
-nav ul li a{
+
+nav ul li a {
   color: #f2f2f2;
   text-decoration: none;
   font-size: 18px;
@@ -75,67 +87,87 @@ nav ul li a{
   letter-spacing: 1px;
   transition: all 0.3s ease;
 }
+
 nav ul li a.active,
-nav ul li a:hover{
+nav ul li a:hover {
   color: #111;
   background: #fff;
 }
-nav .menu-btn i{
+
+nav .menu-btn i {
   color: #fff;
   font-size: 22px;
   cursor: pointer;
   display: none;
 }
-input[type="checkbox"]{
+
+input[type="checkbox"] {
   display: none;
 }
-@media (max-width: 1000px){
-  nav{
+
+@media (max-width: 1000px) {
+  nav {
     padding: 0 40px 0 50px;
   }
 }
+
 @media (max-width: 920px) {
-  nav .menu-btn i{
+  nav .menu-btn i {
     display: block;
   }
-  #click:checked ~ .menu-btn i:before{
+
+  #click:checked~.menu-btn i:before {
     content: "\f00d";
   }
-  nav ul{
+
+  nav ul {
     position: fixed;
     top: 80px;
     left: -100%;
-    background:  	#1b1b1b;;
+    background: #1b1b1b;
+    ;
     height: 100vh;
     width: 100%;
     text-align: center;
     display: block;
     transition: all 0.3s ease;
   }
-  #click:checked ~ ul{
+
+  #click:checked~ul {
     left: 0;
   }
-  nav ul li{
+
+  nav ul li {
     width: 100%;
     margin: 40px 0;
   }
-  nav ul li a{
+
+  nav ul li a {
     width: 100%;
     margin-left: -100%;
     display: block;
     font-size: 20px;
     transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
-  #click:checked ~ ul li a{
+
+  #click:checked~ul li a {
     margin-left: 0px;
   }
+
   nav ul li a.active,
-  nav ul li a:hover{
+  nav ul li a:hover {
     background: none;
     color: cyan;
   }
 }
-.content{
+
+.container {
+  display: flex;
+  /* width: 40%; */
+  justify-content: center;
+}
+
+.content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -144,91 +176,103 @@ input[type="checkbox"]{
   z-index: -1;
   width: 100%;
   padding: 0 30px;
-  color:  	#1b1b1b;;
+  color: #1b1b1b;
+  ;
 }
 
-.content div{
+.content div {
   font-size: 40px;
   font-weight: 700;
 }
+
 .choosing option {
   font-size: 20px;
 }
-.choosing{
+
+.choosing {
   position: absolute;
   left: 21%;
-  
+
 }
-.box{
-  position:absolute;
-  right:50%;
-  transform:translate(-50%);
+
+.box {
+  position: absolute;
+  right: 50%;
+  transform: translate(-50%);
   text-align: left;
 }
-input{
+
+input {
   height: 40px;
   width: 200%;
 }
-.box{
+
+.box {
   float: left;
   display: inline-block;
   width: 20vw;
 }
-input{
+
+input {
   float: left;
   display: inline-block;
 }
 
 .ask button {
-  cursor : pointer;
+  cursor: pointer;
   padding: 10px 30px;
   height: 30 px;
-  background-color: 	#483D8B;
+  background-color: #483D8B;
   color: #fff;
   font-family: 'Poppins', sans-serif;
 }
+
 .ask button:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
-.content{
+
+.content {
   bottom: 10px;
 }
+
 .field label {
   padding-right: 100%;
-  font-size:20px;
+  font-size: 20px;
 }
-.field input{
+
+.field input {
   width: 60%;
 }
-.body textarea{
+
+.body textarea {
   display: inline-block;
   height: 150px;
   width: 60%;
 }
-.field label{
+
+.field label {
   margin-left: 20%;
 
 }
+
 .field input {
   margin-left: 20%;
 }
 
 .post button {
   position: absolute;
-  
-  cursor : pointer;
+
+  cursor: pointer;
   padding: 10px 30px;
   height: 50px;
   margin-top: 120px;
   right: 45%;
 }
+
 .post button:hover {
   opacity: .80;
   font-weight: bold;
   transform: scale(1);
 }
-
-
-

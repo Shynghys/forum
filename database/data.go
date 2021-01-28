@@ -78,6 +78,7 @@ func CreateComments(db *sql.DB) {
 		"id" UID NOT NULL PRIMARY KEY, 
 		"postID" UID ,
 		"authorID" UID ,
+		"author" TEXT,
 		"text" TEXT, 
 		"created" TEXT, 
 		"likes" INTEGER,

@@ -215,7 +215,7 @@ input[type="checkbox"] {
 .title {
 
   display: inline-block;
-  position: absolute;
+  /* position: absolute; */
   left: 30%;
   padding-top: 100px;
   font-size: 25px;
@@ -236,7 +236,7 @@ input[type="checkbox"] {
 
 .comment {
   position: relative;
-  
+
 }
 
 .box {
@@ -307,24 +307,28 @@ a.button {
   top: 30px;
 
 }
-.counts h3 a{
+
+.counts h3 a {
   position: absolute;
   left: 400px;
   font-size: 30px;
   top: 100px;
 }
-.counts h5 a{
+
+.counts h5 a {
   position: relative;
   left: 150px;
   font-size: 12px;
   top: 95px;
 }
-.counts h6 a{
+
+.counts h6 a {
   position: relative;
   left: 600px;
   font-size: 12px;
   top: 40px;
 }
+
 .content h3 {
   position: relative;
   text-decoration: none;
@@ -335,6 +339,7 @@ a.button {
   right: 150px;
 
 }
+
 .content h5 {
   display: inline-block;
   position: relative;
@@ -345,6 +350,7 @@ a.button {
   bottom: 40px;
 
 }
+
 .content h3 a:hover {
   color: #111;
   background: #fff;
@@ -370,48 +376,58 @@ a.button {
   /* float: center; */
 
 }
+
 .counts a {
   font-size: 15px;
 }
+
 .content h3 i:hover {
   color: #111;
   background: #fff;
   opacity: 0.6;
 }
+
 .comments {
-  position: absolute;
+  position: relative;
   font-size: 20px;
   margin-top: 50px;
-  left: 600px;
-  top: 500px;
+  /* left: 600px;
+  top: 500px; */
   line-height: 50px;
 }
+
 .likes {
   position: relative;
   left: 800px;
   bottom: 5px;
 }
+
 .postlike {
   position: absolute;
   left: 30px;
   top: 30px;
 }
+
 .comments h2 {
   font-size: 20px;
   margin-bottom: 50px;
 }
+
 .comments a {
   font-size: 15px;
   right: 100px;
 }
+
 .comments p {
   margin-top: 30px;
   right: 20px;
 }
+
 #user {
   color: #fff;
 }
-hr{
- 
+
+hr {
+
   opacity: 0.2;
 }

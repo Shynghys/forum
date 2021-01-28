@@ -64,7 +64,7 @@ func ReadPost(title string) vars.Post {
 		// var Created sql.NullInt64
 
 		err =
-			rows1.Scan(&Comm.ID, &Comm.PostID, &Comm.AuthorID, &Comm.Text, &Comm.Created, &Comm.Likes, &Comm.Dislikes /*, &Comm.Like , &tempPost.posts, &tempPost.comments*/)
+			rows1.Scan(&Comm.ID, &Comm.PostID, &Comm.AuthorID, &Comm.Author, &Comm.Text, &Comm.Created, &Comm.Likes, &Comm.Dislikes /*, &Comm.Like , &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		needID, _ := uuid.FromString(title)
 		if Comm.PostID == needID {
