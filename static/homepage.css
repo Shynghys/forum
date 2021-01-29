@@ -277,8 +277,7 @@ a.button:hover {
 }
 
 a.button {
-
-  left: 65%;
+  left: 1250px;
   position: absolute;
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -304,13 +303,20 @@ a.button {
   /* right: 400px;
   bottom: 70px; */
   left: 600px;
-  top: 30px;
-
+  top: 35px;
+}
+.filterbtn h3 {
+  color: red;
+  position: absolute;
+  left:155vh;
+}
+.content {
+  text-align: center;
 }
 .counts h3 a{
   position: absolute;
   left: 400px;
-  font-size: 30px;
+  font-size: 2vh;
   top: 100px;
 }
 .counts h5 a{
@@ -319,17 +325,17 @@ a.button {
   font-size: 12px;
   top: 95px;
 }
-.counts h6 a{
-  position: relative;
-  left: 600px;
-  font-size: 12px;
-  top: 40px;
+
+.counts h6 p{
+  padding-top: 3vh;
+  font-size: 10px;
+  left: 70vh;
+  position: absolute;
 }
 .content h3 {
   position: relative;
   text-decoration: none;
-  /* text-align: left; */
-  margin-top: -70px;
+  margin-top: -30px;
   font-size: 25px;
   color: black;
   right: 150px;
@@ -394,7 +400,7 @@ a.button {
 .postlike {
   position: absolute;
   left: 30px;
-  top: 30px;
+  top: 70px;
 }
 .comments h2 {
   font-size: 20px;
@@ -414,4 +420,11 @@ a.button {
 hr{
  
   opacity: 0.2;
+}
+.back a{
+  text-decoration: none;
+  position: absolute;
+  right:100vh;
+  top: 10vh;
+  color: #111;
 }

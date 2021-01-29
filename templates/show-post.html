@@ -36,6 +36,9 @@
 
 
   <div class="title">
+    <div class="back">
+        <a href="/" class="fas fa-arrow-left"></a>
+    </div>
     <a>{{ .Posts.Title}}</a>
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
@@ -103,7 +106,7 @@
     <div class="comment">
       <p>Your answer</p>
       <form action="/posts?id={{ .Posts.ID}}" method="POST">
-        <p><textarea rows="10" cols="45" name="text"></textarea></p>
+        <p><textarea rows="10" cols="45" name="text" required></textarea></p>
         <p><input type="submit" value="Send"></p>
       </form>
       <br>

@@ -36,7 +36,7 @@
     <div class="contents">
       {{ range .AllPosts }}
       <div class="content">
-        <div class="counts">
+        <div class= "counts {{.Category}}">
           <div class="postlike">
           <a> {{.Likes}}</a>
           <a><i class="far fa-thumbs-up"></i></a>
@@ -45,7 +45,7 @@
           </div>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a>{{.Category}}  </a></h5>
-          <h6><a>Asked on  {{.Created}}</a></h6>
+          <h6><p>Asked on {{.Created}}</p></h6>
         </div>
       
         <div>
@@ -59,10 +59,21 @@
 
   <div class="">
     <div class="filterbtn">
-      <input type="button" value="Newest to oldest">
+      <input type="button" value="Newest to oldest" onclick="NewToOld()">
+      <!-- <script>
+        function NewToOld(){
+          var posts = document.getElementsByClassName("content")
+
+          posts.sort((a,b)) = moment(b.date, 'DD.MM.YY') - moment(a.date, 'DD.MM.YY')
+        }
+      </script> -->
       <input type="button" value="Oldest to newest">
       <input type="button" value="Most popular">
       <input type="button" value="Most commented">
+      {{ if .UserIn}}
+      {{ else }}
+      <h3>LOG IN TO ASK A QUESTION</h5>
+        {{end}}
     </div>
     {{if .UserIn}}
     <a href="posts/create" class="button">Create post</a>
@@ -71,18 +82,74 @@
   <div class="category">
     <i class="fas fa-bars"></i>
     <ul id="ul">
+        <p><a class="URL" onclick ="ShowAll()">All </a></p>
+        <script>
+          function ShowAll(){
+            var games = document.getElementsByClassName("games")
+          var books = document.getElementsByClassName("books")
+          var movies = document.getElementsByClassName("movies")
+          for (i of games) {
+            i.style.display = "initial"
+          }
+          for (i of books) {
+            i.style.display = "initial"
+          }
+          for (i of movies) {
+            i.style.display = "initial"
+          } 
+          }
+        </script>
       <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
       <script>
         function ShowMovies() {
-          var mov = document.getElementsByClassName("movies")
-          // var ans = []
-          // ans.push(mov)
-          console.log(mov)
-          document.getElementsByClassName("movies").innerHTML = mov
+          var games = document.getElementsByClassName("games")
+          var books = document.getElementsByClassName("books")
+          var movies = document.getElementsByClassName("movies")
+          for (i of games) {
+            i.style.display = "none"
+          }
+          for (i of books) {
+            i.style.display = "none"
+          }
+          for (i of movies) {
+            i.style.display = "initial"
+          }          
         }
       </script>
-      <p><a class="URL" href="#">Games </a></p>
-      <p><a class="URL" href="#">Books </a></p>
+      <p><a class="URL" onclick ="ShowGames()">Games </a></p>
+      <script>
+          function ShowGames() {
+          var games = document.getElementsByClassName("games")
+          var books = document.getElementsByClassName("books")
+          var movies = document.getElementsByClassName("movies")
+          for (i of games) {
+            i.style.display = "initial"
+          }
+          for (i of books) {
+            i.style.display = "none"
+          }     
+          for (i of movies) {
+            i.style.display = "none"
+          }     
+        }
+      </script>
+      <p><a class="URL" onclick="ShowBooks()">Books </a></p>
+      <script>
+         function ShowBooks() {
+          var games = document.getElementsByClassName("games")
+          var books = document.getElementsByClassName("books")
+          var movies = document.getElementsByClassName("movies")
+          for (i of games) {
+            i.style.display = "none"
+          }
+          for (i of books) {
+            i.style.display = "initial"
+          }  
+          for (i of movies) {
+            i.style.display = "none"
+          }        
+        }
+      </script>
     </ul>
   </div>
 
