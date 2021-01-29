@@ -2,21 +2,27 @@ package data
 
 import (
 	"fmt"
+	"time"
 
 	"../vars"
 	uuid "github.com/satori/go.uuid"
 )
 
-func CreateComment(comment vars.Comment) {
+func CreateComment(comment vars.Comment) uuid.UUID {
 	db := DbConn()
 	defer db.Close()
 	tx, _ := db.Begin()
 	id := CreatedUID()
+	comment.Created = time.Now().Format(time.RFC1123)
+	// comment.AuthorID = ""
+
 	fmt.Println("comment creating")
-	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, text, created, likes, dislikes) VALUES (?,?,?,?,?,?,?)")
-	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Text, comment.Created, comment.Likes, comment.Dislikes)
+	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, author, text, created, likes, dislikes) VALUES (?,?,?,?,?,?,?,?)")
+	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Author, comment.Text, comment.Created, comment.Likes, comment.Dislikes)
+
 	CheckErr(err)
 	tx.Commit()
+	return id
 }
 
 func ReadComment(id2 uuid.UUID) vars.Comment {

@@ -54,6 +54,23 @@ func ReadUser(id2 uuid.UUID) vars.User {
 	}
 	return vars.User{}
 }
+func GetUsername(id2 uuid.UUID) string {
+	db := DbConn()
+	defer db.Close()
+	rows, err := db.Query("SELECT * FROM users")
+	CheckErr(err)
+	defer rows.Close()
+	for rows.Next() {
+		var tempUser vars.User
+		err =
+			rows.Scan(&tempUser.ID, &tempUser.Username, &tempUser.Email, &tempUser.Password, &tempUser.Created /*, &tempUser.posts, &tempUser.comments*/)
+		CheckErr(err)
+		if tempUser.ID == id2 {
+			return tempUser.Username
+		}
+	}
+	return "anonymos"
+}
 func UpdateUser(toChange vars.User) {
 	db := DbConn()
 	defer db.Close()

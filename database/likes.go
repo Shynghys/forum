@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"strings"
 
 	uuid "github.com/satori/go.uuid"
@@ -83,6 +84,26 @@ func DislikeBtn(object, user uuid.UUID) int {
 	return len(disUserSli)
 }
 
+func CreateLike(id uuid.UUID) {
+	db := DbConn()
+	defer db.Close()
+	tx, _ := db.Begin()
+	if _, err := db.Exec("INSERT INTO likes (id) VALUES (?)", id); err != nil {
+		panic(err)
+	}
+	tx.Commit()
+}
+
+func CreateDislike(id uuid.UUID) {
+	db := DbConn()
+	defer db.Close()
+	tx, _ := db.Begin()
+	if _, err := db.Exec("INSERT INTO dislikes (id) VALUES (?)", id); err != nil {
+		panic(err)
+	}
+	tx.Commit()
+}
+
 func isIn(str string, sli []string) bool {
 	for _, val := range sli {
 		if val == str {
@@ -96,7 +117,7 @@ func (val *Data) checkLike() ([]string, bool) {
 	db := DbConn()
 	defer db.Close()
 
-	row, err := db.Query("SELECT authors FROM likes WHERE id LIKE ?", val.object)
+	row, err := db.Query("SELECT authorsID FROM likes WHERE id LIKE ?", val.object)
 	CheckErr(err)
 	defer row.Close()
 	var authors string
@@ -113,7 +134,7 @@ func (val *Data) checkDislike() ([]string, bool) {
 	db := DbConn()
 	defer db.Close()
 
-	row, err := db.Query("SELECT authors FROM dislikes WHERE id LIKE ?", val.object)
+	row, err := db.Query("SELECT authorsID FROM dislikes WHERE id LIKE ?", val.object)
 	CheckErr(err)
 	defer row.Close()
 	var authors string
@@ -131,8 +152,9 @@ func (val *Data) checkDislike() ([]string, bool) {
 func updateLike(object uuid.UUID, likeUserStr string) {
 	db := DbConn()
 	defer db.Close()
+	fmt.Println(likeUserStr, object)
 	tx, _ := db.Begin()
-	smth, _ := tx.Prepare("update likes set authorsID=?, where id=?")
+	smth, _ := tx.Prepare("update likes set authorsID=? where id=?")
 	_, err := smth.Exec(likeUserStr, object)
 	CheckErr(err)
 	tx.Commit()
@@ -142,7 +164,7 @@ func updateDislike(object uuid.UUID, disLikeUserStr string) {
 	db := DbConn()
 	defer db.Close()
 	tx, _ := db.Begin()
-	smth, _ := tx.Prepare("update dislikes set authorsID=?, where id=?")
+	smth, _ := tx.Prepare("update dislikes set authorsID=? where id=?")
 	_, err := smth.Exec(disLikeUserStr, object)
 	CheckErr(err)
 	tx.Commit()

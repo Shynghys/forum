@@ -20,6 +20,7 @@ type Post struct {
 	// id       string
 	ID       uuid.UUID
 	AuthorID uuid.UUID
+	Author   string
 	Title    string
 	Category string
 	Text     string
@@ -37,6 +38,7 @@ type Comment struct {
 	ID       uuid.UUID
 	PostID   uuid.UUID
 	AuthorID uuid.UUID
+	Author   string
 	Text     string
 	Created  string
 	Like     []Like

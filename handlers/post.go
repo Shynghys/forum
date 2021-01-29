@@ -82,6 +82,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		}
 		// fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
+		details.Author = db.GetUsername(details.AuthorID)
 		db.CreatePost(&details)
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -137,22 +138,52 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.Method == "POST" {
 		fmt.Println("CREATING COMMENT")
-		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
+		// tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
+		// if r.Method != http.MethodPost {
+		// 	tmpl.Execute(w, nil)
+		// 	return
+		// }
 		postID, _ := uuid.FromString(r.URL.Query().Get("id"))
 		details := vars.Comment{
 			PostID: postID,
 			Text:   r.FormValue("text"),
 		}
+
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
+		notAuthorised, _ := uuid.FromString("00000000-0000-0000-0000-000000000000")
+		if details.AuthorID == notAuthorised {
+			var err vars.ErrorStruct
+			tmpl := template.Must(template.ParseFiles("templates/error/index.html"))
+			err.Status = 401
+			err.StatusDefinition = "Not authorised"
+
+			tmpl.Execute(w, err)
+		}
+		details.Author = db.GetUsername(details.AuthorID)
+
+		like := r.FormValue("like")
+
+		if like != "" {
+			likeUUID, _ := uuid.FromString(like)
+			db.LikeBtn(likeUUID, details.AuthorID)
+		}
+
+		dislike := r.FormValue("dislike")
+
+		if dislike != "" {
+			dislikeUUID, _ := uuid.FromString(dislike)
+			db.DislikeBtn(dislikeUUID, details.AuthorID)
+		}
+
 		fmt.Println(details)
-		db.CreateComment(details)
+		if details.Text != "" {
+			id := db.CreateComment(details)
+			db.CreateLike(id)
+			db.CreateDislike(id)
+		}
 
 		// do something with details
-		_ = details
+		// _ = details
 		path := r.URL.Path + "?id=" + title
 
 		// tmpl.Execute(w, struct{ Success bool }{true})

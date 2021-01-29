@@ -58,6 +58,7 @@ func CreatePosts(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS "posts" ( 
 		"id" UID NOT NULL PRIMARY KEY, 
 		"authorID" UID,
+		"author" TEXT,
 		"title" TEXT, 
 		"text" TEXT, 
 		"created" TEXT, 
@@ -78,6 +79,7 @@ func CreateComments(db *sql.DB) {
 		"id" UID NOT NULL PRIMARY KEY, 
 		"postID" UID ,
 		"authorID" UID ,
+		"author" TEXT,
 		"text" TEXT, 
 		"created" TEXT, 
 		"likes" INTEGER,
