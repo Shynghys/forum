@@ -35,25 +35,26 @@
   <div class="main">
     <div class="contents">
       {{ range .AllPosts }}
-      <div class="content">
+      <div class="content {{.Category}}">
         <div class="counts">
           <div class="postlike">
-          <a> {{.Likes}}</a>
-          <a><i class="far fa-thumbs-up"></i></a>
-          <a><i class="far fa-thumbs-down"></i></a>
-          <a>{{.Dislikes}}</a>
+            <a> {{.Likes}}</a>
+            <a><i class="far fa-thumbs-up"></i></a>
+            <a><i class="far fa-thumbs-down"></i></a>
+            <a>{{.Dislikes}}</a>
           </div>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
-          <h5><a>{{.Category}}  </a></h5>
-          <h6><a>Asked on  {{.Created}}</a></h6>
+          <h5><a>{{.Author}} </a></h5>
+          <h5><a>{{.Category}} </a></h5>
+          <h6><a>Asked on {{.Created}}</a></h6>
         </div>
-      
+
         <div>
-      
+
         </div>
       </div>
       {{ end }}
-    
+
     </div>
   </div>
 
@@ -74,11 +75,24 @@
       <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
       <script>
         function ShowMovies() {
-          var mov = document.getElementsByClassName("movies")
+          var movies = document.getElementsByClassName("movies")
           // var ans = []
           // ans.push(mov)
-          console.log(mov)
-          document.getElementsByClassName("movies").innerHTML = mov
+          console.log(movies)
+          document.getElementsByClassName("contens").innerHTML = movies
+          var elements = document.getElementsByClassName("bgflag");
+          BgFlags = Array.prototype.map.call(elements,
+            element =>
+            ({
+              height: element.offsetTop,
+              bgsrc: element.dataset.bgsrc,
+              bgcolor: element.dataset.bgcolor,
+              size: element.dataset.size,
+              name: element.id,
+              image: parseInt(element.dataset.image)
+            })
+          );
+          defaultFlag = BgFlags.filter(flag => flag.name == "defaultFlag")[0];
         }
       </script>
       <p><a class="URL" href="#">Games </a></p>

@@ -20,6 +20,7 @@ type Post struct {
 	// id       string
 	ID       uuid.UUID
 	AuthorID uuid.UUID
+	Author   string
 	Title    string
 	Category string
 	Text     string

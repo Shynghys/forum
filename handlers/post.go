@@ -82,6 +82,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		}
 		// fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
+		details.Author = db.GetUsername(details.AuthorID)
 		db.CreatePost(&details)
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)

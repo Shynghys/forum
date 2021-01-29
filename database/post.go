@@ -23,7 +23,7 @@ func ReadAllPosts() []vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Author, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		posts = append(posts, tempPost)
 	}
@@ -38,7 +38,7 @@ func CreatePost(post *vars.Post) uuid.UUID {
 	tx, _ := db.Begin()
 	id := CreatedUID()
 	post.Created = time.Now().Format(time.RFC1123)
-	_, err := db.Exec("INSERT INTO posts (id, authorID, title, text, created, category, likes, dislikes) VALUES (?,?,?,?,?,?,?,?)", id, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes, post.Dislikes)
+	_, err := db.Exec("INSERT INTO posts (id, authorID,author, title, text, created, category, likes, dislikes) VALUES (?,?,?,?,?,?,?,?,?)", id, post.AuthorID, post.Author, post.Title, post.Text, post.Created, post.Category, post.Likes, post.Dislikes)
 	// stmt, err := tx.Prepare("INSERT INTO posts (id, authorID, title, text, created, category, likes) VALUES (?,?,?,?,?,?,?)")
 	// stmt.Exec(id, username, email, password, created)
 	// _, err := stmt.Exec(post.ID, post.AuthorID, post.Title, post.Text, post.Created, post.Category, post.Likes)
@@ -80,7 +80,7 @@ func ReadPost(title string) vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Author, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		needID, _ := uuid.FromString(title)
 		if tempPost.ID == needID {
@@ -100,7 +100,7 @@ func UpdatePost(title string, toChange vars.Post) vars.Post {
 	for rows.Next() {
 		var tempPost vars.Post
 		err =
-			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
+			rows.Scan(&tempPost.ID, &tempPost.AuthorID, &tempPost.Author, &tempPost.Title, &tempPost.Text, &tempPost.Created, &tempPost.Category, &tempPost.Likes, &tempPost.Dislikes /*, &tempPost.posts, &tempPost.comments*/)
 		CheckErr(err)
 		if tempPost.Title == title {
 			return toChange
