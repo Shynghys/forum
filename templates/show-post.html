@@ -33,7 +33,7 @@
     </ul>
     </div>
   </nav>
-  
+
 
 
   <div class="title">
@@ -43,18 +43,19 @@
     <a>{{ .Posts.Title}}</a>
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
-    <div>
+    <div class="commentlike">
       <!-- BUTTONS DO NOTW WORK -->
+      <!-- <p>Posted by {{.Posts.Author}}</p> -->
       <form action="/posts?id={{ .Posts.ID}}" method="POST">
-        <a  style="font-size:20px">{{.Posts.Likes}}</a> 
-        <button style="font-size:18px" name = "like" value="{{ .Posts.ID}}">
+        <a  style="font-size:15px">{{.Posts.Likes}}</a> 
+        <button style="font-size:13px" name = "like" value="{{ .Posts.ID}}">
           <i class="fas fa-thumbs-up"></i> 
         </button>
-      
-        <button  style="font-size:18px"  name = "dislike" value="{{ .Posts.ID}}">
+
+        <button  style="font-size:13px"  name = "dislike" value="{{ .Posts.ID}}">
           <i class="far fa-thumbs-down"></i>
         </button>
-        <a style="font-size:20px">{{.Posts.Dislikes}}</a>
+        <a style="font-size:15px">{{.Posts.Dislikes}}</a>
       </form>
     </div>
   </div>
@@ -101,6 +102,8 @@
       <a><i class="far fa-thumbs-down"></i></a>
       <a>{{.Dislikes}}</a>
       <a>{{.Created}}</a>
+      <br>
+      <a>Answered by <span>{{.Author}}</span></a>
     </div> 
     <hr>
     {{end}}

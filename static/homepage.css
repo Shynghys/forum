@@ -216,8 +216,8 @@ input[type="checkbox"] {
 
   display: inline-block;
   position: absolute;
-  left: 30%;
-  padding-top: 100px;
+  left: 50vh;
+  padding-top: 5vh;
   font-size: 25px;
   line-height: 100px;
 }
@@ -433,19 +433,42 @@ a.button {
   margin-top: 30px;
   right: 20px;
 }
-
+span {
+  color: #696969;
+  padding-top: 20px;
+}
 #user {
   color: #fff;
 }
+.commentlike {
+  position: absolute;
+  bottom: 2vh;
+}
+.commentlike p {
+  position: absolute;
+  color: #696969;
+  font-size: 1.5vh;
+  padding-top: 5px;
+}
+.commentlike button {
+  font-size: 20px;
 
+}
 hr {
 
   opacity: 0.2;
 }
 .back a{
   text-decoration: none;
-  position: absolute;
+  position: relative;
   right:30vh;
-  top: 10vh;
+  top: 2vh;
   color: #111;
+}
+#lol {
+  position: relative;
+  width: 100%;
+  bottom: -5vh;
+  /* bottom: 80vh;
+  margin-top: 30px; */
 }
