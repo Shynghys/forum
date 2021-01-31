@@ -33,6 +33,7 @@
     </ul>
     </div>
   </nav>
+  
 
 
   <div class="title">
@@ -89,7 +90,7 @@
   
     
   
-  <div class="comments" class="v_line">
+  <div class="comments" >
     <h2>Answers</h2>
     <p>{{ range .Posts.Comments }}</p>
     
@@ -122,62 +123,6 @@
 
     </ul>
   </div>
-  <div class="container">
-    <div class="title">
-      <a>{{ .Posts.Title}}</a>
-      <!-- <div>{{ .Posts.Title}}</div> -->
-      <p>{{ .Posts.Text}}</p><br>
-      <div>
-        <!-- BUTTONS DO NOTW WORK -->
-        <form action="/posts?id={{ .Posts.ID}}" method="POST">
-          <a style="font-size:20px">{{.Posts.Likes}}</a>
-          <button style="font-size:18px" name="like" value="{{ .Posts.ID}}">
-            <i class="fas fa-thumbs-up"></i>
-          </button>
-
-          <button style="font-size:18px" name="dislike" value="{{ .Posts.ID}}">
-            <i class="far fa-thumbs-down"></i>
-          </button>
-          <a style="font-size:20px">{{.Posts.Dislikes}}</a>
-        </form>
-      </div>
-    </div>
-
-    <div class="comments" class="v_line">
-
-      <div class="comment">
-
-        <p>Your answer</p>
-        <form action="/posts?id={{ .Posts.ID}}" method="POST">
-          <p><textarea rows="10" cols="45" name="text"></textarea></p>
-          <p><input type="submit" value="Send"></p>
-        </form>
-        <br>
-
-      </div>
-
-      <h2>Answers</h2>
-      <p>{{ range .Posts.Comments }}</p>
-
-      <p>{{.Text}}</p>
-      <div class="likes">
-        <a>{{.Author}}</a>
-        <a>{{.Created}}</a>
-        <a>{{.Likes}}</a>
-        <a><i class="far fa-thumbs-up"></i></a>
-        <a><i class="far fa-thumbs-down"></i></a>
-
-        <a>{{.Dislikes}}</a>
-
-
-      </div>
-      <hr>
-      {{end}}
-
-    </div>
-
-
-
-
+ 
 
 </html>

@@ -215,7 +215,7 @@ input[type="checkbox"] {
 .title {
 
   display: inline-block;
-  /* position: absolute; */
+  position: absolute;
   left: 30%;
   padding-top: 100px;
   font-size: 25px;
@@ -302,7 +302,7 @@ a.button {
   position: relative;
   /* right: 400px;
   bottom: 70px; */
-  left: 600px;
+  left: 60vh;
   top: 35px;
 }
 .filterbtn h3 {
@@ -333,12 +333,13 @@ a.button {
   font-size: 10px;
   left: 70vh;
   position: absolute;
-.counts h6 a {
+}
+/* .counts h6 a {
   position: relative;
   left: 600px;
   font-size: 12px;
   top: 40px;
-}
+} */
 
 .content h3 {
   position: relative;
@@ -398,11 +399,11 @@ a.button {
 }
 
 .comments {
-  position: relative;
+  position: absolute;
   font-size: 20px;
   margin-top: 50px;
-  /* left: 600px;
-  top: 500px; */
+  left: 500px;
+  top: 500px;
   line-height: 50px;
 }
 
@@ -444,7 +445,7 @@ hr {
 .back a{
   text-decoration: none;
   position: absolute;
-  right:100vh;
+  right:30vh;
   top: 10vh;
   color: #111;
 }
