@@ -98,32 +98,55 @@
   <div class="comments" >
     
     <h2>Answers</h2>
-    <p>{{ range .Posts.Comments }}</p>
-    
-    <p>{{.Text}}</p>
-    <div class="likes">
-      <a>{{.Likes}}</a>
-      <a><i class="far fa-thumbs-up"></i></a>
-      <a><i class="far fa-thumbs-down"></i></a>
-      <a>{{.Dislikes}}</a>
-      <a>{{.Created}}</a>
-      <br>
-      <a>Answered by <span>{{.Author}}</span></a>
-    </div> 
-    <hr>
-    {{end}}
 
     {{ if .UserDetails.UserIn}}
-    <div class="comment">
-      <p>Your answer</p>
-      <form action="/posts?id={{ .Posts.ID}}" method="POST">
-        <p><textarea rows="10" cols="45" name="text" required></textarea></p>
-        <p><input type="submit" value="Send"></p>
-      </form>
-      <br>
-    </div>
-    {{ end }}
+    
+      <p>{{ range .Posts.Comments }}</p>    
+      <p>{{.Text}}</p>
+      <div class="likes">
+        <form action="/posts?id={{ .PostID}}" method="POST">
+          <a  style="font-size:15px">{{.Likes}}</a> 
+          <button style="font-size:13px" name = "like" value="{{ .ID}}">
+            <i class="fas fa-thumbs-up"></i> 
+          </button>
+          <button  style="font-size:13px"  name = "dislike" value="{{ .ID}}">
+            <i class="far fa-thumbs-down"></i>
+          </button>
+          <a style="font-size:15px">{{.Dislikes}}</a>
+        </form>
+        <a>{{.Created}}</a>
+        <br>
+        <a>Answered by <span>{{.Author}}</span></a>
+      </div> 
+      <hr>
+      {{end}}
+
+      <div class="comment">
+        <p>Your answer</p>
+        <form action="/posts?id={{ .Posts.ID}}" method="POST">
+          <p><textarea rows="10" cols="45" name="text" required></textarea></p>
+          <p><input type="submit" value="Send"></p>
+        </form>
+        <br>
+      </div>
+
+    {{ else }}
+      <p>{{ range .Posts.Comments }}</p>    
+      <p>{{.Text}}</p>
+      <div class="likes">
+        <a  style="font-size:15px">{{.Likes}}</a> 
+        <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
+        <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
+        <a style="font-size:15px">{{.Dislikes}}</a>
+        <a>{{.Created}}</a>
+        <br>
+        <a>Answered by <span>{{.Author}}</span></a>
+      </div>
+      {{end}}
+
+    {{end}}
   </div>
+
 
   <div class="category">
     <i class="fas fa-bars"></i>
