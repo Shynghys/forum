@@ -83,7 +83,9 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		// fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 		details.Author = db.GetUsername(details.AuthorID)
-		db.CreatePost(&details)
+		id := db.CreatePost(&details)
+		db.CreateLike(id)
+		db.CreateDislike(id)
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
@@ -106,65 +108,57 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 		Posts       vars.Post
 	}
 	var b page
-	var IsUserin PageDetails
-	IsUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)
 	if c != nil {
-		IsUserin.UserIn = true
+		b.UserDetails.UserIn = true
 		needCookie, _ := uuid.FromString(GetUserByCookie(r))
 		findUser := db.ReadUser(needCookie)
-		IsUserin.UserName = findUser.Username
-
+		b.UserDetails.UserName = findUser.Username
+		b.UserDetails.UserID = findUser.ID
 	}
-	b.UserDetails = IsUserin
 
 	title := r.URL.Query().Get("id")
+
+	b.Posts = db.ReadPost(title)
+
 	fmt.Println("===================")
 	if r.Method == "GET" {
-		fmt.Println("dasdad")
-		// if !(r.URL.Path == "/posts/{id}") {
-		// 	ErrorHandler(w, r, http.StatusNotFound)
-		// 	return
-		// }
-
-		fmt.Println(title)
 		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
-		Post := db.ReadPost(title)
-		b.Posts = Post
 		fmt.Println(b)
-		fmt.Println("readpost done")
 		tmpl.Execute(w, b)
-
-	}
-	if r.Method == "POST" {
+	} else if r.Method == "POST" {
 		fmt.Println("CREATING COMMENT")
 		// tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
 		// if r.Method != http.MethodPost {
 		// 	tmpl.Execute(w, nil)
 		// 	return
 		// }
-		postID, _ := uuid.FromString(r.URL.Query().Get("id"))
 		details := vars.Comment{
-			PostID: postID,
-			Text:   r.FormValue("text"),
+			AuthorID: b.UserDetails.UserID,
+			Author:   b.UserDetails.UserName,
+			PostID:   b.Posts.ID,
+			Text:     r.FormValue("text"),
 		}
 
-		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
-		notAuthorised, _ := uuid.FromString("00000000-0000-0000-0000-000000000000")
-		if details.AuthorID == notAuthorised {
-			var err vars.ErrorStruct
-			tmpl := template.Must(template.ParseFiles("templates/error/index.html"))
-			err.Status = 401
-			err.StatusDefinition = "Not authorised"
+		// details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 
-			tmpl.Execute(w, err)
-		}
+		// notAuthorised, _ := uuid.FromString("00000000-0000-0000-0000-000000000000")
+		// if details.AuthorID == notAuthorised {
+		// 	var err vars.ErrorStruct
+		// 	tmpl := template.Must(template.ParseFiles("templates/error/index.html"))
+		// 	err.Status = 401
+		// 	err.StatusDefinition = "Not authorised"
+
+		// 	tmpl.Execute(w, err)
+		// }
+
 		details.Author = db.GetUsername(details.AuthorID)
 
 		like := r.FormValue("like")
 
 		if like != "" {
 			likeUUID, _ := uuid.FromString(like)
+			fmt.Println("likeUUD", likeUUID)
 			db.LikeBtn(likeUUID, details.AuthorID)
 		}
 

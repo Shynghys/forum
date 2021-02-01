@@ -18,6 +18,7 @@ var Temps *template.Template
 
 type PageDetails struct {
 	UserIn   bool
+	UserID   uuid.UUID
 	UserName string
 	AllPosts []vars.Post
 }
