@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	db "../database/"
 	"../vars"
@@ -42,14 +43,14 @@ func NewRouter() *http.ServeMux {
 	// r.HandleFunc("/posts", PostsHandler)
 	r.HandleFunc("/posts/create", CreatePost)
 	r.HandleFunc("/posts", ReadPost)
-	r.HandleFunc("/posts/edit", UpdatePost)
-	r.HandleFunc("/posts/delete", DeletePost)
+	// r.HandleFunc("/posts/edit", UpdatePost)
+	// r.HandleFunc("/posts/delete", DeletePost)
 
-	r.HandleFunc("/comments", CommentsHandler)
-	r.HandleFunc("/comments/create/", CreateComment)
-	r.HandleFunc("/comments/{id}", ReadComment)
-	r.HandleFunc("/comments/{id}/update", UpdateComment)
-	r.HandleFunc("/comments/{id}/delete", DeleteComment)
+	// r.HandleFunc("/comments", CommentsHandler)
+	// r.HandleFunc("/comments/create/", CreateComment)
+	// r.HandleFunc("/comments/{id}", ReadComment)
+	// r.HandleFunc("/comments/{id}/update", UpdateComment)
+	// r.HandleFunc("/comments/{id}/delete", DeleteComment)
 
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))
@@ -58,6 +59,17 @@ func NewRouter() *http.ServeMux {
 
 // Handler does smth
 func Handler(w http.ResponseWriter, r *http.Request) {
+	if !(r.URL.Path == "/") {
+		ErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	_, err := os.Open("./mainDB.db")
+	if err != nil {
+		ErrorHandler(w, r, 500)
+		return
+	}
+
 	var IsUserin PageDetails
 	IsUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)

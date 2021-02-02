@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	db "../database/"
 	"../vars"
@@ -37,50 +38,18 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "POST" {
+		// What is it??
 		if err := r.ParseForm(); err != nil {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		// var a []string
 
-		// if r.FormValue("movies/serials") != "" {
-		// 	a = append(a, r.FormValue("movies/serials"))
-		// }
-		// if r.FormValue("books") != "" {
-		// 	a = append(a, r.FormValue("books"))
-		// }
-		// if r.FormValue("games") != "" {
-		// 	a = append(a, r.FormValue("games"))
-		// }
-
-		// a = append(a, r.FormValue("select"))
-		// fmt.Println(len(a))
-		// fmt.Println(r.FormValue("select"))
-		// categories := r.Form["select"][0]
-
-		// if r.Form["select"][0] != "" {
-		// 	a = append(a, "Movies")
-		// }
-		// if r.Form["select"][1] != "" {
-		// 	a = append(a, "Games")
-		// }
-		// if r.Form["select"][2] != "" {
-		// 	a = append(a, "Books")
-		// }
-		// if r.Form["movies"] != nil {
-		// 	fmt.Println("fgfgfgfgfg")
-		// }
-		// fmt.Println(a)
-		// categories := strings.Join(a, ",")
 		categories := r.FormValue("select")
-		fmt.Println("---------------Category---------------")
-		fmt.Println(categories)
 		details := vars.Post{
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
 			Category: categories,
 		}
-		// fmt.Println(details)
 		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 		details.Author = db.GetUsername(details.AuthorID)
 		id := db.CreatePost(&details)
@@ -88,21 +57,19 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		db.CreateDislike(id)
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-
 	}
 
-}
-func contains(slice []string, item string) bool {
-	set := make(map[string]struct{}, len(slice))
-	for _, s := range slice {
-		set[s] = struct{}{}
-	}
-	_, ok := set[item]
-	return ok
 }
 
 // ReadPost gets post by id
 func ReadPost(w http.ResponseWriter, r *http.Request) {
+
+	_, err := os.Open("./mainDB.db")
+	if err != nil {
+		ErrorHandler(w, r, 500)
+		return
+	}
+
 	type page struct {
 		UserDetails PageDetails
 		Posts       vars.Post
@@ -121,7 +88,11 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 	b.Posts = db.ReadPost(title)
 
-	fmt.Println("===================")
+	if b.Posts.Title == "" {
+		ErrorHandler(w, r, 400)
+		return
+	}
+
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
 		fmt.Println(b)
