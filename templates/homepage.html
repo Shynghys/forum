@@ -135,7 +135,7 @@
           }
 
           sortedContent.sort(function(a, b) {
-            return Number(a.firstElementChild.innerText) - Number(b.firstElementChild.innerText);
+            return Number(b.firstElementChild.innerText) - Number(a.firstElementChild.innerText);
           });
           console.log(sortedContent)
           var newContent = ""
