@@ -417,9 +417,7 @@ a.button {
 .likes {
   position: relative;
   left: 800px;
-  
-  
-
+  bottom: 0.1vh
 }
 
 .postlikes form{
@@ -518,5 +516,8 @@ form span {
 }
 hr {
   position: relative;
+  width: 120vh
+}
+#line {
   width: 120vh
 }
