@@ -216,7 +216,7 @@ input[type="checkbox"] {
 
   display: inline-block;
   position: absolute;
-  left: 50vh;
+  left: 38vh;
   padding-top: 5vh;
   font-size: 25px;
   line-height: 100px;
@@ -277,7 +277,7 @@ a.button:hover {
 }
 
 a.button {
-  left: 1250px;
+  left: 110vh;
   position: absolute;
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -318,28 +318,24 @@ a.button {
   position: absolute;
   left: 400px;
   font-size: 2vh;
-  top: 100px;
+  top: 7vh;
 }
 
 .counts h5 a {
   position: relative;
   left: 150px;
   font-size: 12px;
-  top: 95px;
+  top: 7vh;
 }
 
 .counts h6 p{
-  padding-top: 3vh;
+  padding-top: -7vh;
   font-size: 10px;
   left: 70vh;
   position: absolute;
+  
 }
-/* .counts h6 a {
-  position: relative;
-  left: 600px;
-  font-size: 12px;
-  top: 40px;
-} */
+
 
 .content h3 {
   position: relative;
@@ -391,6 +387,17 @@ a.button {
 .counts a {
   font-size: 15px;
 }
+.counts h4 {
+  font-size: 1vh;
+  display: inline-block;
+  position: absolute;
+  padding-top: 8vh;
+  right: 80vh;
+
+}
+.counts i {
+  font-size: 1.2vh;
+}
 
 .content h3 i:hover {
   color: #111;
@@ -412,6 +419,14 @@ a.button {
   left: 800px;
   bottom: 5px;
 }
+.postlikes form{
+  color: black;
+  position: relative;
+  bottom: 17vh;
+  left: 55vh;
+  
+}
+
 
 .postlike {
   position: absolute;
@@ -433,9 +448,10 @@ a.button {
   margin-top: 30px;
   right: 20px;
 }
-span {
-  color: #696969;
-  padding-top: 20px;
+.content span {
+  color:gray;
+  font-size: 1vh;
+
 }
 #user {
   color: #fff;
@@ -471,4 +487,25 @@ hr {
   bottom: -5vh;
   /* bottom: 80vh;
   margin-top: 30px; */
+}
+span {
+  color: black;
+
+}
+form {
+  position: absolute;
+  color: black;
+  padding-top: 5vh;
+}
+
+#date {
+  font-size: 1vh;
+  padding-top: 20vh;
+
+}
+form span {
+  color: gray
+}
+.comments span {
+  color: gray
 }
