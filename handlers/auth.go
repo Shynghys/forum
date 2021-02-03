@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -38,51 +37,27 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
+	tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
+	var msg Message
+
 	if r.Method == "GET" {
-		// tmpl, err := template.New("base").ParseFiles("templates/tmpl/sign-in.html", "templates/tmpl/base.html")
-		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
-
-		// check your err
-
-		// if err != nil {
-		// panic(err)
-		// }
-		// if r.Method != http.MethodPost {
-		// 	tmpl.Execute(w, nil)
-		// 	return
-		// }
-
-		tmpl.Execute(w, nil)
-	}
-	// cookie := &http.Cookie{}
-	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-in.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
-
-		// Username: r.FormValue("username"),
+		tmpl.Execute(w, msg)
+	} else if r.Method == "POST" {
 
 		data := details{
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-		// sessionId := inMemorySession.Init(data.Login)
-		// cookie = &http.Cookie{
-		// 	Name:    COOKIE_NAME,
-		// 	Value:   sessionId,
-		// 	Expires: time.Now().Add(5 * time.Minute),
-		// }
-		// http.SetCookie(w, cookie)
-		// fmt.Println(data)
+
 		getUUID := checkAll(db, data.Login, data.Password)
-		// fmt.Println("------------")
-		// fmt.Println(getUUID)
+
 		if getUUID == "" {
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
 		} else if getUUID == "error500" {
 			ErrorHandler(w, r, 500)
+		} else if getUUID == "wrong password" {
+			msg.Msg = "1"
+			tmpl.Execute(w, msg)
 		} else {
 			userid, _ := uuid.FromString(getUUID)
 			sessionid := database.CreatedUID()
@@ -90,8 +65,6 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 				UserID:    userid,
 				SessionID: sessionid,
 			}
-			// fmt.Println("------Im here--------")
-			// fmt.Println(newSession)
 			database.CreateSession(newSession)
 			cookie := &http.Cookie{
 				Name:    COOKIE_NAME,
@@ -214,13 +187,17 @@ func checkAll(db *sql.DB, data, password string) string {
 	if idUsername == "error500" {
 		return "error500"
 	}
+
 	// to figure out was it printed an e-mail or a username
 	var uuid string
 	if idEmail != "" {
 		uuid = idEmail
-	} else {
+	} else if idUsername != "" {
 		uuid = idUsername
+	} else {
+		return ""
 	}
+
 	// fmt.Println("----Checkall UUID---------------")
 	// fmt.Println(uuid)
 
@@ -230,8 +207,6 @@ func checkAll(db *sql.DB, data, password string) string {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("--------ID password--------")
-		fmt.Println(row)
 		defer row.Close()
 
 		var password string
@@ -244,7 +219,7 @@ func checkAll(db *sql.DB, data, password string) string {
 	}
 
 	if !isPasswordRight(uuid, password) {
-		return ""
+		return "wrong password"
 	}
 
 	return uuid
@@ -264,7 +239,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 
 	cookieID, err := uuid.FromString(GetCookie(r, COOKIE_NAME))
 	if err != nil {
-		fmt.Printf("Something went wrong: %s", err)
+		// fmt.Printf("Something went wrong: %s", err)
 		return
 	}
 	database.DeleteSession(cookieID)
