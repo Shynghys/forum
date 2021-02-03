@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 
 	"../vars"
@@ -24,7 +23,7 @@ func CreateSession(session vars.Session) {
 	}
 
 	// CheckErr(err)
-	fmt.Println("Session created!!!!1")
+
 	tx.Commit()
 }
 func DeleteSession(id uuid.UUID) {
@@ -33,6 +32,17 @@ func DeleteSession(id uuid.UUID) {
 	tx, _ := db.Begin()
 
 	stmt, _ := tx.Prepare("DELETE FROM session WHERE sessionID=?")
+	_, err := stmt.Exec(id)
+	CheckErr(err)
+	tx.Commit()
+}
+
+func DeleteSessionByID(id uuid.UUID) {
+	db := DbConn()
+	defer db.Close()
+	tx, _ := db.Begin()
+
+	stmt, _ := tx.Prepare("DELETE FROM session WHERE userID=?")
 	_, err := stmt.Exec(id)
 	CheckErr(err)
 	tx.Commit()

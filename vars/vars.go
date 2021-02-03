@@ -28,6 +28,7 @@ type Post struct {
 	Likes    int
 	Dislikes int
 	Comments []Comment
+	Liked    bool
 }
 
 // Comment ss
@@ -51,4 +52,10 @@ type ErrorStruct struct {
 type Session struct {
 	UserID    uuid.UUID
 	SessionID uuid.UUID
+}
+
+type Like struct {
+	ID        uuid.UUID
+	AuthorsID interface{}
+	Str       string
 }
