@@ -44,7 +44,10 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		categories := r.FormValue("select")
+		categories := r.FormValue("movies") + " " + r.FormValue("books") + " " + r.FormValue("games")
+
+		fmt.Println("-----------------------------------sssssss-----------------")
+		fmt.Println(categories)
 		details := vars.Post{
 			Title:    r.FormValue("title"),
 			Text:     r.FormValue("text"),
