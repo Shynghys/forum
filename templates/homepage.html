@@ -37,6 +37,7 @@
       {{ range .AllPosts }}
       <div class="content">
         <div class= "counts {{.Category}} tpost">
+          <a style="display: none" class="toSortLikes"> {{.Likes}}</a>
           <div class="postlike">
             <a> {{.Likes}}</a>
             <a><i class="far fa-thumbs-up"></i></a>
@@ -115,7 +116,37 @@
             console.log(container[0].outerHTML)
           }
         </script>
-      <input type="button" value="Most liked">
+      <input type="button" value="Most liked" onclick="likesort()">
+      <script>
+        function likesort() {
+        
+          var allPost = document.getElementsByClassName("tpost")
+          var container = document.getElementsByClassName("contents")
+          // console.log(allPost)
+          // console.log(container)
+          var sortedContent = []
+          for (var a of allPost) {
+            // console.log(a.firstElementChild)
+            // console.log(a.firstElementChild.innerText)
+            sortedContent.push(a)
+          }
+
+          sortedContent.sort(function(a, b) {
+            return Number(a.firstElementChild.innerText) - Number(b.firstElementChild.innerText);
+          });
+          console.log(sortedContent)
+          var newContent = ""
+          for (a of sortedContent) {
+        
+            newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<hr id=\"lol\">"
+          }
+          // newContent += 
+          // console.log(newContent)
+          container[0].innerHTML = newContent
+          
+          // console.log(container[0].outerHTML)
+        }
+      </script>
       {{ if .UserIn}}
       {{ else }}
       <h3>LOG IN TO ASK A QUESTION</h5>
