@@ -47,7 +47,7 @@
           <label for="">Category</label>
         </div>
         <div class="choosing">
-          <form action="#">
+          <form action="#" onsubmit="return someFunc()">
               <label>Movies
                   <input style="float:none; display: inline; height: 10px; width:10px;" name="movies" type="checkbox" value="movies">
                   <span class="checkmark"></span>
@@ -66,6 +66,16 @@
         <div class="post">
           <button type="submit">Post your question</button>
         </div>
+        <script>
+            function someFunc() {
+                if (1==2) {
+                    return true;
+                } else {
+                    alert("Not submitting");
+                    return false;
+                }
+            }
+            </script>
       </div>
     </div>
   </form>
