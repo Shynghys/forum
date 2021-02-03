@@ -19,6 +19,10 @@ type details struct {
 	Password string
 }
 
+type Message struct {
+	Msg string
+}
+
 const COOKIE_NAME = "my_cookie"
 
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
@@ -115,20 +119,14 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer db.Close()
+	tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
+	var msg Message
 
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-
-		tmpl.Execute(w, nil)
-
+		tmpl.Execute(w, msg)
 	}
 
 	if r.Method == "POST" {
-		tmpl := template.Must(template.ParseFiles("templates/sign-up.html"))
-		if r.Method != http.MethodPost {
-			tmpl.Execute(w, nil)
-			return
-		}
 		// t := time.Now()
 		details := vars.User{
 			Username: r.FormValue("username"),
@@ -140,15 +138,26 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		var isEmailUsed, isUsernameUsed bool
 		isEmailUsed = checkEmail(db, details.Email) != ""
 		isUsernameUsed = checkUsername(db, details.Username) != ""
-		if isEmailUsed {
-			fmt.Println("This email is already in use.")
-		} else if isUsernameUsed {
-			fmt.Println("This username is already in use.")
-		} else {
-			// db := data.CreateDatabase()
-			database.CreateUser(&details)
-			fmt.Println("You are cool.")
+		if isEmailUsed && isUsernameUsed {
+			msg.Msg = "0"
+			// msg.Msg = "These username and email are already in use"
+			tmpl.Execute(w, msg)
+			return
 		}
+		if isEmailUsed {
+			msg.Msg = "1"
+			// msg.Msg = "This email is already in use"
+			tmpl.Execute(w, msg)
+			return
+		}
+		if isUsernameUsed {
+			msg.Msg = "2"
+			// msg.Msg = "This username is already in use"
+			tmpl.Execute(w, msg)
+			return
+		}
+
+		database.CreateUser(&details)
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
 		http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
