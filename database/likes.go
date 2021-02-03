@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"../vars"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -113,6 +114,35 @@ func isIn(str string, sli []string) bool {
 	return false
 }
 
+func ReadAllLiked() map[uuid.UUID]string {
+	db := DbConn()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM likes")
+	CheckErr(err)
+	defer rows.Close()
+
+	m := make(map[uuid.UUID]string)
+
+	// likes := []vars.Like{}
+
+	for rows.Next() {
+		var tempLike vars.Like
+		if err = rows.Scan(&tempLike.ID, &tempLike.AuthorsID); err != nil {
+			CheckErr(err)
+		}
+		if tempLike.AuthorsID == nil {
+			tempLike.Str = ""
+		} else {
+			tempLike.Str = fmt.Sprintf("%v", tempLike.AuthorsID)
+		}
+
+		// likes = append(likes, tempLike)
+		m[tempLike.ID] = tempLike.Str
+	}
+	return m
+}
+
 func (val *Data) checkLike() ([]string, bool) {
 	db := DbConn()
 	defer db.Close()
@@ -161,13 +191,6 @@ func (val *Data) checkDislike() ([]string, bool) {
 func updateLike(object uuid.UUID, likeUserStr string) {
 	db := DbConn()
 	defer db.Close()
-	fmt.Println(likeUserStr, object)
-	// tx, _ := db.Begin()
-	// smth, _ := tx.Prepare("update likes set authorsID=? where id=?")
-	// _, err := smth.Exec(likeUserStr, object)
-	// CheckErr(err)
-	// tx.Commit()
-
 	_, err := db.Exec("update likes set authorsID = $1 where id = $2", likeUserStr, object)
 	if err != nil {
 		panic(err)
@@ -186,16 +209,10 @@ func updateDislike(object uuid.UUID, disLikeUserStr string) {
 func updateLikePost(id uuid.UUID, nbr int) {
 	db := DbConn()
 	defer db.Close()
-	// tx, _ := db.Begin()
-	// smth, _ := tx.Prepare("update posts set likes=?, where id=?")
-	// _, err := smth.Exec(nbr, id) //errors
-	// CheckErr(err)
-
 	_, err := db.Exec("update posts set likes = $1 where id = $2", nbr, id)
 	if err != nil {
 		panic(err)
 	}
-	// tx.Commit()
 }
 
 func updateDisPost(id uuid.UUID, nbr int) {

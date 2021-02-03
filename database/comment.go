@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"time"
 
 	"../vars"
@@ -16,7 +15,6 @@ func CreateComment(comment vars.Comment) uuid.UUID {
 	comment.Created = time.Now().Format(time.RFC1123)
 	// comment.AuthorID = ""
 
-	fmt.Println("comment creating")
 	stmt, _ := tx.Prepare("INSERT INTO comments (id, postID, authorID, author, text, created, likes, dislikes) VALUES (?,?,?,?,?,?,?,?)")
 	_, err := stmt.Exec(id, comment.PostID, comment.AuthorID, comment.Author, comment.Text, comment.Created, comment.Likes, comment.Dislikes)
 
