@@ -31,6 +31,13 @@
       <div class="container">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
+        {{if eq .Msg "0"}}
+          <p style="color:red;"> These username and email are already in use </p>
+        {{else if eq .Msg "1"}}
+          <p style="color:red;"> This email is already in use </p>
+        {{ else if eq .Msg "2"}}
+          <p style="color:red;"> This username is already in use </p>
+        {{end}}
         <hr>
         <input type="text" placeholder="Enter Username" name="username" id="username" required>
         <!-- <label for="email"><b>Email</b></label> -->
