@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"os"
+	"strings"
 
 	db "../database/"
 	"../vars"
@@ -73,9 +73,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var IsUserin PageDetails
 	IsUserin.UserIn = false
 	c, _ := r.Cookie(COOKIE_NAME)
-	// if err != nil {
-	// 	panic(err)
-	// }
+
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if c != nil {
 		IsUserin.UserIn = true
@@ -83,8 +81,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		findUser := db.ReadUser(needCookie)
 		IsUserin.UserName = findUser.Username
 	}
-	fmt.Println(IsUserin)
 	IsUserin.AllPosts = db.ReadAllPosts()
+
+	if IsUserin.UserIn {
+		likedMap := db.ReadAllLiked()
+		for i, val := range IsUserin.AllPosts {
+			if strings.Contains(likedMap[val.ID], val.AuthorID.String()) {
+				IsUserin.AllPosts[i].Liked = true
+			}
+		}
+	}
+
 	tmpl.Execute(w, IsUserin)
 	// http.Redirect(w, r, "/", 200)
 }

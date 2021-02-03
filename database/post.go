@@ -27,11 +27,11 @@ func ReadAllPosts() []vars.Post {
 		CheckErr(err)
 		posts = append(posts, tempPost)
 	}
-	fmt.Println(posts)
+
 	return posts
 }
-func CreatePost(post *vars.Post) uuid.UUID {
 
+func CreatePost(post *vars.Post) uuid.UUID {
 	db := DbConn()
 	defer db.Close()
 

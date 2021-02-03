@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"../vars"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -111,6 +112,37 @@ func isIn(str string, sli []string) bool {
 		}
 	}
 	return false
+}
+
+func ReadAllLiked() map[uuid.UUID]string {
+	db := DbConn()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM likes")
+	CheckErr(err)
+	defer rows.Close()
+
+	m := make(map[uuid.UUID]string)
+
+	// likes := []vars.Like{}
+
+	for rows.Next() {
+		var tempLike vars.Like
+		if err = rows.Scan(&tempLike.ID, &tempLike.AuthorsID); err != nil {
+			CheckErr(err)
+		}
+		if tempLike.AuthorsID == nil {
+			tempLike.Str = ""
+		} else {
+			tempLike.Str = fmt.Sprintf("%v", tempLike.AuthorsID)
+		}
+
+		// likes = append(likes, tempLike)
+		m[tempLike.ID] = tempLike.Str
+	}
+	fmt.Println(m)
+
+	return m
 }
 
 func (val *Data) checkLike() ([]string, bool) {

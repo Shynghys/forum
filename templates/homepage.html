@@ -49,12 +49,16 @@
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a>{{.Category}}  </a></h5>
           <h6><p>Asked on {{.Created}} by <span>{{.Author}}</span></p></h6>
+          {{ if .Liked }}
+          <h4><p> liked </p></h4>
+          {{ end }}
           <h7 style="display: none" class="toSortDates"><p>{{.Created}}</p></h7>
+
       </div>
         <div>
         </div>
       </div>
-      
+
       {{ end }}
     </div>
   </div>
