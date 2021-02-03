@@ -187,8 +187,13 @@ input[type="checkbox"] {
 
 
 .choosing {
-  position: absolute;
-  left: 27vh;
+  display: flex;
+  flex-direction: column
+}
+.choosing label {
+  position: relative;
+  left: 20px;
+  bottom: 17px;
 }
 
 .box {
@@ -200,7 +205,7 @@ input[type="checkbox"] {
 
 input {
   height: 40px;
-  width: 200%;
+  /* width: 200%; */
 }
 
 .box {

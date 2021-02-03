@@ -74,21 +74,21 @@
     {{ if .UserDetails.UserIn}}
     
       <p>{{ range .Posts.Comments }}</p>    
-      <p>{{.Text}}</p>
+      <p>{{.Text}}</p><br>
       <div class="likes">
         <form action="/posts?id={{ .PostID}}" method="POST">
           <a  style="font-size:15px">{{.Likes}}</a> 
-          <button style="font-size:13px" name = "like" value="{{ .ID}}">
+          <button style="font-size:10px" name = "like" value="{{ .ID}}">
             <i class="fas fa-thumbs-up"></i> 
           </button>
-          <button  style="font-size:13px"  name = "dislike" value="{{ .ID}}">
+          <button  style="font-size:10px"  name = "dislike" value="{{ .ID}}">
             <i class="far fa-thumbs-down"></i>
           </button>
-          <a style="font-size:15px">{{.Dislikes}}</a>
+          <a style="font-size:15px">{{.Dislikes}}   </a>
           <a>{{.Created}}</a>
           <a>Answered by <span>{{.Author}}</span></a>
         </form>
-        <hr id="line">
+    
       
       </div> 
       
@@ -117,7 +117,7 @@
         <a style="font-size: 10px">{{.Created}}</a>
     
       </div>
-      <hr id ="line">
+      
       {{end}}
   
     {{end}}
