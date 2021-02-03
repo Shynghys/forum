@@ -37,3 +37,14 @@ func DeleteSession(id uuid.UUID) {
 	CheckErr(err)
 	tx.Commit()
 }
+
+func DeleteSessionByID(id uuid.UUID) {
+	db := DbConn()
+	defer db.Close()
+	tx, _ := db.Begin()
+
+	stmt, _ := tx.Prepare("DELETE FROM session WHERE userID=?")
+	_, err := stmt.Exec(id)
+	CheckErr(err)
+	tx.Commit()
+}

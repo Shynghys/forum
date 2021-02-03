@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	database "../database"
 	db "../database/"
 	"../vars"
 	uuid "github.com/satori/go.uuid"
@@ -33,33 +34,57 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "GET" {
-		tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
-		tmpl.Execute(w, nil)
+		c, _ := r.Cookie(COOKIE_NAME)
+
+		if c != nil {
+			needCookie := GetUserByCookie(r)
+			if needCookie == "" {
+				cookieID, err := uuid.FromString(GetCookie(r, COOKIE_NAME))
+				if err != nil {
+					// fmt.Printf("Something went wrong: %s", err)
+					return
+				}
+				database.DeleteSession(cookieID)
+				DeleteCookie(w, r)
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			} else {
+				tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
+				tmpl.Execute(w, nil)
+			}
+		}
 	}
 
 	if r.Method == "POST" {
 		// What is it??
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
+
+		c, _ := r.Cookie(COOKIE_NAME)
+		if c != nil {
+			needCookie := GetUserByCookie(r)
+			if needCookie == "" {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			} else {
+				if err := r.ParseForm(); err != nil {
+					fmt.Fprintf(w, "ParseForm() err: %v", err)
+					return
+				}
+
+				categories := r.FormValue("movies") + " " + r.FormValue("books") + " " + r.FormValue("games")
+
+				fmt.Println("-----------------------------------sssssss-----------------")
+				fmt.Println(categories)
+				details := vars.Post{
+					Title:    r.FormValue("title"),
+					Text:     r.FormValue("text"),
+					Category: categories,
+				}
+				details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
+				details.Author = db.GetUsername(details.AuthorID)
+				id := db.CreatePost(&details)
+				db.CreateLike(id)
+				db.CreateDislike(id)
+			}
+
 		}
-
-		categories := r.FormValue("movies") + " " + r.FormValue("books") + " " + r.FormValue("games")
-
-		fmt.Println("-----------------------------------sssssss-----------------")
-		fmt.Println(categories)
-		details := vars.Post{
-			Title:    r.FormValue("title"),
-			Text:     r.FormValue("text"),
-			Category: categories,
-		}
-		details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
-		details.Author = db.GetUsername(details.AuthorID)
-		id := db.CreatePost(&details)
-		db.CreateLike(id)
-		db.CreateDislike(id)
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 }

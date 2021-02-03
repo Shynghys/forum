@@ -61,6 +61,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			userid, _ := uuid.FromString(getUUID)
 			sessionid := database.CreatedUID()
+			database.DeleteSessionByID(userid)
 			newSession := vars.Session{
 				UserID:    userid,
 				SessionID: sessionid,
@@ -69,7 +70,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			cookie := &http.Cookie{
 				Name:    COOKIE_NAME,
 				Value:   sessionid.String(),
-				Expires: time.Now().Add(5 * time.Minute),
+				Expires: time.Now().Add(60 * time.Minute),
 			}
 			http.SetCookie(w, cookie)
 			http.Redirect(w, r, "/", http.StatusSeeOther) // need find idea how to send uuid...
