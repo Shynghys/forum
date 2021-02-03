@@ -182,15 +182,18 @@
       <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
       <script>
         function ShowMovies() {
-          var games = document.getElementsByClassName("games")
-          var books = document.getElementsByClassName("books")
+          // var games = document.getElementsByClassName("games")
+          // var books = document.getElementsByClassName("books")
           var movies = document.getElementsByClassName("movies")
-          for (i of games) {
+          // console.log(movies)
+          var other = document.querySelectorAll(".content div:not(.movies)")
+          // console.log(other)
+          for (i of other) {
             i.style.display = "none"
           }
-          for (i of books) {
-            i.style.display = "none"
-          }
+          // for (i of books) {
+          //   i.style.display = "none"
+          // }
           for (i of movies) {
             i.style.display = "initial"
           }          
@@ -200,32 +203,25 @@
       <script>
           function ShowGames() {
           var games = document.getElementsByClassName("games")
-          var books = document.getElementsByClassName("books")
-          var movies = document.getElementsByClassName("movies")
+          var other = document.querySelectorAll(".content div:not(.games)")
           for (i of games) {
             i.style.display = "initial"
           }
-          for (i of books) {
+          for (i of other) {
             i.style.display = "none"
           }     
-          for (i of movies) {
-            i.style.display = "none"
-          }     
+             
         }
       </script>
       <p><a class="URL" onclick="ShowBooks()">Books </a></p>
       <script>
          function ShowBooks() {
-          var games = document.getElementsByClassName("games")
           var books = document.getElementsByClassName("books")
-          var movies = document.getElementsByClassName("movies")
-          for (i of games) {
-            i.style.display = "none"
-          }
+          var other = document.querySelectorAll(".content div:not(.books)")
           for (i of books) {
             i.style.display = "initial"
-          }  
-          for (i of movies) {
+          }
+          for (i of other) {
             i.style.display = "none"
           }        
         }
