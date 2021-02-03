@@ -13,7 +13,7 @@
 <body>
   <nav>
 
-    <div class="logo">Forum</div>
+    <div class="logo">Geek-Forum</div>
     <input type="checkbox" id="click" />
     <label for="click" class="menu-btn">
       <i class="fa fa-bars"></i>
@@ -43,6 +43,7 @@
     <a>{{ .Posts.Title}}</a>
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
+    <hr>
     <div class="postlikes">
         <form action="/posts?id={{ .Posts.ID}}" method="POST">
         <a  style="font-size:15px">{{.Posts.Likes}}</a> 
@@ -63,6 +64,7 @@
    
       </form>
     </div>
+
   </div>
 
   <div class="comments" >
@@ -84,13 +86,15 @@
           </button>
           <a style="font-size:15px">{{.Dislikes}}</a>
         </form>
-        <a>{{.Created}}</a>
+        <div class="created">
+            <a>{{.Created}}</a>
+            <a>Answered by <span>{{.Author}}</span></a>
+        </div>
      
-        <a>Answered by <span>{{.Author}}</span></a>
       </div> 
-      <hr>
+      
       {{end}}
-
+      
       <div class="comment">
         <p>Your answer</p>
         <form action="/posts?id={{ .Posts.ID}}" method="POST">
@@ -108,9 +112,11 @@
         <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
         <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
         <a style="font-size:15px">{{.Dislikes}}</a>
-        <a>{{.Created}}</a>
-        <br>
-        <a>Answered by <span>{{.Author}}</span></a>
+        <div class="created">
+            <a>{{.Created}}</a>
+            <a>Answered by <span>{{.Author}}</span></a>
+        </div>
+    
       </div>
       {{end}}
 

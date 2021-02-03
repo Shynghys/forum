@@ -217,7 +217,7 @@ input[type="checkbox"] {
   display: inline-block;
   position: absolute;
   left: 38vh;
-  padding-top: 5vh;
+  padding-top: 1vh;
   font-size: 25px;
   line-height: 100px;
 }
@@ -417,8 +417,11 @@ a.button {
 .likes {
   position: relative;
   left: 800px;
-  bottom: 5px;
+  top: 30px;
+  margin-top: -20px
+
 }
+
 .postlikes form{
   color: black;
   position: relative;
@@ -427,7 +430,11 @@ a.button {
   
 }
 
-
+.created {
+  color: black;
+  bottom: 50px;
+  font-size:0.1vh
+}
 .postlike {
   position: absolute;
   left: 30px;
@@ -435,7 +442,7 @@ a.button {
 }
 
 .comments h2 {
-  font-size: 20px;
+  font-size: 2vh;
   margin-bottom: 50px;
 }
 
@@ -508,4 +515,8 @@ form span {
 }
 .comments span {
   color: gray
+}
+hr {
+  position: relative;
+  width: 120vh
 }
