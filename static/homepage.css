@@ -417,7 +417,8 @@ a.button {
 .likes {
   position: relative;
   left: 800px;
-  bottom: 0.1vh
+  bottom: 5vh;
+  font-size: 5px
 }
 
 .postlikes form{

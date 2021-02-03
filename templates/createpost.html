@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/createpost.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -46,26 +47,32 @@
           <textarea name="text" id = "text" required></textarea>
           <label for="">Category</label>
         </div>
-        <div class="choosing">
-          <form action="#">
-              <label>Movies
-                  <input style="float:none; display: inline; height: 10px; width:10px;" name="movies" type="checkbox" value="movies">
-                  <span class="checkmark"></span>
-              </label>
-              <label >Games
-                  <input style="float:none; display: inline; height: 10px; width:10px;" name="games"type="checkbox" value="games">
-                  <span class="checkmark"></span>
-              </label>
-              <label >Books
-                  <input style="float:none; display: inline; height: 10px; width:10px;" name="books"type="checkbox" value="books">
-                  <span class="checkmark"></span>
-              </label>
+        <div class="choosing" method="post">
+          <form id="sectionForm"action="#">
+              <input style="float:none; display: inline; height: 10px; width:10px;" name="movies" type="checkbox" value="movies" class="checkboxes"required>
+              <label for="movies">Movies</label><br>
+              <input  style="float:none; display: inline; height: 10px; width:10px;" name="games" type="checkbox" value="games"  class="checkboxes" required>
+              <label for="games">Games</label><br>
+              <input  style="float:none; display: inline; height: 10px; width:10px;" name="books" type="checkbox" value="books"  class="checkboxes" required >
+              <label for="books">Books</label><br>
           </form>
+          <div class="post">
+              <button id="checkBtn" type="submit">Post your question</button>
+          </div>
+          <script type="text/javascript">
+          $(function(){
+    var requiredCheckboxes = $('.checkboxes');
+    requiredCheckboxes.change(function(){
+        if(requiredCheckboxes.is(':checked')) {
+            requiredCheckboxes.removeAttr('required');
+        } else {
+            requiredCheckboxes.attr('required', 'required');
+        }
+    });
+});
+          </script>
         </div>
         
-        <div class="post">
-          <button type="submit">Post your question</button>
-        </div>
       </div>
     </div>
   </form>
@@ -73,3 +80,4 @@
 </body>
  
 </html>
+
