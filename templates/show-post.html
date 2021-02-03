@@ -85,15 +85,15 @@
             <i class="far fa-thumbs-down"></i>
           </button>
           <a style="font-size:15px">{{.Dislikes}}</a>
+          <a>{{.Created}}</a>
+          <a>Answered by <span>{{.Author}}</span></a>
         </form>
-        <div class="created">
-            <a>{{.Created}}</a>
-            <a>Answered by <span>{{.Author}}</span></a>
-        </div>
-     
+        <hr id="line">
+      
       </div> 
       
       {{end}}
+
       
       <div class="comment">
         <p>Your answer</p>
@@ -106,22 +106,24 @@
 
     {{ else }}
       <p>{{ range .Posts.Comments }}</p>    
-      <p>{{.Text}}</p>
+      <p>{{.Text}}</p><br/>
       <div class="likes">
-        <a  style="font-size:15px">{{.Likes}}</a> 
+        <a  style="font-size:10px">{{.Likes}}</a> 
         <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
         <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
-        <a style="font-size:15px">{{.Dislikes}}</a>
-        <div class="created">
-            <a>{{.Created}}</a>
-            <a>Answered by <span>{{.Author}}</span></a>
-        </div>
+        <a style="font-size:10px">{{.Dislikes}}</a>
+        
+        <a>Answered by <span>{{.Author}}</span></a>
+        <a style="font-size: 10px">{{.Created}}</a>
     
       </div>
+      <hr id ="line">
       {{end}}
-
+  
     {{end}}
+ 
   </div>
+  
 
 
 

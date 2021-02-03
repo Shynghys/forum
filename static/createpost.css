@@ -212,6 +212,9 @@ input {
   padding-top: 5px;
   line-height: 20px
 }
+.choosing input {
+  color: aqua
+}
 input {
   float: left;
   display: inline-block;
