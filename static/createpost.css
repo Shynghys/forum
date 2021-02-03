@@ -185,14 +185,10 @@ input[type="checkbox"] {
   font-weight: 700;
 }
 
-.choosing option {
-  font-size: 20px;
-}
 
 .choosing {
   position: absolute;
-  left: 21%;
-
+  left: 27vh;
 }
 
 .box {
@@ -212,7 +208,10 @@ input {
   display: inline-block;
   width: 20vw;
 }
-
+.choosing {
+  padding-top: 5px;
+  line-height: 20px
+}
 input {
   float: left;
   display: inline-block;
