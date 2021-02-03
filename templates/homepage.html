@@ -36,7 +36,7 @@
     <div class="contents">
       {{ range .AllPosts }}
       <div class="content">
-        <div class= "counts {{.Category}}">
+        <div class= "counts {{.Category}} tpost">
         <form action="#" method="POST">
           <a style="font-size:10px">{{.Likes}}</a>
           <a name="like" value="{{.Likes}}"></a>
@@ -48,6 +48,7 @@
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a>{{.Category}}  </a></h5>
           <h6><p>Asked on {{.Created}} by <span>{{.Author}}</span></p></h6>
+          <h7 style="display: none" class="toSortDates"><p>{{.Created}}</p></h7>
       </div>
         <div>
         </div>
@@ -60,16 +61,64 @@
   <div class="">
     <div class="filterbtn">
       <input type="button" value="Newest to oldest" onclick="NewToOld()">
-      <!-- <script>
-        function NewToOld(){
-          var posts = document.getElementsByClassName("content")
+      <script>
+        function NewToOld() {
+        
+          var allPost = document.getElementsByClassName("tpost")
+          var container = document.getElementsByClassName("contents")
+          console.log(container[0].outerHTML)
+          // console.log(container)
+          var sortedContent = []
+          for (var a of allPost) {
+            sortedContent.push(a)
+          }
 
-          posts.sort((a,b)) = moment(b.date, 'DD.MM.YY') - moment(a.date, 'DD.MM.YY')
+          sortedContent.sort((a, b) => {
+            return new Date(b.lastElementChild.innerText) - new Date(a.lastElementChild.innerText);
+          })
+
+          var newContent = ""
+          for (a of sortedContent) {
+        
+            newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<hr id=\"lol\">"
+          }
+          // newContent += 
+          // console.log(newContent)
+          container[0].innerHTML = newContent
+          
+          console.log(container[0].outerHTML)
         }
-      </script> -->
-      <input type="button" value="Oldest to newest">
-      <input type="button" value="Most popular">
-      <input type="button" value="Most commented">
+      </script>
+      <input type="button" value="Oldest to newest" onclick="OtN()">
+        <script>
+          function OtN() {
+          
+            var allPost = document.getElementsByClassName("tpost")
+            var container = document.getElementsByClassName("contents")
+            console.log(container[0].outerHTML)
+            // console.log(container)
+            var sortedContent = []
+            for (var a of allPost) {
+              sortedContent.push(a)
+            }
+
+            sortedContent.sort((a, b) => {
+              return new Date(a.lastElementChild.innerText) - new Date(b.lastElementChild.innerText);
+            })
+
+            var newContent = ""
+            for (a of sortedContent) {
+          
+              newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<hr id=\"lol\">"
+            }
+            // newContent += 
+            // console.log(newContent)
+            container[0].innerHTML = newContent
+            
+            console.log(container[0].outerHTML)
+          }
+        </script>
+      <input type="button" value="Most liked">
       {{ if .UserIn}}
       {{ else }}
       <h3>LOG IN TO ASK A QUESTION</h5>
