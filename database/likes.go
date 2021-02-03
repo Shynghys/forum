@@ -140,8 +140,6 @@ func ReadAllLiked() map[uuid.UUID]string {
 		// likes = append(likes, tempLike)
 		m[tempLike.ID] = tempLike.Str
 	}
-	fmt.Println(m)
-
 	return m
 }
 
@@ -193,13 +191,6 @@ func (val *Data) checkDislike() ([]string, bool) {
 func updateLike(object uuid.UUID, likeUserStr string) {
 	db := DbConn()
 	defer db.Close()
-	fmt.Println(likeUserStr, object)
-	// tx, _ := db.Begin()
-	// smth, _ := tx.Prepare("update likes set authorsID=? where id=?")
-	// _, err := smth.Exec(likeUserStr, object)
-	// CheckErr(err)
-	// tx.Commit()
-
 	_, err := db.Exec("update likes set authorsID = $1 where id = $2", likeUserStr, object)
 	if err != nil {
 		panic(err)
@@ -218,16 +209,10 @@ func updateDislike(object uuid.UUID, disLikeUserStr string) {
 func updateLikePost(id uuid.UUID, nbr int) {
 	db := DbConn()
 	defer db.Close()
-	// tx, _ := db.Begin()
-	// smth, _ := tx.Prepare("update posts set likes=?, where id=?")
-	// _, err := smth.Exec(nbr, id) //errors
-	// CheckErr(err)
-
 	_, err := db.Exec("update posts set likes = $1 where id = $2", nbr, id)
 	if err != nil {
 		panic(err)
 	}
-	// tx.Commit()
 }
 
 func updateDisPost(id uuid.UUID, nbr int) {

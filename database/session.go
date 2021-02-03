@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 
 	"../vars"
@@ -24,7 +23,7 @@ func CreateSession(session vars.Session) {
 	}
 
 	// CheckErr(err)
-	fmt.Println("Session created!!!!1")
+
 	tx.Commit()
 }
 func DeleteSession(id uuid.UUID) {

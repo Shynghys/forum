@@ -2,7 +2,6 @@ package data
 
 import (
 	"database/sql"
-	"fmt"
 
 	// "reflect"
 	"../vars"
@@ -27,7 +26,6 @@ func CreateDatabase() *sql.DB {
 	CreateSessions(db)
 	CreateLikes(db)
 	CreateDislikes(db)
-	fmt.Println("DATABASE CREATED")
 
 	return db
 }

@@ -40,7 +40,6 @@ func GetUserByCookie(r *http.Request) string {
 	var id string
 	for row.Next() { // Iterate and fetch the records from result cursor
 		row.Scan(&id)
-		log.Println("UUID is: ", id)
 	}
 	return id
 }

@@ -51,12 +51,12 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 				tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
 				tmpl.Execute(w, nil)
 			}
+		} else {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	}
 
 	if r.Method == "POST" {
-		// What is it??
-
 		c, _ := r.Cookie(COOKIE_NAME)
 		if c != nil {
 			needCookie := GetUserByCookie(r)
@@ -69,9 +69,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 				}
 
 				categories := r.FormValue("movies") + " " + r.FormValue("books") + " " + r.FormValue("games")
-
-				fmt.Println("-----------------------------------sssssss-----------------")
-				fmt.Println(categories)
 				details := vars.Post{
 					Title:    r.FormValue("title"),
 					Text:     r.FormValue("text"),
@@ -82,8 +79,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 				id := db.CreatePost(&details)
 				db.CreateLike(id)
 				db.CreateDislike(id)
-			}
 
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			}
+		} else {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	}
 
@@ -123,10 +123,10 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
-		fmt.Println(b)
+
 		tmpl.Execute(w, b)
 	} else if r.Method == "POST" {
-		fmt.Println("CREATING COMMENT")
+
 		// tmpl := template.Must(template.ParseFiles("templates/show-post.html"))
 		// if r.Method != http.MethodPost {
 		// 	tmpl.Execute(w, nil)
@@ -157,7 +157,7 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 
 		if like != "" {
 			likeUUID, _ := uuid.FromString(like)
-			fmt.Println("likeUUD", likeUUID)
+
 			db.LikeBtn(likeUUID, details.AuthorID)
 		}
 
@@ -168,7 +168,6 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 			db.DislikeBtn(dislikeUUID, details.AuthorID)
 		}
 
-		fmt.Println(details)
 		if details.Text != "" {
 			id := db.CreateComment(details)
 			db.CreateLike(id)
