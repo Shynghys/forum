@@ -30,6 +30,9 @@
     </nav>
     <div class="reg"><form action="" method="POST">
       <h1 title="Registration form">Log in</h1>
+      {{ if eq .Msg "1"}}
+        <p style="color: red; text-align:center;"> Wrong password. Try again!</p>
+      {{ end }}
       <div class="group">
         <label for="">Username or Email Adrress</label>
         <input type="text" name="login" id="login"/>
