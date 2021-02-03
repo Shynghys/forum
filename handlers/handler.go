@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	database "../database"
 	db "../database/"
 	"../vars"
 	uuid "github.com/satori/go.uuid"
@@ -76,10 +77,23 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("templates/homepage.html"))
 	if c != nil {
-		IsUserin.UserIn = true
-		needCookie, _ := uuid.FromString(GetUserByCookie(r))
-		findUser := db.ReadUser(needCookie)
-		IsUserin.UserName = findUser.Username
+
+		needCookie := GetUserByCookie(r)
+		if needCookie == "" {
+			cookieID, err := uuid.FromString(GetCookie(r, COOKIE_NAME))
+			if err != nil {
+				// fmt.Printf("Something went wrong: %s", err)
+				return
+			}
+			database.DeleteSession(cookieID)
+			DeleteCookie(w, r)
+		} else {
+			IsUserin.UserIn = true
+			a, _ := uuid.FromString(needCookie)
+			findUser := db.ReadUser(a)
+			IsUserin.UserName = findUser.Username
+			IsUserin.UserID = findUser.ID
+		}
 	}
 	IsUserin.AllPosts = db.ReadAllPosts()
 

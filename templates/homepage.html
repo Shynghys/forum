@@ -23,7 +23,8 @@
       <li><a class="active" href="/">Home</a></li>
       <li><a href="#">About</a></li>
       {{ if .UserIn}}
-      <li id="user">Hi, {{ .UserName }}</li>
+      <li id="hi">Hi, <span id="user">{{ .UserName }}</span></li>
+      <p id={{.UserID}} style="display: none">{{.UserID}}</p>
       <li><a href="logout">Log out</a></li>
       {{ else }}
       <li><a href="sign-in">Log in</a></li>
@@ -36,7 +37,7 @@
     <div class="contents">
       {{ range .AllPosts }}
       <div class="content">
-        <div class= "counts {{.Category}} tpost">
+        <div class= "counts {{.Category}} tpost {{.Author}}">
           <a style="display: none" class="toSortLikes"> {{.Likes}}</a>
           <form action="#" method="POST">
           <a style="font-size:15px">{{.Likes}}</a>
@@ -228,6 +229,20 @@
           for (i of other) {
             i.style.display = "none"
           }        
+        }
+      </script>
+      <p><a class="URL" onclick="ShowMyPost()">My posts </a></p>
+      <script>
+        function ShowMyPost() {
+          var me = document.getElementById("user")
+          console.log(me.innerText)
+          var selector = ".content div:not(." + me.innerText + ")"
+          console.log(typeof(selector))
+          var notMyPosts = document.querySelectorAll(selector)
+          console.log(notMyPosts)
+          for (i of notMyPosts) {
+            i.style.display = "none"
+          }  
         }
       </script>
     </ul>
