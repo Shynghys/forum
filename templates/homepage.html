@@ -38,20 +38,23 @@
       <div class="content">
         <div class= "counts {{.Category}} tpost">
           <a style="display: none" class="toSortLikes"> {{.Likes}}</a>
-          <div class="postlike">
-            <a> {{.Likes}}</a>
-            <a><i class="far fa-thumbs-up"></i></a>
-            <a><i class="far fa-thumbs-down"></i></a>
-            <a>{{.Dislikes}}</a>
-          </div>
+          <form action="#" method="POST">
+          <a style="font-size:10px">{{.Likes}}</a>
+          <a name="like" value="{{.Likes}}"></a>
+              <i class="far fa-thumbs-up"></i>
+          <a name="dislike" value="{{.Dislikes}}"></a>
+              <i class="far fa-thumbs-down"></i>
+          <a style="font-size:10px">{{.Dislikes}}</a>
+        </form>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a>{{.Category}}  </a></h5>
-          <h6><p>Asked on {{.Created}}</p></h6>
+          <h6><p>Asked on {{.Created}} by <span>{{.Author}}</span></p></h6>
           <h7 style="display: none" class="toSortDates"><p>{{.Created}}</p></h7>
-          
+      </div>
+        <div>
         </div>
       </div>
-      <hr id="lol">
+      
       {{ end }}
     </div>
   </div>

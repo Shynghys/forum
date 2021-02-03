@@ -43,16 +43,14 @@
     <a>{{ .Posts.Title}}</a>
     <!-- <div>{{ .Posts.Title}}</div> -->
     <p>{{ .Posts.Text}}</p><br>
-    <div class="commentlike">
-      <!-- BUTTONS DO NOTW WORK -->
-      <!-- <p>Posted by {{.Posts.Author}}</p> -->
-      <form action="/posts?id={{ .Posts.ID}}" method="POST">
+    <div class="postlikes">
+        <form action="/posts?id={{ .Posts.ID}}" method="POST">
         <a  style="font-size:15px">{{.Posts.Likes}}</a> 
         {{if .UserDetails.UserIn}}
-        <button style="font-size:13px" name = "like" value="{{ .Posts.ID}}">
+        <button name = "like" value="{{ .Posts.ID}}">
           <i class="fas fa-thumbs-up"></i> 
         </button>
-        <button  style="font-size:13px"  name = "dislike" value="{{ .Posts.ID}}">
+        <button name = "dislike" value="{{ .Posts.ID}}">
           <i class="far fa-thumbs-down"></i>
         </button>
         {{ else }}
@@ -60,41 +58,13 @@
         <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
         {{ end }}
         <a style="font-size:15px">{{.Posts.Dislikes}}</a>
+        <a id="date">Posted by <span>{{.Posts.Author}}</span></a>
+        <a id="date">{{.Posts.Created}}</a>
+   
       </form>
     </div>
   </div>
-  <br>
-  <!-- <div class="comment">
-    <p>Comments</p>
-   
-    <form action="/posts?id={{ .Posts.ID}}" method="POST">
-      <p><textarea rows="10" cols="45" name="text"></textarea></p>
-      <p><input type="submit" value="Send"></p>
-    </form>
 
-    <br>
-
-    <div>
-      <form action="/posts?id={{ .Posts.ID}}" method="POST">
-      {{ range .Posts.Comments }}
-        <a>{{.Text}}</a>
-        <br>
-            <a style="font-size:20px">{{.Likes}}</a>
-            <button style="font-size:18px"  name = "like" value="{{.ID}}">
-              <i class="fas fa-thumbs-up"></i>
-            </button>
-         
-            <button style="font-size:18px"  name = "dislike" value="{{.ID}}">
-              <i class="far fa-thumbs-down"></i>
-            </button>
-            <a style="font-size:20px">{{.Dislikes}}</a>
-            <br><br>
-      {{end}}
-      </form> -->
- 
-  
-    
-  
   <div class="comments" >
     
     <h2>Answers</h2>
@@ -115,7 +85,7 @@
           <a style="font-size:15px">{{.Dislikes}}</a>
         </form>
         <a>{{.Created}}</a>
-        <br>
+     
         <a>Answered by <span>{{.Author}}</span></a>
       </div> 
       <hr>
@@ -148,15 +118,7 @@
   </div>
 
 
-  <div class="category">
-    <i class="fas fa-bars"></i>
-    <ul id="ul">
-      <p><a class="URL" href="#">Movies </a></p>
-      <p><a class="URL" href="#">Games </a></p>
-      <p><a class="URL" href="#">Books </a></p>
 
-    </ul>
-  </div>
  
 
 </html>
