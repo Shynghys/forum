@@ -161,6 +161,7 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 		} else if isReadable(details.Text) {
 			id := db.CreateComment(details)
 			db.CreateLike(id)
+			db.CreateDislike(id)
 		}
 
 		path := r.URL.Path + "?id=" + title

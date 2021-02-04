@@ -46,12 +46,12 @@
           <a name="dislike" value="{{.Dislikes}}"></a>
               <i class="far fa-thumbs-down"></i>
           <a style="font-size:15px">{{.Dislikes}}</a>
-        </form>
+          </form>
           <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
           <h5><a>{{.Category}}  </a></h5>
           <h6><p>Asked on {{.Created}} by <span>{{.Author}}</span></p></h6>
           {{ if .Liked }}
-          <h6 style="color:rgba(255, 0, 0, 0.09);"><p> liked</p></h6>
+          <h6 style="display: none" class="myLiked"><p></p></h6>
           {{ end }}
           <h7 style="display: none" class="toSortDates"><p>{{.Created}}</p></h7>
 
@@ -231,6 +231,7 @@
           }        
         }
       </script>
+      {{if .UserIn}}
       <p><a class="URL" onclick="ShowMyPost()">My posts </a></p>
       <script>
         function ShowMyPost() {
@@ -245,6 +246,31 @@
           }  
         }
       </script>
+      <p><a class="URL" onclick="ShowMyLikedPost()">My liked posts </a></p>
+      <script>
+        function ShowMyLikedPost() {
+          var me = document.querySelectorAll(".content div h6:not(.myLiked)")
+          var mem = document.querySelectorAll(".content div h6.myLiked")
+          // me[0].parentElement.style.display = "none"
+          for (a of me) {
+            a.parentNode.style.display = "none"
+            // console.log(a.parentNode.parentNode)
+
+            // a.parentElement.parentElement.style.display = "none"
+          }
+          console.log("=======")
+          for (a of mem) {
+            a.parentNode.style.display = "initial"
+            console.log(a.parentNode)
+
+            // a.parentElement.parentElement.style.display = "none"
+          }
+          // console.log(me)
+          
+          
+        }
+      </script>
+      {{end}}
     </ul>
   </div>
 
