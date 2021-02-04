@@ -54,9 +54,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		} else {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
-	}
-
-	if r.Method == "POST" {
+	} else if r.Method == "POST" {
 		c, _ := r.Cookie(COOKIE_NAME)
 		if c != nil {
 			needCookie := GetUserByCookie(r)
@@ -74,6 +72,12 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 					Text:     r.FormValue("text"),
 					Category: categories,
 				}
+
+				if !isReadable(details.Text) || !isReadable(details.Title) {
+					http.Redirect(w, r, "/posts/create", http.StatusSeeOther)
+					return
+				}
+
 				details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
 				details.Author = db.GetUsername(details.AuthorID)
 				id := db.CreatePost(&details)
@@ -139,17 +143,10 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 			Text:     r.FormValue("text"),
 		}
 
-		// details.AuthorID, _ = uuid.FromString(GetUserByCookie(r))
-
-		// notAuthorised, _ := uuid.FromString("00000000-0000-0000-0000-000000000000")
-		// if details.AuthorID == notAuthorised {
-		// 	var err vars.ErrorStruct
-		// 	tmpl := template.Must(template.ParseFiles("templates/error/index.html"))
-		// 	err.Status = 401
-		// 	err.StatusDefinition = "Not authorised"
-
-		// 	tmpl.Execute(w, err)
-		// }
+		if !isReadable(details.Text) {
+			http.Redirect(w, r, "/posts/create", http.StatusSeeOther)
+			return
+		}
 
 		details.Author = db.GetUsername(details.AuthorID)
 
@@ -247,4 +244,13 @@ func DeletePost(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+}
+
+func isReadable(str string) bool {
+	for _, v := range str {
+		if v > ' ' {
+			return true
+		}
+	}
+	return false
 }
