@@ -84,9 +84,12 @@
           <button  style="font-size:10px"  name = "dislike" value="{{ .ID}}">
             <i class="far fa-thumbs-down"></i>
           </button>
-          <a style="font-size:15px">{{.Dislikes}}   </a>
-          <a>{{.Created}}</a>
-          <a>Answered by <span>{{.Author}}</span></a>
+          <a style="font-size:15px">{{.Dislikes}}</a><br>
+          <div class="box">
+            <p>{{.Created}} Answered by <span>{{.Author}}</span></p>
+            
+          </div>
+    
         </form>
     
       
