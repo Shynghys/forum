@@ -415,17 +415,26 @@ a.button {
 }
 
 .likes {
+  width: auto;
   position: relative;
-  left: 800px;
-  bottom: 5vh;
+  left: 60vh;
+  bottom: 10vh;
   font-size: 5px
 }
-
+.likes p {
+  position: relative;
+  font-size: 10px;
+  margin-bottom: 5vh;
+}
+.postlikes {
+  word-wrap: break-word;
+}
 .postlikes form{
+  word-wrap: break-word;
   color: black;
   position: relative;
-  bottom: 17vh;
-  left: 55vh;
+  bottom: 15vh;
+  left: 60vh;
   
 }
 
