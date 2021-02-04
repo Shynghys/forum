@@ -143,36 +143,26 @@ func ReadPost(w http.ResponseWriter, r *http.Request) {
 			Text:     r.FormValue("text"),
 		}
 
-		if !isReadable(details.Text) {
-			http.Redirect(w, r, "/posts/create", http.StatusSeeOther)
-			return
-		}
-
-		details.Author = db.GetUsername(details.AuthorID)
-
 		like := r.FormValue("like")
-
-		if like != "" {
-			likeUUID, _ := uuid.FromString(like)
-
-			db.LikeBtn(likeUUID, details.AuthorID)
-		}
-
 		dislike := r.FormValue("dislike")
 
-		if dislike != "" {
-			dislikeUUID, _ := uuid.FromString(dislike)
-			db.DislikeBtn(dislikeUUID, details.AuthorID)
-		}
+		if like != "" || dislike != "" {
 
-		if details.Text != "" {
+			details.Author = db.GetUsername(details.AuthorID)
+
+			if like != "" {
+				likeUUID, _ := uuid.FromString(like)
+				db.LikeBtn(likeUUID, details.AuthorID)
+			} else if dislike != "" {
+				dislikeUUID, _ := uuid.FromString(dislike)
+				db.DislikeBtn(dislikeUUID, details.AuthorID)
+			}
+
+		} else if isReadable(details.Text) {
 			id := db.CreateComment(details)
 			db.CreateLike(id)
-			db.CreateDislike(id)
 		}
 
-		// do something with details
-		// _ = details
 		path := r.URL.Path + "?id=" + title
 
 		// tmpl.Execute(w, struct{ Success bool }{true})
