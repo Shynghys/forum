@@ -16,9 +16,9 @@
       <div class="category">
         
       </div>
-      <div class="logo">Forum</div>
+      <div class="logo">Geek-Forum</div>
       <ul>
-        <li><a class="active" href="homepage">Home</a></li>
+        <li><a class="active" href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="sign-in">Log in</a></li>
         <li><a href="sign-up">Sign up</a></li>
@@ -31,16 +31,22 @@
       <div class="container">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
+        {{if eq .Msg "0"}}
+          <p style="color:red;"> These username and email are already in use </p>
+        {{else if eq .Msg "1"}}
+          <p style="color:red;"> This email is already in use </p>
+        {{ else if eq .Msg "2"}}
+          <p style="color:red;"> This username is already in use </p>
+        {{end}}
         <hr>
         <input type="text" placeholder="Enter Username" name="username" id="username" required>
         <!-- <label for="email"><b>Email</b></label> -->
         <input type="email" placeholder="Enter Email" name="email" id="email" required>
     
         <!-- <label for="psw"><b>Password</b></label> -->
-        <input type="password" placeholder="Enter Password" name="password" id="password" required>
-    
-        <!-- <label for="psw-repeat"><b>Repeat Password</b></label> -->
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+        <input id="password" name="password" type="password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;" placeholder="Password" required>
+
+        <input id="password_two" name="password_two" type="password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" placeholder="Verify Password" required>
         <hr>
     
         

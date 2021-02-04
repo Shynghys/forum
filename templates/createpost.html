@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/createpost.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -18,7 +19,7 @@
     <div class="category">
         
     </div>
-    <div class="logo">Forum</div>
+    <div class="logo">Geek-Forum</div>
 
  
     <ul>
@@ -30,6 +31,9 @@
       <i class="fas fa-bars"></i>
     </label>
   </nav>
+  <div class="back" id="back">
+      <a href="/" class="fas fa-arrow-left"></a>
+  </div>
   <form action="/posts/create" method="POST">
     <div class="field">
       <div class="content">
@@ -43,20 +47,80 @@
           <textarea name="text" id = "text" required></textarea>
           <label for="">Category</label>
         </div>
+<<<<<<< HEAD
         <div class="choosing">
-          <form action="#">
-            <p><select id="select" name="select" multiple size="3"required>
-            <option name="movies" value="movies">Movies</option>
-            <option name="games" value="games">Games</option>
-            <option name="books" value="books">Books</option>
-            </select></p>
+          <form method="post" onsubmit="alert('stop submit'); return false;">
+              <label>Movies
+                  <input style="float:none; display: inline; height: 10px; width:10px;" name="movies" type="checkbox" value="movies" id="checkboxSukaMovie">
+                  <span class="checkmark"></span>
+              </label>
+              <label >Games
+                  <input style="float:none; display: inline; height: 10px; width:10px;" name="games" type="checkbox" value="games" id="checkboxSukaGame">
+                  <span class="checkmark"></span>
+              </label>
+              <label >Books
+                  <input style="float:none; display: inline; height: 10px; width:10px;" name="books" type="checkbox" value="books" id="checkboxSukaBooks">
+                  <span class="checkmark"></span>
+              </label>
+              <script>
+                  function someFunc() {
+                    count = 0
+                  var mov = document.getElementById("checkboxSukaMovie").checked
+                  var gam = document.getElementById("checkboxSukaGame").checked
+                  var bok = document.getElementById("checkboxSukaBooks").checked
+                  if (mov) {
+                    count++
+                  }
+                  if (gam) {
+                    count++
+                  }
+                  if (bok) {
+                    count++
+                  }
+                  console.log(count)
+                  if (count > 0) {
+                    return true
+                  } else {
+                    alert("Choose category")
+                    return false
+                  }
+                }
+                  
+              </script>
+          <input type="submit" value="Post question" >   
           </form>
-          
+      </div>
+        
+        
+       
+=======
+        <div class="choosing" method="post">
+          <form id="sectionForm"action="#">
+              <input style="float:none; display: inline; height: 10px; width:10px;" name="movies" type="checkbox" value="movies" class="checkboxes"required>
+              <label for="movies">Movies</label><br>
+              <input  style="float:none; display: inline; height: 10px; width:10px;" name="games" type="checkbox" value="games"  class="checkboxes" required>
+              <label for="games">Games</label><br>
+              <input  style="float:none; display: inline; height: 10px; width:10px;" name="books" type="checkbox" value="books"  class="checkboxes" required >
+              <label for="books">Books</label><br>
+          </form>
+          <div class="post">
+              <button id="checkBtn" type="submit">Post your question</button>
+          </div>
+          <script type="text/javascript">
+          $(function(){
+    var requiredCheckboxes = $('.checkboxes');
+    requiredCheckboxes.change(function(){
+        if(requiredCheckboxes.is(':checked')) {
+            requiredCheckboxes.removeAttr('required');
+        } else {
+            requiredCheckboxes.attr('required', 'required');
+        }
+    });
+});
+          </script>
         </div>
         
-        <div class="post">
-          <button type="submit">Post your question</button>
-        </div>
+>>>>>>> 4c064268de87304711b8abfcf30fcd98e1db5b45
       </div>
     </div>
   </form>
@@ -64,3 +128,4 @@
 </body>
  
 </html>
+

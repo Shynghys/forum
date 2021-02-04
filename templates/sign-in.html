@@ -16,10 +16,10 @@
       <div class="category">
         
       </div>
-      <div class="logo">Forum</div>
+      <div class="logo">Geek-Forum</div>
  
       <ul>
-        <li><a class="active" href="/homepage">Home</a></li>
+        <li><a class="active" href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="sign-in">Log in</a></li>
         <li><a href="sign-up">Sign up</a></li>
@@ -30,6 +30,9 @@
     </nav>
     <div class="reg"><form action="" method="POST">
       <h1 title="Registration form">Log in</h1>
+      {{ if eq .Msg "1"}}
+        <p style="color: red; text-align:center;"> Wrong password. Try again!</p>
+      {{ end }}
       <div class="group">
         <label for="">Username or Email Adrress</label>
         <input type="text" name="login" id="login"/>

@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -27,11 +26,11 @@ func ReadAllPosts() []vars.Post {
 		CheckErr(err)
 		posts = append(posts, tempPost)
 	}
-	fmt.Println(posts)
+
 	return posts
 }
-func CreatePost(post *vars.Post) uuid.UUID {
 
+func CreatePost(post *vars.Post) uuid.UUID {
 	db := DbConn()
 	defer db.Close()
 
@@ -45,10 +44,7 @@ func CreatePost(post *vars.Post) uuid.UUID {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	// fmt.Println(result)
 
-	// CheckErr(err)
-	fmt.Println("Post created!!!!1")
 	tx.Commit()
 	return id
 }
