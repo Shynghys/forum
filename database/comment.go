@@ -3,8 +3,8 @@ package data
 import (
 	"time"
 
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	"github.com/shynghys/forum/vars"
 )
 
 func CreateComment(comment vars.Comment) uuid.UUID {

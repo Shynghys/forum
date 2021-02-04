@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"net/http"
 
-	db "../database/"
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	db "github.com/shynghys/forum/database"
+	"github.com/shynghys/forum/vars"
 )
 
 // CommentsHandler gets Comments

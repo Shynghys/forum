@@ -5,20 +5,15 @@ import (
 	"log"
 	"net/http"
 
-	db "./database"
+	db "github.com/shynghys/forum/database"
 
-	h "./handlers"
+	h "github.com/shynghys/forum/handlers"
 	// _ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
 	//Create db
 	db.CreateDatabase()
-	// fmt.Println(newDb)
-
-	// Starting web server
-
-	// http.HandleFunc("/", MakeRouter)
 
 	h.LoadTemplates("templates/tmpl/*.html")
 	r := h.NewRouter()

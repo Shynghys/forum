@@ -4,9 +4,8 @@ import (
 	"database/sql"
 
 	// "reflect"
-	"../vars"
-	_ "github.com/mattn/go-sqlite3"
 	uuid "github.com/satori/go.uuid"
+	"github.com/shynghys/forum/vars"
 	"golang.org/x/crypto/bcrypt"
 )
 

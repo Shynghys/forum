@@ -3,8 +3,8 @@ package data
 import (
 	"log"
 
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	"github.com/shynghys/forum/vars"
 )
 
 func CreateSession(session vars.Session) {

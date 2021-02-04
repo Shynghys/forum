@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"os"
 
-	database "../database"
-	db "../database/"
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	database "github.com/shynghys/forum/database"
+	db "github.com/shynghys/forum/database"
+	"github.com/shynghys/forum/vars"
 )
 
 // PostsHandler gets posts

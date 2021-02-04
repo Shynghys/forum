@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	"github.com/shynghys/forum/vars"
 )
 
 func ReadAllPosts() []vars.Post {

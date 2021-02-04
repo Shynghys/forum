@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	"github.com/shynghys/forum/vars"
 )
 
 type Data struct {

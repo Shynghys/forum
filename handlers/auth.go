@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"time"
 
-	database "../database"
-	"../vars"
 	uuid "github.com/satori/go.uuid"
+	database "github.com/shynghys/forum/database"
+	"github.com/shynghys/forum/vars"
 	"golang.org/x/crypto/bcrypt"
 )
 
