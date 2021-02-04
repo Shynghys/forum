@@ -100,7 +100,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if IsUserin.UserIn {
 		likedMap := db.ReadAllLiked()
 		for i, val := range IsUserin.AllPosts {
-			if strings.Contains(likedMap[val.ID], val.AuthorID.String()) {
+			if strings.Contains(likedMap[val.ID], IsUserin.UserID.String()) {
 				IsUserin.AllPosts[i].Liked = true
 			}
 		}
