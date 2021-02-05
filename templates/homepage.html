@@ -161,7 +161,7 @@
         {{end}}
     </div>
     {{if .UserIn}}
-    <a href="posts/create" class="button">Create post</a>
+    <button class="button" id="buttonPost"><a href="posts/create">Create post</a></button>
     {{end}}
   </div>
   <div class="category">
@@ -249,6 +249,19 @@
       <p><a class="URL" onclick="ShowMyLikedPost()">My liked posts </a></p>
       <script>
         function ShowMyLikedPost() {
+
+          // var games = document.getElementsByClassName("games")
+          // var books = document.getElementsByClassName("books")
+          // var movies = document.getElementsByClassName("movies")
+          // for (i of books) {
+          //   i.inner.style.display = ""
+          // }
+          // for (i of games) {
+          //   i.inner.style.display = ""
+          // }
+          // for (i of movies) {
+          //   i.inner.style.display = ""
+          // }
           var me = document.querySelectorAll(".content div h6:not(.myLiked)")
           var mem = document.querySelectorAll(".content div h6.myLiked")
           // me[0].parentElement.style.display = "none"
