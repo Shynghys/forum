@@ -1,135 +1,142 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
 <head>
-  <meta charset="utf-8" />
-  <title>Forum page</title>
-  <link rel="stylesheet" href="/css/homepage.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/homepage.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
-
 <body>
-  <nav>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                GeekForum
+            </div>
+            <nav>
+                <ul class="header-navigation">
+                    <li class="header-navigation_item dropdown"><a href='#' class="header-navigation_link">Category</a>
+                      <ul class="dropdown-content">
+                        
+                        
+                        <li><a class="dropdown_menu" href="#" onclick="ShowMovies()">Movies</a></li>
+                        <script>
+                          function ShowMovies() {
+                          var movies = document.getElementsByClassName("movies")
+                          var other = document.querySelectorAll(".container.hero-container div:not(.movies)")
 
-    <div class="logo">Geek-Forum</div>
-    <input type="checkbox" id="click" />
-    <label for="click" class="menu-btn">
-      <i class="fa fa-bars"></i>
-    </label>
+                          // console.log(games)
+                          // console.log(other)
+                          for (i of movies) {
+                            i.style.display = ""
+                          }
+                          for (i of other) {
+                            i.style.display = "none"
+                          }     
+                             
+                        }
+                      </script>
+                        <li><a class="dropdown_menu" href="#" onclick="ShowBooks()">Books</a></li>
+                        <script>
+                          function ShowBooks() {
+                          var books = document.getElementsByClassName("books")
+                          var other = document.querySelectorAll(".container.hero-container div:not(.books)")
 
-    <ul id="menu">
-      <li><a class="active" href="/">Home</a></li>
-      <li><a href="#">About</a></li>
-      {{ if .UserIn}}
-      <li id="hi">Hi, <span id="user">{{ .UserName }}</span></li>
-      <p id={{.UserID}} style="display: none">{{.UserID}}</p>
-      <li><a href="logout">Log out</a></li>
-      {{ else }}
-      <li><a href="sign-in">Log in</a></li>
-      <li><a href="sign-up">Sign up</a></li>
-      {{ end }}
-    </ul>
-    </div>
-  </nav>
-  <div class="main">
-    <div class="contents">
-      {{ range .AllPosts }}
-      <div class="content">
-        <div class= "counts {{.Category}} tpost {{.Author}}">
-          <a style="display: none" class="toSortLikes"> {{.Likes}}</a>
-          <form action="#" method="POST">
-          <a style="font-size:15px">{{.Likes}}</a>
-          <a name="like" value="{{.Likes}}"></a>
-              <i class="far fa-thumbs-up"></i>
-          <a name="dislike" value="{{.Dislikes}}"></a>
-              <i class="far fa-thumbs-down"></i>
-          <a style="font-size:15px">{{.Dislikes}}</a>
-          </form>
-          <h3><a href="/posts?id={{ .ID }}">{{.Title}}</a></h3>
-          <h5><a>{{.Category}}  </a></h5>
-          <h6><p>Asked on {{.Created}} by <span>{{.Author}}</span></p></h6>
-          {{ if .Liked }}
-          <h6 style="display: none" class="myLiked"><p></p></h6>
-          {{ end }}
-          <h7 style="display: none" class="toSortDates"><p>{{.Created}}</p></h7>
+                          // console.log(games)
+                          // console.log(other)
+                          for (i of books) {
+                            i.style.display = ""
+                          }
+                          for (i of other) {
+                            i.style.display = "none"
+                          }     
+                             
+                        }
+                      </script>
+                        <li><a class="dropdown_menu" href="#" onclick="ShowGames()">Games</a></li>
+                        <script>
+                          function ShowGames() {
+                          var games = document.getElementsByClassName("games")
+                          var other = document.querySelectorAll(".container.hero-container div:not(.games)")
 
-      </div>
-        <div>
-        </div>
-      </div>
-
-      {{ end }}
-    </div>
-  </div>
-
-  <div class="">
-    <div class="filterbtn">
-      <input type="button" value="Newest to oldest" onclick="NewToOld()">
-      <script>
-        function NewToOld() {
-        
-          var allPost = document.getElementsByClassName("tpost")
-          var container = document.getElementsByClassName("contents")
-          console.log(container[0].outerHTML)
-          // console.log(container)
-          var sortedContent = []
-          for (var a of allPost) {
-            sortedContent.push(a)
-          }
-
-          sortedContent.sort((a, b) => {
-            return new Date(b.lastElementChild.innerText) - new Date(a.lastElementChild.innerText);
-          })
-
-          var newContent = ""
-          for (a of sortedContent) {
-        
-            newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<id=\"lol\">"
-          }
-          // newContent += 
-          // console.log(newContent)
-          container[0].innerHTML = newContent
-          
-          console.log(container[0].outerHTML)
-        }
-      </script>
-      <input type="button" value="Oldest to newest" onclick="OtN()">
-        <script>
-          function OtN() {
-          
-            var allPost = document.getElementsByClassName("tpost")
-            var container = document.getElementsByClassName("contents")
-            console.log(container[0].outerHTML)
-            // console.log(container)
-            var sortedContent = []
-            for (var a of allPost) {
-              sortedContent.push(a)
-            }
-
-            sortedContent.sort((a, b) => {
-              return new Date(a.lastElementChild.innerText) - new Date(b.lastElementChild.innerText);
-            })
-
-            var newContent = ""
-            for (a of sortedContent) {
-          
-              newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<id=\"lol\">"
-            }
-            // newContent += 
-            // console.log(newContent)
-            container[0].innerHTML = newContent
+                          console.log(games)
+                          console.log(other)
+                          for (i of games) {
+                            i.style.display = ""
+                          }
+                          for (i of other) {
+                            i.style.display = "none"
+                          }     
+                             
+                        }
+                      </script>
+                        
+                      </ul>
+                    </li>
+                    <li class="header-navigation_item dropdown"><a href='#' class="header-navigation_link">Filters</a>
+                      <ul class="dropdown-content">
+                        <li><a class="dropdown_menu" onclick="OtN()" href="#">Oldest to Newest</a></li>
+                        <script>function OtN() {
             
-            console.log(container[0].outerHTML)
-          }
-        </script>
-      <input type="button" value="Most liked" onclick="likesort()">
-      <script>
-        function likesort() {
+                          var allPost = document.getElementsByClassName("post")
+                          var container = document.querySelectorAll(".container.hero-container")
+                          console.log(container)
+                          // console.log(container[0].outerHTML)
+                          // console.log(container)
+                          var sortedContent = []
+                          for (var a of allPost) {
+                            sortedContent.push(a)
+                          }
+                          
+                          sortedContent.sort((a, b) => {
+                            return new Date(a.lastElementChild.innerText) - new Date(b.lastElementChild.innerText);
+                          })
+                          console.log(sortedContent)
+                          var newContent = ""
+                          for (a of sortedContent) {
+                        
+                            newContent += a.outerHTML
+                          }
+                          console.log(newContent)
+                          // newContent += 
+                          // console.log(newContent)
+                          container[0].innerHTML = newContent
+                          
+                          // console.log(container[0].outerHTML)
+                      }</script>
+                        <li><a class="dropdown_menu" onclick="NewToOld()" href="#">Newest to Oldest</a></li>
+                        <script>function NewToOld() {
         
-          var allPost = document.getElementsByClassName("tpost")
-          var container = document.getElementsByClassName("contents")
+                          var allPost = document.getElementsByClassName("post")
+                          var container = document.querySelectorAll(".container.hero-container")
+                          console.log(container)
+                          // console.log(container[0].outerHTML)
+                          // console.log(container)
+                          var sortedContent = []
+                          for (var a of allPost) {
+                            sortedContent.push(a)
+                          }
+                          
+                          sortedContent.sort((a, b) => {
+                            return new Date(b.lastElementChild.innerText) - new Date(a.lastElementChild.innerText);
+                          })
+                          console.log(sortedContent)
+                          var newContent = ""
+                          for (a of sortedContent) {
+                        
+                            newContent += a.outerHTML
+                          }
+                          console.log(newContent)
+                          // newContent += 
+                          // console.log(newContent)
+                          container[0].innerHTML = newContent
+                      }</script>
+                        <li><a class="dropdown_menu" onclick="likesort()" href="#" >Most Liked</a></li>
+                        <script>
+                          function likesort() {
+          
+          var allPost = document.getElementsByClassName("post")
+          var container = document.querySelectorAll(".container.hero-container")
           // console.log(allPost)
           // console.log(container)
           var sortedContent = []
@@ -138,7 +145,7 @@
             // console.log(a.firstElementChild.innerText)
             sortedContent.push(a)
           }
-
+      
           sortedContent.sort(function(a, b) {
             return Number(b.firstElementChild.innerText) - Number(a.firstElementChild.innerText);
           });
@@ -146,7 +153,7 @@
           var newContent = ""
           for (a of sortedContent) {
         
-            newContent += "<div class=\"content\">\n" + a.outerHTML  + "\n<\/div>" + "<id=\"lol\">"
+            newContent += a.outerHTML
           }
           // newContent += 
           // console.log(newContent)
@@ -154,137 +161,128 @@
           
           // console.log(container[0].outerHTML)
         }
-      </script>
-      {{ if .UserIn}}
-      {{ else }}
-      <h3>LOG IN TO ASK A QUESTION</h5>
-        {{end}}
-    </div>
-    {{if .UserIn}}
-    <button class="button" id="buttonPost"><a href="posts/create">Create post</a></button>
-    {{end}}
-  </div>
-  <div class="category">
-    <i class="fas fa-bars"></i>
-    <ul id="ul">
-        <p><a class="URL" onclick ="ShowAll()">All </a></p>
-        <script>
-          function ShowAll(){
-            var games = document.getElementsByClassName("games")
-          var books = document.getElementsByClassName("books")
-          var movies = document.getElementsByClassName("movies")
-          for (i of games) {
-            i.style.display = "initial"
-          }
-          for (i of books) {
-            i.style.display = "initial"
-          }
-          for (i of movies) {
-            i.style.display = "initial"
-          } 
-          }
-        </script>
-      <p><a class="URL" onclick="ShowMovies()">Movies </a></p>
-      <script>
-        function ShowMovies() {
-          // var games = document.getElementsByClassName("games")
-          // var books = document.getElementsByClassName("books")
-          var movies = document.getElementsByClassName("movies")
-          // console.log(movies)
-          var other = document.querySelectorAll(".content div:not(.movies)")
-          // console.log(other)
-          for (i of other) {
-            i.style.display = "none"
-          }
-          // for (i of books) {
-          //   i.style.display = "none"
-          // }
-          for (i of movies) {
-            i.style.display = "initial"
-          }          
-        }
-      </script>
-      <p><a class="URL" onclick ="ShowGames()">Games </a></p>
-      <script>
-          function ShowGames() {
-          var games = document.getElementsByClassName("games")
-          var other = document.querySelectorAll(".content div:not(.games)")
-          for (i of games) {
-            i.style.display = "initial"
-          }
-          for (i of other) {
-            i.style.display = "none"
-          }     
-             
-        }
-      </script>
-      <p><a class="URL" onclick="ShowBooks()">Books </a></p>
-      <script>
-         function ShowBooks() {
-          var books = document.getElementsByClassName("books")
-          var other = document.querySelectorAll(".content div:not(.books)")
-          for (i of books) {
-            i.style.display = "initial"
-          }
-          for (i of other) {
-            i.style.display = "none"
-          }        
-        }
-      </script>
-      {{if .UserIn}}
-      <p><a class="URL" onclick="ShowMyPost()">My posts </a></p>
-      <script>
-        function ShowMyPost() {
-          var me = document.getElementById("user")
-          console.log(me.innerText)
-          var selector = ".content div:not(." + me.innerText + ")"
-          console.log(typeof(selector))
-          var notMyPosts = document.querySelectorAll(selector)
-          console.log(notMyPosts)
-          for (i of notMyPosts) {
-            i.style.display = "none"
-          }  
-        }
-      </script>
-      <p><a class="URL" onclick="ShowMyLikedPost()">My liked posts </a></p>
-      <script>
-        function ShowMyLikedPost() {
-
-          // var games = document.getElementsByClassName("games")
-          // var books = document.getElementsByClassName("books")
-          // var movies = document.getElementsByClassName("movies")
-          // for (i of books) {
-          //   i.inner.style.display = ""
-          // }
-          // for (i of games) {
-          //   i.inner.style.display = ""
-          // }
-          // for (i of movies) {
-          //   i.inner.style.display = ""
-          // }
-          var me = document.querySelectorAll(".content div h6:not(.myLiked)")
-          var mem = document.querySelectorAll(".content div h6.myLiked")
-          // me[0].parentElement.style.display = "none"
-          for (a of me) {
-            a.parentNode.style.display = "none"
-            // console.log(a.parentNode.parentNode)
-
-            // a.parentElement.parentElement.style.display = "none"
-          }
-          console.log("=======")
-          for (a of mem) {
-            a.parentNode.style.display = "initial"
-            console.log(a.parentNode)
-
-            // a.parentElement.parentElement.style.display = "none"
-          }
-          // console.log(me)
-          
-          
-        }
-      </script>
-      {{end}}
-    </ul>
-  </div>
-
-</html>
+                        </script>
+                      </ul>
+                    </li>
+                    <li class="header-navigation_item dropdown"><a href="#" class="header-navigation_link" onclick="ShowAll()">Show All</a></li>
+                    <script>
+                      function ShowAll(){
+                        var games = document.getElementsByClassName("games")
+                      var books = document.getElementsByClassName("books")
+                      var movies = document.getElementsByClassName("movies")
+                      for (i of games) {
+                        i.style.display = ""
+                      }
+                      for (i of books) {
+                        i.style.display = ""
+                      }
+                      for (i of movies) {
+                        i.style.display = ""
+                      } 
+                      }
+                    </script>
+                    {{ if .UserIn}}
+                    <li class="header-navigation_item"><a href='#' class="header-navigation_link" onclick="ShowMyPost()">My posts</a></li>
+                    <script>
+                      function ShowMyPost() {
+                        var me = document.getElementById("user")
+                        // console.log(me.innerText)
+                        var games = document.getElementsByClassName("games")
+                          var books = document.getElementsByClassName("books")
+                          var movies = document.getElementsByClassName("movies")
+                          for (i of games) {
+                            i.style.display = ""
+                          }
+                          for (i of books) {
+                            i.style.display = ""
+                          }
+                          for (i of movies) {
+                            i.style.display = ""
+                          }
+                        me.style.textTransform = "lowercase"
+                        // console.log(me.innerText.style = "text-transform: lowercase;")
+                        var selector = ".container.hero-container div:not(." + me.innerText + ")"
+                        // console.log(typeof(selector))
+                        var notMyPosts = document.querySelectorAll(selector)
+                        console.log(notMyPosts)
+                        for (i of notMyPosts) {
+                          i.style.display = "none"
+                        }
+                        console.log(notMyPosts)
+                      }
+                    </script>
+                    <li class="header-navigation_item"><a href='#' class="header-navigation_link" onclick="ShowMyLikedPost()">My liked posts</a></li>
+                    <script>
+                      function ShowMyLikedPost() {
+              
+                        var games = document.getElementsByClassName("games")
+                        var books = document.getElementsByClassName("books")
+                        var movies = document.getElementsByClassName("movies")
+                        for (i of books) {
+                          i.style.display = ""
+                        }
+                        for (i of games) {
+                          i.style.display = ""
+                        }
+                        for (i of movies) {
+                          i.style.display = ""
+                        }
+                        var me = document.querySelectorAll(".container.hero-container div h6:not(.myLiked)")
+                        var mem = document.querySelectorAll(".container.hero-container div h6.myLiked")
+                        // me[0].parentElement.style.display = "none"
+                        for (a of me) {
+                          a.parentNode.style.display = "none"
+                          // console.log(a.parentNode.parentNode)
+              
+                          // a.parentElement.parentElement.style.display = "none"
+                        }
+                        console.log("=======")
+                        for (a of mem) {
+                          a.parentNode.style.display = ""
+                          console.log(a.parentNode)
+              
+                          // a.parentElement.parentElement.style.display = "none"
+                        }
+                        // console.log(me)
+                        
+                        
+                      }
+                    </script>
+                    {{end}}
+                </ul>
+            </nav>
+            
+            {{ if .UserIn}}
+            <button class="button" onclick="window.location.href='posts/create'">Create Post</button>
+            <div class=logo> Hi, <span id="user">{{.UserName}}</span></div>
+            <button class="button submit" onclick="window.location.href='logout'">Logout</button>
+            {{ else }}
+            <div class="auth">
+              <button class="button submit" onclick="window.location.href='sign-in'" id="login">Log in</button>
+              <button class="button submit" onclick="window.location.href='sign-up'">Sign up</button>
+            </div>
+            {{end}}
+        </div>
+    </header>
+    <main>
+        <section class="hero" >
+          <div class="container hero-container">
+            {{ range .AllPosts }}
+            <div class= "{{.Category}} post {{.Author}}">
+              <h6 style="display: none" class="toSortLikes">{{.Likes}}</h6>
+              <h2><a href="/posts?id={{ .ID }}">{{.Title}}</a></h2>
+              <p>{{.Likes}} <i class="far fa-thumbs-up"></i> <i class="far fa-thumbs-down"></i> {{.Dislikes}}</p>
+              <p>Asked on {{.Created}} by <span id="author"><b>{{.Author}}</b></span></p>
+              <p class="category">Post categories: <b>{{.Category}}</b></p>
+              {{ if .Liked }}
+              <h6 style="display: none" class="myLiked"><p></p></h6>
+              {{ end }}
+              <h6 style="display: none" class="toSortDates"><p>{{.Created}}</p></h6>
+            </div>
+            {{end}}
+          </div>
+          <!-- <div class="hero-overlay"></div> -->
+            
+        </section>
+    </main>
+</body>

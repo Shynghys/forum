@@ -55,6 +55,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 	} else if r.Method == "POST" {
+		fmt.Println(r.FormValue("title"))
 		c, _ := r.Cookie(COOKIE_NAME)
 		if c != nil {
 			needCookie := GetUserByCookie(r)

@@ -1,50 +1,47 @@
 <!DOCTYPE html>
-<html lang="eng">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Log in</title>
-    <link rel="stylesheet" href="/css/sign-in.css" />
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <nav>
-      <div class="category">
-        
-      </div>
-      <div class="logo">Geek-Forum</div>
- 
-      <ul>
-        <li><a class="active" href="/">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="sign-in">Log in</a></li>
-        <li><a href="sign-up">Sign up</a></li>
-      </ul>
-      <label id="icon">
-        <i class="fas fa-bars"></i>
-      </label>
-    </nav>
-    <div class="reg"><form action="" method="POST">
-      <h1 title="Registration form">Log in</h1>
-      {{ if eq .Msg "1"}}
-        <p style="color: red; text-align:center;"> Wrong password. Try again!</p>
-      {{ end }}
-      <div class="group">
-        <label for="">Username or Email Adrress</label>
-        <input type="text" name="login" id="login"/>
-      </div>
-      <div class="group">
-        <label for="">Password</label>
-        <input type="password" name="password" id="password"/>
-      </div>
-      <div class="group">
-        <center><button type="submit">Log in</center>
-      </div>
-    </div>
-    </form>
-  </body>
-</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/homepage.css" />
+
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                GeekForum
+            </div>
+            <button class="button submit" onclick="window.location.href='/'">Home</button>
+            <button class="button submit" onclick="window.location.href='#'">About</button>
+            <button class="button submit" onclick="window.location.href='sign-up'">Sign-up</button>
+        </div>
+    </header>
+    <main>
+      <section class="hero" style="height: 100vh;">
+        <div class="container hero-container" style="max-width:700px; margin: 180px auto ">
+          <div class="post" style="padding-bottom: 50px;">
+            <div class="reg"><form action="" method="POST">
+              <h1 title="Registration form" style="font-size: 50px;"><center>Log in</center></h1>
+              {{ if eq .Msg "1"}}
+                <p style="color: red; text-align:center;" style="font-size: 50px;"> Wrong password. Try again!</p>
+              {{ end }}
+              <div class="group">
+                <label for="" style="font-size: 30px;"><center>Username or Email Adrress</center></label>
+                <center><input type="text" name="login" id="login" class="inputfield" /><center>
+              </div>
+              <div class="group">
+                <label for="" style="font-size: 30px;"><center>Password</center></label>
+                <center><input type="password" name="password" id="password" class="inputfield" /></center>
+              </div>
+              <br>
+              <center><button type="submit" class="button" style="font-size: 25px;">Log in</center>
+            </div>
+            </form>
+          </div>
+        </div>
+       
+      </section>
+    </main>
+</body>

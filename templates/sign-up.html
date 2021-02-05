@@ -1,36 +1,30 @@
 <!DOCTYPE html>
-<html lang="eng">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Registration form</title>
-    <link rel="stylesheet" href="/css/sign-up.css" />
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <nav>
-      <div class="category">
-        
-      </div>
-      <div class="logo">Geek-Forum</div>
-      <ul>
-        <li><a class="active" href="/">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="sign-in">Log in</a></li>
-        <li><a href="sign-up">Sign up</a></li>
-      </ul>
-      <label id="icon">
-        <i class="fas fa-bars"></i>
-      </label>
-    </nav>
-    <div class="reg"><form action="" method="POST">
-      <div class="container">
-        <h1>Register</h1>
-        <p>Please fill in this form to create an account.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/homepage.css" />
+
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                GeekForum
+            </div>
+            <button class="button submit" onclick="window.location.href='/'">Home</button>
+            <button class="button submit" onclick="window.location.href='#'">About</button>
+            <button class="button submit" onclick="window.location.href='/sign-in'">Log in</button>
+        </div>
+    </header>
+    <main>
+      <section class="hero" style="height: 100vh; padding-top: 40px;">
+        <div class="container hero-container" style="max-width:700px; margin: 180px auto ">
+          <div class="post" style="padding-bottom: 50px; ">
+            <form action="" method="POST">
+            <center><h1 style="font-size: 50px;">Register</h1></center>
+            <center><p style="font-size: 20px;">Please fill in this form to create an account.</p></center>
         {{if eq .Msg "0"}}
           <p style="color:red;"> These username and email are already in use </p>
         {{else if eq .Msg "1"}}
@@ -39,23 +33,29 @@
           <p style="color:red;"> This username is already in use </p>
         {{end}}
         <hr>
-        <input type="text" placeholder="Enter Username" name="username" id="username" required>
+        <center><input type="text" placeholder="Enter Username" name="username" id="username" class="inputfield" required></center>
         <!-- <label for="email"><b>Email</b></label> -->
-        <input type="email" placeholder="Enter Email" name="email" id="email" required>
-    
+        <br>
+        <center><input type="email" placeholder="Enter Email" name="email" id="email" class="inputfield" required></center>
+        <br>
         <!-- <label for="psw"><b>Password</b></label> -->
-        <input id="password" name="password" type="password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;" placeholder="Password" required>
-
-        <input id="password_two" name="password_two" type="password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" placeholder="Verify Password" required>
+        <center><input id="password" name="password" type="password" class="inputfield" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;" placeholder="Password" required></center>
+            <br>
+        <center><input id="password_two" name="password_two" class="inputfield" type="password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" placeholder="Verify Password" required></center>
         <hr>
     
         
-        <center><button type="submit" class="registerbtn">Register</button></center>
+        <center><button type="submit" class="button" style="font-size: 20px;">Register</button></center>
+        <div class="container sign-in">
+          <center><p>Already have an account? <a href="sign-in" >Sign in</a>.</p></center>
+        </div>
       </div>
     
-      <div class="container sign-in">
-        <center><p>Already have an account? <a href="sign-in">Sign in</a>.</p></center>
-      </div>
+      
     </form>
-  </body>
-</html>
+          </div>
+        </div>
+       
+      </section>
+    </main>
+</body>

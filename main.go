@@ -15,7 +15,7 @@ func main() {
 	//Create db
 	db.CreateDatabase()
 
-	h.LoadTemplates("templates/tmpl/*.html")
+	h.LoadTemplates("templates/*.html")
 	r := h.NewRouter()
 	http.Handle("/", r)
 	fmt.Println("serving..............")

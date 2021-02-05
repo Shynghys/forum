@@ -1,135 +1,129 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
 <head>
-  <meta charset="utf-8" />
-  <title>Forum page</title>
-  <link rel="stylesheet" href="/css/homepage.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/homepage.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
-
 <body>
-  <nav>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                GeekForum
+            </div>
+            <button class="button submit" onclick="window.location.href='/'">Home</button>
+            <button class="button submit" onclick="window.location.href='#'">About</button>
+            {{ if .UserDetails.UserIn}}
+            <div class=logo> Hi, <span id="user">{{ .UserDetails.UserName }}</span></div>
+            <button class="button submit" onclick="window.location.href='logout'">Logout</button>
+            {{ else }}
+            <div class="auth">
+              <button class="button submit" onclick="window.location.href='sign-in'" id="login">Log in</button>
+              <button class="button submit" onclick="window.location.href='sign-up'">Sign up</button>
+            </div>
+            {{end}}
+        </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container hero-container">
+          <div class="post">
+            <h1><b>{{ .Posts.Title}}</b></h1>
+            <hr>
+            <p class="bodyText">{{ .Posts.Text}}</p>
+            <p id="date">Posted by <span id="author">{{.Posts.Author}}</span></p>
+            <p id="date">{{.Posts.Created}}</p>
+            <div class="postlikes">
+              <form action="/posts?id={{ .Posts.ID}}" method="POST">
+              <span class="likesandDislikes">{{.Posts.Likes}}</span> 
+              {{if .UserDetails.UserIn}}
+              <button name = "like" value="{{ .Posts.ID}}">
+                <i class="fas fa-thumbs-up"></i> 
+              </button>
+              <button name = "dislike" value="{{ .Posts.ID}}">
+                <i class="far fa-thumbs-down"></i>
+              </button>
+              {{ else }}
+              <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
+              <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
+              {{ end }}
+              <span class="likesandDislikes">{{.Posts.Dislikes}}</span>
 
-    <div class="logo">Geek-Forum</div>
-    <input type="checkbox" id="click" />
-    <label for="click" class="menu-btn">
-      <i class="fa fa-bars"></i>
-    </label>
-
-
-    <ul id="menu">
-      <li><a class="active" href="/">Home</a></li>
-      <li><a href="#">About</a></li>
-      {{ if .UserDetails.UserIn}}
-      <li id="user">Hi, {{ .UserDetails.UserName }}</li>
-      <li><a href="logout">Log out</a></li>
-      {{ else }}
-      <li><a href="sign-in">Log in</a></li>
-      <li><a href="sign-up">Sign up</a></li>
-      {{ end }}
-    </ul>
-    </div>
-  </nav>
-
-
-
-  <div class="title">
-    <div class="back">
-        <a href="/" class="fas fa-arrow-left"></a>
-    </div>
-    <a>{{ .Posts.Title}}</a>
-    <!-- <div>{{ .Posts.Title}}</div> -->
-    <p>{{ .Posts.Text}}</p><br>
-    <hr>
-    <div class="postlikes">
-        <form action="/posts?id={{ .Posts.ID}}" method="POST">
-        <a  style="font-size:15px">{{.Posts.Likes}}</a> 
-        {{if .UserDetails.UserIn}}
-        <button name = "like" value="{{ .Posts.ID}}">
-          <i class="fas fa-thumbs-up"></i> 
-        </button>
-        <button name = "dislike" value="{{ .Posts.ID}}">
-          <i class="far fa-thumbs-down"></i>
-        </button>
-        {{ else }}
-        <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
-        <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
-        {{ end }}
-        <a style="font-size:15px">{{.Posts.Dislikes}}</a>
-        <a id="date">Posted by <span>{{.Posts.Author}}</span></a>
-        <a id="date">{{.Posts.Created}}</a>
-   
-      </form>
-    </div>
-
-  </div>
-
-  <div class="comments" >
-    
-    <h2>Answers</h2>
-
-    {{ if .UserDetails.UserIn}}
-    
-      <p>{{ range .Posts.Comments }}</p>    
-      <p>{{.Text}}</p><br>
-      <div class="likes">
-        <form action="/posts?id={{ .PostID}}" method="POST">
-          <a  style="font-size:15px">{{.Likes}}</a> 
-          <button style="font-size:10px" name = "like" value="{{ .ID}}">
-            <i class="fas fa-thumbs-up"></i> 
-          </button>
-          <button  style="font-size:10px"  name = "dislike" value="{{ .ID}}">
-            <i class="far fa-thumbs-down"></i>
-          </button>
-          <a style="font-size:15px">{{.Dislikes}}</a><br>
-          <div class="box">
-            <p>{{.Created}} Answered by <span>{{.Author}}</span></p>
-            
+         
+            </form>
+            <br>
           </div>
+          
+          </div>
+          <div class="post">
+             <div class="comments" >
     
-        </form>
-    
-      
-      </div> 
-      
-      {{end}}
-
-      
-      <div class="comment">
-        <p>Your answer</p>
-        <form action="/posts?id={{ .Posts.ID}}" method="POST">
-          <p><textarea rows="10" cols="45" name="text" required></textarea></p>
-          <p><input type="submit" value="Send"></p>
-        </form>
-        <br>
-      </div>
-
-    {{ else }}
-      <p>{{ range .Posts.Comments }}</p>    
-      <p>{{.Text}}</p><br/>
-      <div class="likes">
-        <a  style="font-size:10px">{{.Likes}}</a> 
-        <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
-        <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
-        <a style="font-size:10px">{{.Dislikes}}</a>
-        
-        <a>Answered by <span>{{.Author}}</span></a>
-        <a style="font-size: 10px">{{.Created}}</a>
-    
-      </div>
-      
-      {{end}}
-  
-    {{end}}
- 
-  </div>
-  
-
-
-
- 
-
-</html>
+              <h2>Answers</h2>
+              <hr>
+          
+              {{ if .UserDetails.UserIn}}
+              
+                {{ range .Posts.Comments }}
+                <p style="font-size: 20px;">{{.Text}}</p>
+                <div class="likes">
+                  <form action="/posts?id={{ .PostID}}" method="POST">
+                    <span  class="likesandDislikes">{{.Likes}}</span> 
+                    <button style="font-size:10px" name = "like" value="{{ .ID}}">
+                      <i class="fas fa-thumbs-up"></i> 
+                    </button>
+                    <button  style="font-size:10px"  name = "dislike" value="{{ .ID}}">
+                      <i class="far fa-thumbs-down"></i>
+                    </button>
+                    <span class="likesandDislikes">{{.Dislikes}}</span><br>
+                    <div class="box">
+                      <p>Answered by {{.Author}} </p>
+                      <p>{{.Created}}</p>
+                    </div>
+                    <hr>
+                  </form>
+              
+                
+                </div> 
+                
+                {{end}}
+          
+                
+                <div class="comment">
+                  <p style="font-size: 35px;"><b>Your answer</b></p>
+                  <form action="/posts?id={{ .Posts.ID}}" method="POST">
+                    <p><textarea rows="10" cols="45" name="text" required></textarea></p>
+                    <button type="submit">Send</button>
+                  </form>
+                  <br>
+                </div>
+          
+              {{ else }}
+                <p>{{ range .Posts.Comments }}</p>    
+                <p>{{.Text}}</p><br/>
+                <div class="likes">
+                  <span  style="font-size:10px">{{.Likes}}</span> 
+                  <a><i style="font-size:13px" class="far fa-thumbs-up"></i></a>
+                  <a><i style="font-size:13px" class="far fa-thumbs-down"></i></a>
+                  <a style="font-size:10px">{{.Dislikes}}</a>
+                  
+                  <a>Answered by <span>{{.Author}}</span></a>
+                  <a style="font-size: 10px">{{.Created}}</a>
+              
+                </div>
+                
+                {{end}}
+            
+              {{end}}
+           
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+</body>
