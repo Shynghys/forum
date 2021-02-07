@@ -48,11 +48,15 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-
+		if data.Login == "" && data.Login == "" {
+			msg.Msg = "2"
+			tmpl.Execute(w, msg)
+		}
 		getUUID := checkAll(db, data.Login, data.Password)
 
 		if getUUID == "" {
 			http.Redirect(w, r, "/sign-up", http.StatusSeeOther) // something was wrong
+
 		} else if getUUID == "error500" {
 			ErrorHandler(w, r, 500)
 		} else if getUUID == "wrong password" {
