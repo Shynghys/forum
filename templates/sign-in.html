@@ -27,6 +27,9 @@
               {{ if eq .Msg "1"}}
                 <p style="color: red; text-align:center;" style="font-size: 50px;"> Wrong password. Try again!</p>
               {{ end }}
+                {{ if eq .Msg "2"}}
+                <p style="color: red; text-align:center;" style="font-size: 50px;"> Cant login without any credentials</p>
+              {{ end }}
               <div class="group">
                 <label for="" style="font-size: 30px;"><center>Username or Email Adrress</center></label>
                 <center><input type="text" name="login" id="login" class="inputfield" /><center>
