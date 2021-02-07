@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	db "github.com/shynghys/forum/database"
 
@@ -18,7 +19,12 @@ func main() {
 	h.LoadTemplates("templates/*.html")
 	r := h.NewRouter()
 	http.Handle("/", r)
+
+	port := os.Getenv("PORT")
+	if port != "" {
+		port = "8000"
+	}
 	fmt.Println("serving..............")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 
 }
