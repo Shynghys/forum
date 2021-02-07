@@ -21,7 +21,7 @@ func main() {
 	http.Handle("/", r)
 
 	port := os.Getenv("PORT")
-	if port != "" {
+	if port == "" {
 		port = "8000"
 	}
 	fmt.Println("serving..............")
