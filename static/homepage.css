@@ -150,7 +150,11 @@ a {
   position: relative;
   display: inline-block;
 }
-
+.img {
+  width: 300px;
+  height: 300px;
+  /* z-index:10; */
+}
 .dropdown-content {
   
   display: none;

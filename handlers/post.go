@@ -3,8 +3,11 @@ package handlers
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"net/http"
 	"os"
+	"path/filepath"
+	"time"
 
 	uuid "github.com/satori/go.uuid"
 	database "github.com/shynghys/forum/database"
@@ -66,11 +69,66 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 					fmt.Fprintf(w, "ParseForm() err: %v", err)
 					return
 				}
+				tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
+				var ErrorMsg Message
+				// reading the file
+
+				if r.ContentLength > vars.MAX_UPLOAD_SIZE { // parsing request body into form data
+
+					ErrorMsg.Msg = "The uploaded file is too big. Please choose an file that's less than 20MB in size"
+					tmpl.Execute(w, ErrorMsg)
+					return // if the file is too big
+				}
+				file, fileHeader, err := r.FormFile("file") // extracting file from the request body
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+
+				defer file.Close()
+				buff := make([]byte, 512)
+				_, err = file.Read(buff) // reading the file into the buffer
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+
+				filetype := http.DetectContentType(buff) // detecting file type
+				if filetype != "image/jpeg" && filetype != "image/png" && filetype != "image/gif" && filetype != "image/svg+xml" {
+					ErrorMsg.Msg = "The provided file format is not allowed. Please upload a JPEG, GIF or PNG image"
+					tmpl.Execute(w, ErrorMsg)
+
+				}
+				_, err = file.Seek(0, io.SeekStart) // makes sure the file is read from the start
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
+
+				err = os.MkdirAll("./uploads", os.ModePerm) // makes uploads directory if it doesnt exist
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
+				// Create a new file in the uploads directory
+				newName := time.Now().UnixNano()
+				dst, err := os.Create(fmt.Sprintf("./uploads/%d%s", newName, filepath.Ext(fileHeader.Filename))) // creates and names the file for copying
+				fmt.Println(newName)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
+
+				defer dst.Close()
+
+				_, err = io.Copy(dst, file) // copies the file content into the new one in the uploads folder
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
 
 				categories := r.FormValue("movies") + " " + r.FormValue("books") + " " + r.FormValue("games")
 				details := vars.Post{
-					Title:    r.FormValue("title"),
-					Text:     r.FormValue("text"),
+					Title: r.FormValue("title"),
+					Text:  r.FormValue("text"),
+					Image: fmt.Sprintf("%d%s", newName, filepath.Ext(fileHeader.Filename)),
+
 					Category: categories,
 				}
 

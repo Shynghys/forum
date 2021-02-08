@@ -33,25 +33,11 @@ func NewRouter() *http.ServeMux {
 	r.HandleFunc("/sign-in", SignInHandler)
 	r.HandleFunc("/sign-up", SignUpHandler)
 	r.HandleFunc("/logout", LogoutHandler)
-	// r.HandleFunc("/user/{id}", UserHandler)
 
-	// r.HandleFunc("/users", UsersHandler)
-	// r.HandleFunc("/users/create", CreateUser)
-	// r.HandleFunc("/users/{id}", ReadUser)
-	// r.HandleFunc("/users/{id}/update", UpdateUser)
-	// r.HandleFunc("/users/{id}/delete", DeleteUser)
-
-	// r.HandleFunc("/posts", PostsHandler)
 	r.HandleFunc("/posts/create", CreatePost)
 	r.HandleFunc("/posts", ReadPost)
-	// r.HandleFunc("/posts/edit", UpdatePost)
-	// r.HandleFunc("/posts/delete", DeletePost)
-
-	// r.HandleFunc("/comments", CommentsHandler)
-	// r.HandleFunc("/comments/create/", CreateComment)
-	// r.HandleFunc("/comments/{id}", ReadComment)
-	// r.HandleFunc("/comments/{id}/update", UpdateComment)
-	// r.HandleFunc("/comments/{id}/delete", DeleteComment)
+	img := http.FileServer(http.Dir("./uploads/"))
+	http.Handle("/uploads/", http.StripPrefix("/uploads/", img))
 
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))

@@ -57,6 +57,7 @@ func CreatePosts(db *sql.DB) {
 		"authorID" UID,
 		"author" TEXT,
 		"title" TEXT, 
+		"image" TEXT, 
 		"text" TEXT, 
 		"created" TEXT, 
 		"category" TEXT,

@@ -4,6 +4,8 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+//MAX_UPLOAD_SIZE ss
+const MAX_UPLOAD_SIZE = 20480 // 20mb
 // User ss
 type User struct {
 	ID       uuid.UUID
@@ -24,6 +26,7 @@ type Post struct {
 	Title    string
 	Category string
 	Text     string
+	Image    string
 	Created  string
 	Likes    int
 	Dislikes int
