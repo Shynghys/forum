@@ -5,7 +5,7 @@ import (
 )
 
 //MAX_UPLOAD_SIZE ss
-const MAX_UPLOAD_SIZE = 20480 // 20mb
+const MAX_UPLOAD_SIZE int64 = 20 * 1024 * 1024 // 20mb
 // User ss
 type User struct {
 	ID       uuid.UUID
