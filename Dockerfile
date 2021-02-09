@@ -3,11 +3,8 @@ FROM golang:1.15.7
 WORKDIR /app
 
 # Populate the module cache based on the go.{mod,sum} files.
-COPY go.mod .       
-COPY go.sum .
-RUN go mod download
 COPY . .
-
+RUN go mod download
 
 # Build the Go app
 RUN go build -o forum .
