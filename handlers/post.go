@@ -72,6 +72,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 				tmpl := template.Must(template.ParseFiles("templates/createpost.html"))
 				var ErrorMsg Message
 				r.Body = http.MaxBytesReader(w, r.Body, vars.MAX_UPLOAD_SIZE)
+				if r.ContentLength > vars.MAX_UPLOAD_SIZE {
+					ErrorMsg.Msg = "The uploaded file is too big. Please choose a file that's less than 20MB in size"
+					tmpl.Execute(w, ErrorMsg)
+					return
+				}
 				file, fileHeader, err := r.FormFile("file") // extracting file from the request body
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusBadRequest)
@@ -81,7 +86,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 				if fileHeader.Size > vars.MAX_UPLOAD_SIZE { // parsing request body into form data
 
-					ErrorMsg.Msg = "The uploaded file is too big. Please choose an file that's less than 20MB in size"
+					ErrorMsg.Msg = "The uploaded file is too big. Please choose a file that's less than 20MB in size"
 					tmpl.Execute(w, ErrorMsg)
 
 					return // if the file is too big

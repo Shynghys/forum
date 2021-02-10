@@ -48,7 +48,7 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 			Login:    r.FormValue("login"),
 			Password: r.FormValue("password"),
 		}
-		if data.Login == "" && data.Login == "" {
+		if data.Login == "" && data.Password == "" {
 			msg.Msg = "2"
 			tmpl.Execute(w, msg)
 		}
